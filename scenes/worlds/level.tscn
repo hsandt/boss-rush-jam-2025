@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjlc40bc8f2kf"]
+
+[ext_resource type="PackedScene" uid="uid://yho78jqdnxmq" path="res://scenes/player/player.tscn" id="1_xkl7d"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pmd4b"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3luri"]
+width = 1028
+height = 1028
+noise = SubResource("FastNoiseLite_pmd4b")
+
+[node name="level" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("NoiseTexture2D_3luri")
+
+[node name="Player" parent="." instance=ExtResource("1_xkl7d")]

@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://yho78jqdnxmq"]
+
+[ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_181yo"]
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_uugia"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yhcj8"]
+radius = 25.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_uugia")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_181yo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_yhcj8")
+
+[node name="axis" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="axis"]
+position = Vector2(50, 0)
+rotation = 1.5708
+scale = Vector2(0.0312501, 0.125)
+texture = ExtResource("1_181yo")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="Dash" type="Node" parent="Timers"]
+
+[node name="For" type="Timer" parent="Timers/Dash"]
+wait_time = 0.2
+one_shot = true
+
+[node name="Cooldown" type="Timer" parent="Timers/Dash"]
+wait_time = 0.5
+one_shot = true
+
+[node name="Shoot" type="Node" parent="Timers"]
+
+[node name="Cooldown" type="Timer" parent="Timers/Shoot"]
+wait_time = 0.2
+one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 15.0
+
+[connection signal="timeout" from="Timers/Dash/For" to="." method="_on_dash_for_timeout"]
+[connection signal="timeout" from="Timers/Dash/Cooldown" to="." method="_on_dash_cooldown_timeout"]
+[connection signal="timeout" from="Timers/Shoot/Cooldown" to="." method="_on_shoot_cooldown_timeout"]
