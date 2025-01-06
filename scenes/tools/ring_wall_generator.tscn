@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dx4ur84t2f5vj"]
+
+[ext_resource type="Script" path="res://scenes/tools/ring_wall_generator.gd" id="1_3ajdt"]
+
+[node name="RingWallGenerator" type="Node2D"]
+script = ExtResource("1_3ajdt")

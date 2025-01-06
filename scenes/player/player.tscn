@@ -11,7 +11,9 @@ radius = 25.0
 
 [node name="Player" type="CharacterBody2D" groups=["players"]]
 collision_layer = 2
+collision_mask = 9
 motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_uugia")
 
 [node name="Sprite2DWithPropertiesController" type="Sprite2D" parent="."]

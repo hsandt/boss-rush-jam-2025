@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://dbutr0dodgrfj"]
+
+[ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_hfrqx"]
+[ext_resource type="Script" path="res://scenes/bosses/susan_boss.gd" id="1_xmmb2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bjcof"]
+size = Vector2(698, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6qy3s"]
+size = Vector2(700, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_26o4r"]
+size = Vector2(128, 128)
+
+[node name="SusanBoss" type="Node2D"]
+script = ExtResource("1_xmmb2")
+
+[node name="Arm" type="AnimatableBody2D" parent="."]
+collision_layer = 12
+
+[node name="Sprite2D" type="Sprite2D" parent="Arm"]
+position = Vector2(358, 0)
+scale = Vector2(5.46094, 0.234375)
+texture = ExtResource("1_hfrqx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arm"]
+position = Vector2(358, 0)
+shape = SubResource("RectangleShape2D_bjcof")
+
+[node name="PlayerHurtArea" type="Area2D" parent="Arm"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arm/PlayerHurtArea"]
+position = Vector2(358, 0)
+shape = SubResource("RectangleShape2D_6qy3s")
+debug_color = Color(0.667676, 0.497508, 0.324431, 0.42)
+
+[node name="Head" type="StaticBody2D" parent="."]
+collision_layer = 12
+
+[node name="Sprite2D" type="Sprite2D" parent="Head"]
+texture = ExtResource("1_hfrqx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+shape = SubResource("RectangleShape2D_26o4r")
