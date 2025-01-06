@@ -12,7 +12,10 @@ extends CharacterBody2D
 @export var shoot_cooldown := 0.2
 @export var shoot_kb := 400.0
 @export var melee_attack_damage := 1.0
-@export var melee_cancel_time := 0.5
+@export var melee_cancel_time := 0.1
+@export var melee_start_friction_time := 0.1
+@export_range(0, 360, 0.001, "radians_as_degrees") var melee_friction_deceleration := deg_to_rad(6*360)
+@export_range(0, 360, 0.001, "radians_as_degrees") var melee_attack_initial_rotation_speed := deg_to_rad(2.5*360)
 
 # look direction
 var direction := Vector2.RIGHT
@@ -24,20 +27,26 @@ var moving := false
 var in_control := true
 var is_dashing := false
 
+var melee_rotation_speed := 0.0
+
+@onready var shoot_axis: Node2D = $ShootAxis
+@onready var melee_axis: Node2D = $MeleeAxis
 @onready var dash_for_timer: Timer = $Timers/Dash/For
 @onready var dash_cooldown_timer: Timer = $Timers/Dash/Cooldown
 @onready var shoot_cooldown_timer: Timer = $Timers/Shoot/Cooldown
 @onready var melee_cancel_timer: Timer = $Timers/Melee/Cancel
+@onready var melee_start_friction_timer: Timer = $Timers/Melee/StartFriction
 
 func _ready():
 	dash_for_timer.wait_time = dash_for
 	dash_cooldown_timer.wait_time = dash_cooldown
 	shoot_cooldown_timer.wait_time = shoot_cooldown
 	melee_cancel_timer.wait_time = melee_cancel_time
+	melee_start_friction_timer.wait_time = melee_start_friction_time
 
 func _process(delta):
 	get_input()
-	$axis.rotation = lerp_angle($axis.rotation, direction.angle(), 16.0*delta)
+	shoot_axis.rotation = lerp_angle(shoot_axis.rotation, direction.angle(), 16.0*delta)
 
 func _physics_process(delta):
 
@@ -57,6 +66,8 @@ func move(delta):
 		velocity.y = move_toward(velocity.y, 0.0, deceleration*delta)
 
 	move_and_slide()
+
+	update_melee_rotation(delta)
 
 func get_input():
 
@@ -102,6 +113,23 @@ func can_melee_attack():
 func melee_attack():
 	print("melee_attack")
 	melee_cancel_timer.start()
+
+	# Default to CW attack
+	# Do not add, directly set to speed to support cancel chain without reaching crazy speeds
+	melee_rotation_speed = melee_attack_initial_rotation_speed
+
+	# in case of cancel chain, stop timer for proper restart
+	if not melee_start_friction_timer.is_stopped():
+		melee_start_friction_timer.stop()
+
+	melee_start_friction_timer.start()
+
+func update_melee_rotation(delta: float):
+	if melee_rotation_speed != 0.0 and melee_start_friction_timer.is_stopped():
+		# apply friction
+		melee_rotation_speed = move_toward(melee_rotation_speed, 0.0, melee_friction_deceleration * delta)
+
+	melee_axis.rotation += melee_rotation_speed * delta
 
 func can_control_move():
 	return not is_dashing

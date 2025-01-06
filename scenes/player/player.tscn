@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://yho78jqdnxmq"]
+[gd_scene load_steps=5 format=3 uid="uid://yho78jqdnxmq"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_181yo"]
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_uugia"]
+[ext_resource type="Texture2D" uid="uid://tqdrnqwsorqe" path="res://graphics/placeholder/sword_placeholder.webp" id="3_nmxpj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yhcj8"]
 radius = 25.0
@@ -18,13 +19,19 @@ texture = ExtResource("1_181yo")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_yhcj8")
 
-[node name="axis" type="Node2D" parent="."]
+[node name="ShootAxis" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="axis"]
+[node name="GunSprite2D" type="Sprite2D" parent="ShootAxis"]
 position = Vector2(50, 0)
 rotation = 1.5708
 scale = Vector2(0.0312501, 0.125)
 texture = ExtResource("1_181yo")
+
+[node name="MeleeAxis" type="Node2D" parent="."]
+
+[node name="SwordSprite2D" type="Sprite2D" parent="MeleeAxis"]
+position = Vector2(50, 0)
+texture = ExtResource("3_nmxpj")
 
 [node name="Timers" type="Node" parent="."]
 
@@ -50,9 +57,12 @@ one_shot = true
 wait_time = 0.2
 one_shot = true
 
+[node name="StartFriction" type="Timer" parent="Timers/Melee"]
+wait_time = 0.2
+one_shot = true
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 position_smoothing_speed = 15.0
 
 [connection signal="timeout" from="Timers/Dash/For" to="." method="_on_dash_for_timeout"]
-[connection signal="timeout" from="Timers/Melee/Cancel" to="." method="_on_shoot_cooldown_timeout"]
