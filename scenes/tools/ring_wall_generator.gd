@@ -4,7 +4,7 @@ extends Node2D
 ## StaticBody2D to act as a ring wall segment
 @export var wall_segment_scene:PackedScene
 @export var wall_radius := 725.0
-@export var angle_step := 0.062
+@export_range(0, 360, 0.001, "radians_as_degrees") var angle_step := 0.062
 ## Used as a button to create ring wall
 @export var create := false:
 	set(value):
