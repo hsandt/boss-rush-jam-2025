@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bg6t7bx01u8nl"]
+
+[ext_resource type="PackedScene" uid="uid://dwo778sjmqmlm" path="res://hud/health_cell_base.tscn" id="1_35a45"]
+[ext_resource type="Texture2D" uid="uid://bskbd0l7ogah8" path="res://graphics/placeholder/hud/hud_mc_health_gauge_cell_frame_next.png" id="2_t0t2b"]
+
+[node name="HealthCellNext" instance=ExtResource("1_35a45")]
+
+[node name="TextureRect_Cell_Frame" parent="." index="2"]
+texture = ExtResource("2_t0t2b")

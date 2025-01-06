@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjlc40bc8f2kf"]
+[gd_scene load_steps=7 format=3 uid="uid://cjlc40bc8f2kf"]
 
+[ext_resource type="PackedScene" uid="uid://6lc51x6rnokn" path="res://scenes/in_game_manager.tscn" id="1_ebey2"]
 [ext_resource type="PackedScene" uid="uid://yho78jqdnxmq" path="res://scenes/player/player.tscn" id="1_xkl7d"]
 [ext_resource type="PackedScene" uid="uid://br7nbobr4qsba" path="res://scenes/projectiles/destructible_projectile.tscn" id="2_fld5y"]
+[ext_resource type="PackedScene" uid="uid://3cc7usihdqph" path="res://hud/canvas_layer_hud.tscn" id="3_uepqc"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_pmd4b"]
 
@@ -10,9 +12,13 @@ width = 1028
 height = 1028
 noise = SubResource("FastNoiseLite_pmd4b")
 
-[node name="level" type="Node2D"]
+[node name="Level" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="InGameManager" parent="." instance=ExtResource("1_ebey2")]
+
+[node name="CanvasLayer HUD" parent="." instance=ExtResource("3_uepqc")]
+
+[node name="Background" type="Sprite2D" parent="."]
 texture = SubResource("NoiseTexture2D_3luri")
 
 [node name="Player" parent="." instance=ExtResource("1_xkl7d")]

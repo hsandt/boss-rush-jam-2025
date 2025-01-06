@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwo778sjmqmlm"]
+
+[ext_resource type="Script" path="res://hud/PlayerCharacterHealthCell.gd" id="1_6hh63"]
+[ext_resource type="Texture2D" uid="uid://cfyfdu273g4pq" path="res://graphics/placeholder/hud/hud_mc_health_gauge_cell_bg_fill.png" id="2_ifv3a"]
+[ext_resource type="Texture2D" uid="uid://oe17qxqyinvu" path="res://graphics/placeholder/hud/hud_mc_health_gauge_cell_fill.png" id="3_iay5w"]
+
+[node name="HealthCellBase" type="Control" node_paths=PackedStringArray("bg_fill", "fill", "frame")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_6hh63")
+bg_fill = NodePath("TextureRect_Cell_BG_Fill")
+fill = NodePath("TextureRect_Cell_Fill")
+frame = NodePath("TextureRect_Cell_Frame")
+
+[node name="TextureRect_Cell_BG_Fill" type="TextureRect" parent="."]
+layout_mode = 2
+offset_right = 7.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(10, 10)
+texture = ExtResource("2_ifv3a")
+stretch_mode = 2
+
+[node name="TextureRect_Cell_Fill" type="TextureRect" parent="."]
+layout_mode = 2
+offset_right = 7.0
+offset_bottom = 6.0
+scale = Vector2(10, 10)
+texture = ExtResource("3_iay5w")
+stretch_mode = 2
+
+[node name="TextureRect_Cell_Frame" type="TextureRect" parent="."]
+layout_mode = 2
+offset_right = 7.0
+offset_bottom = 6.0
+scale = Vector2(10, 10)
+stretch_mode = 2

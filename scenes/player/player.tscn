@@ -1,20 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://yho78jqdnxmq"]
+[gd_scene load_steps=7 format=3 uid="uid://yho78jqdnxmq"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_181yo"]
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_uugia"]
 [ext_resource type="Texture2D" uid="uid://tqdrnqwsorqe" path="res://graphics/placeholder/sword_placeholder.webp" id="3_nmxpj"]
+[ext_resource type="Script" path="res://utils/CanvasItemWithPropertiesController.gd" id="3_o6e2l"]
+[ext_resource type="Script" path="res://scenes/health.gd" id="5_v6ua0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yhcj8"]
 radius = 25.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["players"]]
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_uugia")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2DWithPropertiesController" type="Sprite2D" parent="."]
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("1_181yo")
+script = ExtResource("3_o6e2l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_yhcj8")
@@ -40,6 +43,11 @@ monitorable = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MeleeAxis/HitBoxArea2D"]
 polygon = PackedVector2Array(0, 0, 72, -24, 72, 24)
+
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("sprite_with_properties_controller") groups=["players"]]
+script = ExtResource("5_v6ua0")
+max_health = 3
+sprite_with_properties_controller = NodePath("../Sprite2DWithPropertiesController")
 
 [node name="Timers" type="Node" parent="."]
 

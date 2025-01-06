@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 @export_group("Movement")
@@ -38,6 +39,8 @@ var melee_rotation_speed := 0.0
 @onready var melee_cancel_timer: Timer = $Timers/Melee/Cancel
 @onready var melee_start_friction_timer: Timer = $Timers/Melee/StartFriction
 
+@onready var health: Health = $Health
+
 func _ready():
 	dash_for_timer.wait_time = dash_for
 	dash_cooldown_timer.wait_time = dash_cooldown
@@ -47,6 +50,8 @@ func _ready():
 
 	melee_hit_box.monitoring = false
 	melee_hit_box.area_entered.connect(_on_melee_hit_box_area_entered)
+
+	health.setup()
 
 func _process(delta):
 	get_input()
