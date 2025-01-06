@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4fpogs8pfntc"]
+
+[ext_resource type="Texture2D" uid="uid://b1w2nqoeddugc" path="res://graphics/placeholder/rock_segment.png" id="1_38hbp"]
+
+[node name="WallSegment" type="StaticBody2D"]
+collision_mask = 0
+metadata/_edit_horizontal_guides_ = [-22.0, 23.0]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_38hbp")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-22, 22, 22, 22, 22, -22, -22, -22)

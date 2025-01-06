@@ -34,13 +34,13 @@ func _process(delta):
 	$axis.rotation = lerp_angle($axis.rotation, direction.angle(), 16.0*delta)
 
 func _physics_process(delta):
-	
+
 	#get_input()
 	move(delta)
 	move_and_slide()
-	
+
 func move(delta):
-	
+
 	if dashing:
 		velocity = dash_speed * movt_dir * delta
 	elif moving:
@@ -49,16 +49,16 @@ func move(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, deceleration*delta)
 		velocity.y = move_toward(velocity.y, 0.0, deceleration*delta)
-		
+
 	move_and_slide()
 
 func get_input():
-	
+
 	direction = (get_global_mouse_position() - position).normalized()
 
 	if not in_control:
 		return
-	
+
 	input_dir = Vector2.ZERO
 	if Input.is_action_pressed("left"):
 		input_dir.x -= 1
@@ -68,24 +68,24 @@ func get_input():
 		input_dir.y -= 1
 	if Input.is_action_pressed("down"):
 		input_dir.y += 1
-		
+
 	moving = not input_dir.is_zero_approx()
 	if moving:
 		input_dir = input_dir.normalized()
 		movt_dir = input_dir
-	
+
 	if can_dash and Input.is_action_just_pressed("dash"):
 		dash()
-		
+
 	if can_shoot and Input.is_action_just_pressed("shoot"):
 		shoot()
-		
+
 func shoot():
 	print("shot")
 	can_shoot = false
 	$Timers/Shoot/Cooldown.start()
 	velocity -= direction * shoot_kb
-		
+
 func dash():
 	dashing = true
 	in_control = false
