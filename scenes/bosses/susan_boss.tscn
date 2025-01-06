@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbutr0dodgrfj"]
+[gd_scene load_steps=9 format=3 uid="uid://dbutr0dodgrfj"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_hfrqx"]
 [ext_resource type="Script" path="res://scenes/bosses/susan_boss.gd" id="1_xmmb2"]
@@ -8,6 +8,74 @@ size = Vector2(698, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6qy3s"]
 size = Vector2(700, 32)
+
+[sub_resource type="Animation" id="Animation_mvfjs"]
+resource_name = "reverse_direction"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:force_stop_arm")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [2.5],
+"method": &"set_arm_modifier"
+}, {
+"args": [],
+"method": &"reset_arm_modifier"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_gtlra"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:force_stop_arm")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"reset_arm_modifier"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cl2hy"]
+_data = {
+"RESET": SubResource("Animation_gtlra"),
+"reverse_direction": SubResource("Animation_mvfjs")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_26o4r"]
 size = Vector2(128, 128)
@@ -36,6 +104,11 @@ position = Vector2(358, 0)
 shape = SubResource("RectangleShape2D_6qy3s")
 debug_color = Color(0.667676, 0.497508, 0.324431, 0.42)
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Arm"]
+libraries = {
+"": SubResource("AnimationLibrary_cl2hy")
+}
+
 [node name="Head" type="StaticBody2D" parent="."]
 collision_layer = 12
 
@@ -44,3 +117,12 @@ texture = ExtResource("1_hfrqx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
 shape = SubResource("RectangleShape2D_26o4r")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="Arm" type="Node" parent="Timers"]
+
+[node name="Stagger" type="Timer" parent="Timers/Arm"]
+one_shot = true
+
+[connection signal="body_entered" from="Arm/PlayerHurtArea" to="." method="_on_player_hurt_area_body_entered"]
