@@ -31,6 +31,7 @@ var melee_rotation_speed := 0.0
 
 @onready var shoot_axis: Node2D = $ShootAxis
 @onready var melee_axis: Node2D = $MeleeAxis
+@onready var melee_hit_box: Area2D = $MeleeAxis/HitBoxArea2D
 @onready var dash_for_timer: Timer = $Timers/Dash/For
 @onready var dash_cooldown_timer: Timer = $Timers/Dash/Cooldown
 @onready var shoot_cooldown_timer: Timer = $Timers/Shoot/Cooldown
@@ -43,6 +44,9 @@ func _ready():
 	shoot_cooldown_timer.wait_time = shoot_cooldown
 	melee_cancel_timer.wait_time = melee_cancel_time
 	melee_start_friction_timer.wait_time = melee_start_friction_time
+
+	melee_hit_box.monitoring = false
+	melee_hit_box.area_entered.connect(_on_melee_hit_box_area_entered)
 
 func _process(delta):
 	get_input()
@@ -111,8 +115,8 @@ func can_melee_attack():
 	return melee_cancel_timer.is_stopped() and not is_dashing
 
 func melee_attack():
-	print("melee_attack")
-	melee_cancel_timer.start()
+	# Enable hitbox during move
+	melee_hit_box.monitoring = true
 
 	# Default to CW attack
 	# Do not add, directly set to speed to support cancel chain without reaching crazy speeds
@@ -123,11 +127,15 @@ func melee_attack():
 		melee_start_friction_timer.stop()
 
 	melee_start_friction_timer.start()
+	melee_cancel_timer.start()
 
 func update_melee_rotation(delta: float):
 	if melee_rotation_speed != 0.0 and melee_start_friction_timer.is_stopped():
 		# apply friction
 		melee_rotation_speed = move_toward(melee_rotation_speed, 0.0, melee_friction_deceleration * delta)
+		if melee_rotation_speed == 0.0:
+			# End of rotation, disable melee hitbox
+			melee_hit_box.monitoring = false
 
 	melee_axis.rotation += melee_rotation_speed * delta
 
@@ -155,3 +163,8 @@ func _on_dash_for_timeout():
 	in_control = true
 	if velocity.length_squared() > max_speed**2:
 		velocity = velocity.normalized() * max_speed
+
+func _on_melee_hit_box_area_entered(area: Area2D):
+	var projectile := area as ProjectileHurtBox
+	if projectile:
+		projectile.be_hurt_by_melee(melee_attack_damage)

@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://br7nbobr4qsba"]
+
+[ext_resource type="Texture2D" uid="uid://7qbsrmw3siug" path="res://graphics/placeholder/disc_50x50.png" id="1_go027"]
+[ext_resource type="Script" path="res://scenes/projectiles/destructible_projectile.gd" id="1_l6qu0"]
+[ext_resource type="Script" path="res://scenes/projectiles/projectile_hurt_box.gd" id="2_i0j8e"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w4gwl"]
+radius = 13.6015
+
+[node name="DestructibleProjectile" type="Node2D"]
+script = ExtResource("1_l6qu0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(209, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_go027")
+
+[node name="HurtBoxArea2D" type="Area2D" parent="."]
+position = Vector2(209, 0)
+collision_layer = 32
+collision_mask = 2048
+script = ExtResource("2_i0j8e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxArea2D"]
+shape = SubResource("CircleShape2D_w4gwl")
