@@ -59,6 +59,7 @@ func _process(delta):
 
 func _physics_process(delta):
 
+
 	#get_input()
 	move(delta)
 	move_and_slide()
@@ -74,11 +75,13 @@ func move(delta):
 		velocity.x = move_toward(velocity.x, 0.0, deceleration*delta)
 		velocity.y = move_toward(velocity.y, 0.0, deceleration*delta)
 
+
 	move_and_slide()
 
 	update_melee_rotation(delta)
 
 func get_input():
+
 
 	direction = (get_global_mouse_position() - position).normalized()
 
