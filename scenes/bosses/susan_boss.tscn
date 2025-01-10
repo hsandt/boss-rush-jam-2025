@@ -1,13 +1,43 @@
-[gd_scene load_steps=9 format=3 uid="uid://dbutr0dodgrfj"]
+[gd_scene load_steps=11 format=3 uid="uid://dbutr0dodgrfj"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_hfrqx"]
 [ext_resource type="Script" path="res://scenes/bosses/susan_boss.gd" id="1_xmmb2"]
+[ext_resource type="PackedScene" uid="uid://buwf3d6v4gfp8" path="res://hud/boss_spin_progress.tscn" id="3_tmtn2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bjcof"]
 size = Vector2(698, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6qy3s"]
 size = Vector2(700, 32)
+
+[sub_resource type="Animation" id="Animation_gtlra"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:force_stop_arm")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"reset_arm_modifier"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_mvfjs"]
 resource_name = "reverse_direction"
@@ -42,35 +72,6 @@ tracks/1/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_gtlra"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("..:force_stop_arm")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("..")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"reset_arm_modifier"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cl2hy"]
 _data = {
 "RESET": SubResource("Animation_gtlra"),
@@ -79,6 +80,9 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_26o4r"]
 size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n2c20"]
+size = Vector2(129, 129)
 
 [node name="SusanBoss" type="Node2D"]
 script = ExtResource("1_xmmb2")
@@ -118,6 +122,15 @@ texture = ExtResource("1_hfrqx")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
 shape = SubResource("RectangleShape2D_26o4r")
 
+[node name="PlayerHurtArea" type="Area2D" parent="Head"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/PlayerHurtArea"]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_n2c20")
+debug_color = Color(0.666667, 0.498039, 0.32549, 0.419608)
+
 [node name="Timers" type="Node" parent="."]
 
 [node name="Arm" type="Node" parent="Timers"]
@@ -125,4 +138,9 @@ shape = SubResource("RectangleShape2D_26o4r")
 [node name="Stagger" type="Timer" parent="Timers/Arm"]
 one_shot = true
 
-[connection signal="body_entered" from="Arm/PlayerHurtArea" to="." method="_on_player_hurt_area_body_entered"]
+[node name="BossSpinProgress" parent="." instance=ExtResource("3_tmtn2")]
+offset_right = 128.0
+offset_bottom = 128.0
+
+[connection signal="body_entered" from="Arm/PlayerHurtArea" to="." method="_on_player_hurt_arm_area_body_entered"]
+[connection signal="body_entered" from="Head/PlayerHurtArea" to="." method="_on_player_hurt_body_area_body_entered"]
