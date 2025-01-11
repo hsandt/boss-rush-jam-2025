@@ -5,13 +5,17 @@ extends CharacterBody2D
 @export var max_speed := 300.0
 @export var acceleration := 1800.0
 @export var deceleration := 2000.0
-#@export_group("Dash")
+
+@export_group("Dash")
 @export var dash_speed := 800.0 * 60.0
 @export var dash_for := 0.2
 @export var dash_cooldown := 0.5
-#@export_group("Shooting")
+
+@export_group("Shooting")
 @export var shoot_cooldown := 0.2
 @export var shoot_kb := 400.0
+
+@export_group("Melee")
 @export var melee_attack_damage := 1.0
 @export var melee_cancel_time := 0.1
 @export var melee_start_friction_time := 0.1
@@ -48,10 +52,12 @@ func _ready():
 	melee_cancel_timer.wait_time = melee_cancel_time
 	melee_start_friction_timer.wait_time = melee_start_friction_time
 
+	# Disable hitbox
 	melee_hit_box.monitoring = false
 	melee_hit_box.area_entered.connect(_on_melee_hit_box_area_entered)
 
 	health.setup()
+	health.damage_received.connect(_on_health_damage_received)
 
 func _process(delta):
 	get_input()
@@ -166,6 +172,9 @@ func dash():
 	dash_for_timer.start()
 	dash_cooldown_timer.start()
 
+func be_hurt_by_projectile(damage: float):
+	health.try_receive_damage(roundi(damage))
+
 func _on_dash_for_timeout():
 	is_dashing = false
 	in_control = true
@@ -173,6 +182,15 @@ func _on_dash_for_timeout():
 		velocity = velocity.normalized() * max_speed
 
 func _on_melee_hit_box_area_entered(area: Area2D):
-	var projectile := area as ProjectileHurtBox
-	if projectile:
-		projectile.be_hurt_by_melee(melee_attack_damage)
+	var projectile_hurt_box := area as ProjectileHurtBox
+	if projectile_hurt_box:
+		projectile_hurt_box.be_hurt_by_melee(melee_attack_damage)
+		return
+
+	var boss_hurt_box := area as BossHurtBox
+	if boss_hurt_box:
+		boss_hurt_box.be_hurt_by_melee(melee_attack_damage)
+
+func _on_health_damage_received(will_die: bool):
+	if will_die:
+		queue_free()

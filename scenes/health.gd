@@ -36,18 +36,18 @@ var _is_invincible: bool
 ## True when character is hurting (hurt and still playing hurt animation)
 var is_hurting: bool
 
-@export var sprite_with_properties_controller: CanvasItemWithPropertiesController
+@export var shader_parameter_controller: ShaderParameterController
 
 @onready var character: Node2D = $".."
 
 
 func _ready():
 	initialize()
-	# Do not call setup, as this script is managed by a master script
+	# Do not call setup, as this script is managed by a master script (BaseBoss)
 
 
 func initialize():
-	DebugUtils.assert_member_is_set(self, sprite_with_properties_controller, "sprite_with_properties_controller")
+	DebugUtils.assert_member_is_set(self, shader_parameter_controller, "shader_parameter_controller")
 
 
 func setup():
@@ -79,22 +79,22 @@ func _can_receive_damage():
 ## Make character invincible and feedback with color to show it's invincible thanks to an action
 func start_action_invincible():
 	_is_invincible = true
-	sprite_with_properties_controller.start_override_brightness(action_invincible_brightness)
-	sprite_with_properties_controller.start_override_modulate(action_invincible_color)
+	shader_parameter_controller.start_override_brightness(action_invincible_brightness)
+	shader_parameter_controller.start_override_modulate(action_invincible_color)
 
 
 ## End character invincibility due to action, and stop feedback
 func stop_action_invincible():
 	_is_invincible = false
-	sprite_with_properties_controller.stop_override_brightness()
-	sprite_with_properties_controller.stop_override_modulate()
+	shader_parameter_controller.stop_override_brightness()
+	shader_parameter_controller.stop_override_modulate()
 
 
 ## End character invincibility due to hurt, and stop feedback
 ## Currently UNUSED
 func stop_hurt_invincible():
 	_is_invincible = false
-	sprite_with_properties_controller.stop_override_modulate()
+	shader_parameter_controller.stop_override_modulate()
 
 
 func try_receive_damage(damage: int):
@@ -117,5 +117,5 @@ func _receive_damage(damage: int):
 		damage_received.emit(false)
 
 	# Play feedback, whether character dies or not
-	sprite_with_properties_controller.override_properties_for_duration(hurt_brightness,
+	shader_parameter_controller.override_properties_for_duration(hurt_brightness,
 		hurt_color, hurt_feedback_duration)

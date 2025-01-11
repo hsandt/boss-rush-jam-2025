@@ -1,13 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://yho78jqdnxmq"]
+[gd_scene load_steps=11 format=3 uid="uid://yho78jqdnxmq"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_181yo"]
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_uugia"]
+[ext_resource type="Shader" path="res://utils/shaders/custom_sprite_shader.gdshader" id="2_i2fjc"]
 [ext_resource type="Texture2D" uid="uid://tqdrnqwsorqe" path="res://graphics/placeholder/sword_placeholder.webp" id="3_nmxpj"]
-[ext_resource type="Script" path="res://utils/CanvasItemWithPropertiesController.gd" id="3_o6e2l"]
+[ext_resource type="Script" path="res://scenes/projectiles/player_hurt_box.gd" id="4_2s6ae"]
+[ext_resource type="Script" path="res://utils/ShaderParameterController.gd" id="5_boar4"]
 [ext_resource type="Script" path="res://scenes/health.gd" id="5_v6ua0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fgtk5"]
+shader = ExtResource("2_i2fjc")
+shader_parameter/brightness = 0.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yhcj8"]
 radius = 25.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iwqen"]
+radius = 23.0217
 
 [node name="Player" type="CharacterBody2D" groups=["players"]]
 collision_layer = 2
@@ -16,13 +25,22 @@ motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_uugia")
 
-[node name="Sprite2DWithPropertiesController" type="Sprite2D" parent="."]
+[node name="BodySprite2DWithCustomSpriteShader" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_fgtk5")
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("1_181yo")
-script = ExtResource("3_o6e2l")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="MoveCollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_yhcj8")
+
+[node name="HurtBoxArea2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 112
+script = ExtResource("4_2s6ae")
+
+[node name="HurtBoxCollisionShape2D" type="CollisionShape2D" parent="HurtBoxArea2D"]
+shape = SubResource("CircleShape2D_iwqen")
+debug_color = Color(0, 0.6, 0, 0.419608)
 
 [node name="ShootAxis" type="Node2D" parent="."]
 
@@ -40,16 +58,20 @@ texture = ExtResource("3_nmxpj")
 
 [node name="HitBoxArea2D" type="Area2D" parent="MeleeAxis"]
 collision_layer = 2048
-collision_mask = 32
+collision_mask = 288
 monitorable = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MeleeAxis/HitBoxArea2D"]
 polygon = PackedVector2Array(0, 0, 72, -24, 72, 24)
 
-[node name="Health" type="Node" parent="." node_paths=PackedStringArray("sprite_with_properties_controller") groups=["players"]]
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("shader_parameter_controller") groups=["players"]]
 script = ExtResource("5_v6ua0")
 max_health = 3
-sprite_with_properties_controller = NodePath("../Sprite2DWithPropertiesController")
+shader_parameter_controller = NodePath("../ShaderParameterController")
+
+[node name="ShaderParameterController" type="Node" parent="." node_paths=PackedStringArray("canvas_items")]
+script = ExtResource("5_boar4")
+canvas_items = [NodePath("../BodySprite2DWithCustomSpriteShader")]
 
 [node name="Timers" type="Node" parent="."]
 

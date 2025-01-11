@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Boss Rush Jam 2025"
-run/main_scene="res://scenes/worlds/level.tscn"
+run/main_scene="res://scenes/worlds/boss_stage1_level_test.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -122,6 +122,7 @@ debug_damage_boss={
 2d_physics/layer_5="boss_projectile_intangible"
 2d_physics/layer_6="boss_projectile_destructible"
 2d_physics/layer_7="boss_projectile_counterable"
+2d_physics/layer_9="boss_hurtbox"
 2d_physics/layer_12="player_melee_hitbox"
 
 [rendering]

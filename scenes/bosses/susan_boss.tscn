@@ -1,7 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://dbutr0dodgrfj"]
+[gd_scene load_steps=16 format=3 uid="uid://b5xxrn8guepbq"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_hfrqx"]
+[ext_resource type="PackedScene" uid="uid://dbutr0dodgrfj" path="res://scenes/bosses/base_boss.tscn" id="1_lk3r3"]
 [ext_resource type="Script" path="res://scenes/bosses/susan_boss.gd" id="1_xmmb2"]
+[ext_resource type="Shader" path="res://utils/shaders/custom_sprite_shader.gdshader" id="3_j1aeb"]
+[ext_resource type="PackedScene" uid="uid://buwf3d6v4gfp8" path="res://scenes/hud/boss_spin_progress.tscn" id="3_tmtn2"]
+[ext_resource type="Script" path="res://scenes/projectiles/boss_hurt_box.gd" id="5_w7vcf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iplax"]
+shader = ExtResource("3_j1aeb")
+shader_parameter/brightness = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bjcof"]
 size = Vector2(698, 24)
@@ -77,52 +85,89 @@ _data = {
 "reverse_direction": SubResource("Animation_mvfjs")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j2dcf"]
+shader = ExtResource("3_j1aeb")
+shader_parameter/brightness = 0.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_26o4r"]
 size = Vector2(128, 128)
 
-[node name="SusanBoss" type="Node2D"]
-script = ExtResource("1_xmmb2")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n2c20"]
+size = Vector2(129, 129)
 
-[node name="Arm" type="AnimatableBody2D" parent="."]
+[node name="SusanBoss" instance=ExtResource("1_lk3r3")]
+script = ExtResource("1_xmmb2")
+arm_speed = 0.872665
+arm_rotation_modifier = 1.0
+arm_stagger_time = 1.0
+enable_arm_shake_on_hit = true
+arm_shake_offset = 1.0
+arm_shake_freq = 10.0
+force_stop_arm = false
+max_spin = 18.8496
+
+[node name="Health" parent="." index="0" node_paths=PackedStringArray("shader_parameter_controller")]
+max_health = 3
+shader_parameter_controller = NodePath("../ShaderParameterController")
+
+[node name="ShaderParameterController" parent="." index="1" node_paths=PackedStringArray("canvas_items")]
+canvas_items = [NodePath("../Arm/ArmSprite2DWithCustomSpriteShader"), NodePath("../Head/HeadSprite2DWithCustomSpriteShader")]
+
+[node name="Arm" type="AnimatableBody2D" parent="." index="2"]
 collision_layer = 12
 
-[node name="Sprite2D" type="Sprite2D" parent="Arm"]
+[node name="ArmSprite2DWithCustomSpriteShader" type="Sprite2D" parent="Arm" index="0"]
+material = SubResource("ShaderMaterial_iplax")
 position = Vector2(358, 0)
 scale = Vector2(5.46094, 0.234375)
 texture = ExtResource("1_hfrqx")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Arm"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arm" index="1"]
 position = Vector2(358, 0)
 shape = SubResource("RectangleShape2D_bjcof")
 
-[node name="PlayerHurtArea" type="Area2D" parent="Arm"]
+[node name="PlayerHurtArea" type="Area2D" parent="Arm" index="2"]
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Arm/PlayerHurtArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arm/PlayerHurtArea" index="0"]
 position = Vector2(358, 0)
 shape = SubResource("RectangleShape2D_6qy3s")
 debug_color = Color(0.667676, 0.497508, 0.324431, 0.42)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Arm"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Arm" index="3"]
 libraries = {
 "": SubResource("AnimationLibrary_cl2hy")
 }
 
-[node name="Head" type="StaticBody2D" parent="."]
+[node name="Head" type="StaticBody2D" parent="." index="3"]
 collision_layer = 12
 
-[node name="Sprite2D" type="Sprite2D" parent="Head"]
+[node name="HeadSprite2DWithCustomSpriteShader" type="Sprite2D" parent="Head" index="0"]
+material = SubResource("ShaderMaterial_j2dcf")
 texture = ExtResource("1_hfrqx")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head" index="1"]
 shape = SubResource("RectangleShape2D_26o4r")
 
-[node name="Timers" type="Node" parent="."]
+[node name="BossHurtBox" type="Area2D" parent="Head" index="2" node_paths=PackedStringArray("owning_boss")]
+collision_layer = 256
+collision_mask = 2048
+script = ExtResource("5_w7vcf")
+owning_boss = NodePath("../..")
 
-[node name="Arm" type="Node" parent="Timers"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/BossHurtBox" index="0"]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_n2c20")
+debug_color = Color(0.666667, 0.498039, 0.32549, 0.419608)
 
-[node name="Stagger" type="Timer" parent="Timers/Arm"]
+[node name="BossSpinProgress" parent="." index="4" instance=ExtResource("3_tmtn2")]
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="Arm" type="Node" parent="Timers" index="0"]
+
+[node name="Stagger" type="Timer" parent="Timers/Arm" index="0"]
 one_shot = true
 
-[connection signal="body_entered" from="Arm/PlayerHurtArea" to="." method="_on_player_hurt_area_body_entered"]
+[connection signal="body_entered" from="Arm/PlayerHurtArea" to="." method="_on_player_hurt_arm_area_body_entered"]
