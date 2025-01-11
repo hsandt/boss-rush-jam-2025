@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://buwf3d6v4gfp8"]
+
+[ext_resource type="Shader" path="res://scenes/hud/boss_spin_progress.gdshader" id="1_nk7mv"]
+[ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_v8tv7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jauxm"]
+shader = ExtResource("1_nk7mv")
+shader_parameter/center = Vector2(0.5, 0.5)
+shader_parameter/radius = 0.5
+shader_parameter/width = 0.05
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/alpha = 1.0
+shader_parameter/progress = 0.0
+
+[node name="BossSpinProgress" type="TextureRect"]
+material = SubResource("ShaderMaterial_jauxm")
+texture = ExtResource("1_v8tv7")
+metadata/_edit_use_anchors_ = true
