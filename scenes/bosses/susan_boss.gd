@@ -12,14 +12,19 @@ extends BaseBoss
 @export var force_stop_arm := false
 @export_group("Spin")
 @export var max_spin := 3.0*TAU
+@export_group("Arm damage")
+@export var arm_hit_damage: float = 1.0
 
 ## Current phase (0 before start, phase 1 is 1)
 var current_phase: int = 0
+## Current spin speed (absolute, use arm_rotation_modifier to change rotation sense)
 var current_spin_speed: float = 0.0
 var spin_progress := 0.0
 var is_processing_player_arm_collision: bool = false
 
 @onready var arm_stagger_timer:Timer = $Timers/Arm/Stagger
+@onready var arm: Node2D = $Arm
+@onready var arm_animation_player: AnimationPlayer = $Arm/AnimationPlayer
 @onready var boss_spin_progress = $BossSpinProgress
 
 func initialize():
@@ -51,7 +56,7 @@ func enter_phase(new_phase: int):
 func rotate_arm(delta):
 	var angle = current_spin_speed * arm_rotation_modifier * delta
 	spin_progress += angle
-	$Arm.rotate(angle)
+	arm.rotate(angle)
 
 func shake_arm():
 	var tween = create_tween()
@@ -60,13 +65,13 @@ func shake_arm():
 
 	for i in range(arm_shake_freq):
 		var angle_offset = randf_range(-1.0, 1.0) * 0.016 * arm_shake_offset
-		tween.tween_property($Arm, "rotation", $Arm.rotation+angle_offset, arm_stagger_time / arm_shake_freq)
+		tween.tween_property(arm, "rotation", arm.rotation+angle_offset, arm_stagger_time / arm_shake_freq)
 
 func provoke_arm_rotation_direction_reversal():
 	#TODO check when player dashes through the arm
 	#reverse direction
 	arm_rotation_modifier *= -1
-	$Arm/AnimationPlayer.play("reverse_direction")
+	arm_animation_player.play("reverse_direction")
 
 func is_arm_staggered():
 	return not arm_stagger_timer.is_stopped() or force_stop_arm
@@ -77,23 +82,37 @@ func set_arm_modifier(value:float):
 func reset_arm_modifier():
 	arm_rotation_modifier = sigmoid(arm_rotation_modifier)
 
-func _on_player_hurt_arm_area_body_entered(_body):
+func _on_player_hurt_arm_area_body_entered(body: Node2D):
+	# Ignore collisions if not trying to move yourself
+	if current_spin_speed == 0.0 or arm_rotation_modifier == 0.0:
+		return
+
 	# safeguard to avoid processing collision multiple times until
 	# arm is properly going in the other direction
-	if not is_processing_player_arm_collision:
-		is_processing_player_arm_collision = true
-		print("player hit arm")
-		# TODO make the player take damage, knockback & stagger
-		#body.stagger()
-		#screen shake
-		arm_stagger_timer.start()
-		if enable_arm_shake_on_hit:
-			shake_arm()
-		$Arm/AnimationPlayer.play("RESET")
+	var player := body as Player
+	if player:
+		if not is_processing_player_arm_collision:
+			# Check arm rotation sense vs player relative position
+			var arm_direction := Vector2.RIGHT.rotated(arm.rotation)
+			var to_player := player.position - position
+			var sign_angle_toward_player := signf(arm_direction.angle_to(to_player))
+			var sign_rotation := signf(arm_rotation_modifier)
 
-		await arm_stagger_timer.timeout
-		provoke_arm_rotation_direction_reversal()
-		is_processing_player_arm_collision = false
+			if sign_angle_toward_player == sign_rotation:
+				# Moving art toward the player character, so collision is valid
+				is_processing_player_arm_collision = true
+				# TODO make the player take damage, knockback & stagger
+				player.health.try_receive_damage(roundi(arm_hit_damage))
+				#body.stagger()
+				#screen shake
+				arm_stagger_timer.start()
+				if enable_arm_shake_on_hit:
+					shake_arm()
+				arm_animation_player.play("RESET")
+
+				await arm_stagger_timer.timeout
+				provoke_arm_rotation_direction_reversal()
+				is_processing_player_arm_collision = false
 
 ## sigmoid math function
 func sigmoid(value:float) -> float:
