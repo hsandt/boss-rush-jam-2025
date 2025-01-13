@@ -175,6 +175,10 @@ func dash():
 func be_hurt_by_projectile(damage: float):
 	health.try_receive_damage(roundi(damage))
 
+func stagger(push_direction: Vector2, push_impact: float, stagger_duration: float):
+	# TODO
+	print("stagger: ", push_direction, " ", push_impact, " ", stagger_duration)
+
 func _on_dash_for_timeout():
 	is_dashing = false
 	in_control = true
