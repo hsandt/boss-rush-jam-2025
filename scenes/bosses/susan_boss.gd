@@ -1,7 +1,7 @@
 extends BaseBoss
 
 ## Arm roation speed
-@export_range(0, 360, 0.1, "radians_as_degrees") var arm_speed := deg_to_rad(50.0)
+@export_range(0, 360, 0.1, "radians_as_degrees") var arm_speed_phase1 := deg_to_rad(50.0)
 ## 1.0: clockwise, -1.0: anticlockwise
 @export_range(-1.0, 1.0) var arm_rotation_modifier := 1.0
 @export_group("ArmStagger")
@@ -12,6 +12,10 @@ extends BaseBoss
 @export var force_stop_arm := false
 @export_group("Spin")
 @export var max_spin := 3.0*TAU
+
+## Current phase (0 before start, phase 1 is 1)
+var current_phase: int = 0
+var current_spin_speed: float = 0.0
 var spin_progress := 0.0
 
 @onready var arm_stagger_timer:Timer = $Timers/Arm/Stagger
@@ -22,8 +26,11 @@ func initialize():
 
 	arm_stagger_timer.wait_time = arm_stagger_time
 
-func _process(_delta):
+func setup():
+	super.setup()
+	enter_phase(1)
 
+func _process(_delta):
 	update_boss_spin_ui()
 
 	# TODO placeholder for testing:
@@ -35,13 +42,18 @@ func update_boss_spin_ui():
 	boss_spin_progress.material.set_shader_parameter("progress", spin_progress/max_spin)
 
 func _physics_process(delta):
-
 	if not is_arm_staggered():
 		rotate_arm(delta)
 
+func enter_phase(new_phase: int):
+	current_phase = new_phase
+
+	if new_phase == 1:
+		current_spin_speed = arm_speed_phase1
+
 ## rotates arm
 func rotate_arm(delta):
-	var angle = arm_speed * arm_rotation_modifier * delta
+	var angle = current_spin_speed * arm_rotation_modifier * delta
 	spin_progress += angle
 	$Arm.rotate(angle)
 
