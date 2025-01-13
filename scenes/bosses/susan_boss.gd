@@ -17,6 +17,7 @@ extends BaseBoss
 var current_phase: int = 0
 var current_spin_speed: float = 0.0
 var spin_progress := 0.0
+var is_processing_player_arm_collision: bool = false
 
 @onready var arm_stagger_timer:Timer = $Timers/Arm/Stagger
 @onready var boss_spin_progress = $BossSpinProgress
@@ -32,11 +33,6 @@ func setup():
 
 func _process(_delta):
 	update_boss_spin_ui()
-
-	# TODO placeholder for testing:
-	# to be removed later
-	if Input.is_action_just_pressed("shoot"):
-		provoke_arm_rotation_direction_reversal()
 
 func update_boss_spin_ui():
 	boss_spin_progress.material.set_shader_parameter("progress", spin_progress/max_spin)
@@ -82,14 +78,22 @@ func reset_arm_modifier():
 	arm_rotation_modifier = sigmoid(arm_rotation_modifier)
 
 func _on_player_hurt_arm_area_body_entered(_body):
-	print("player hit arm")
-	# TODO make the player take damage, knockback & stagger
-	#body.stagger()
-	#screen shake
-	arm_stagger_timer.start()
-	if enable_arm_shake_on_hit:
-		shake_arm()
-	$Arm/AnimationPlayer.play("RESET")
+	# safeguard to avoid processing collision multiple times until
+	# arm is properly going in the other direction
+	if not is_processing_player_arm_collision:
+		is_processing_player_arm_collision = true
+		print("player hit arm")
+		# TODO make the player take damage, knockback & stagger
+		#body.stagger()
+		#screen shake
+		arm_stagger_timer.start()
+		if enable_arm_shake_on_hit:
+			shake_arm()
+		$Arm/AnimationPlayer.play("RESET")
+
+		await arm_stagger_timer.timeout
+		provoke_arm_rotation_direction_reversal()
+		is_processing_player_arm_collision = false
 
 ## sigmoid math function
 func sigmoid(value:float) -> float:
