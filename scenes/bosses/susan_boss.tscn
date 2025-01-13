@@ -97,7 +97,7 @@ size = Vector2(129, 129)
 
 [node name="SusanBoss" instance=ExtResource("1_lk3r3")]
 script = ExtResource("1_xmmb2")
-arm_speed_phase1 = 0.872665
+arm_speed_phase1 = 1.309
 arm_rotation_modifier = 1.0
 arm_stagger_time = 1.0
 enable_arm_shake_on_hit = true
