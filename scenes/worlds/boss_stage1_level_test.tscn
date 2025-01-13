@@ -8,6 +8,7 @@
 [node name="BossStage1LevelTest" type="Node2D"]
 
 [node name="SusanBoss" parent="." instance=ExtResource("1_x4wo3")]
+arm_speed_phase1 = 0.872665
 
 [node name="Player" parent="." instance=ExtResource("2_tqnur")]
 position = Vector2(-50, 242)
