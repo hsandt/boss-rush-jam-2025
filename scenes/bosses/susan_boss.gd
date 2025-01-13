@@ -4,16 +4,18 @@ extends BaseBoss
 @export_range(0, 360, 0.1, "radians_as_degrees") var arm_speed_phase1 := deg_to_rad(50.0)
 ## 1.0: clockwise, -1.0: anticlockwise
 @export_range(-1.0, 1.0) var arm_rotation_modifier := 1.0
-@export_group("ArmStagger")
+@export_group("Arm own stagger")
 @export var arm_stagger_time := 1.0
 @export var enable_arm_shake_on_hit := true
 @export var arm_shake_offset := 1.0
 @export var arm_shake_freq := 10.0
 @export var force_stop_arm := false
+@export_group("Arm effect on player")
+@export var arm_hit_damage: float = 1.0
+@export var arm_stagger_player_duration: float = 1.0
+@export var arm_push_impact: float = 1.0
 @export_group("Spin")
 @export var max_spin := 3.0*TAU
-@export_group("Arm damage")
-@export var arm_hit_damage: float = 1.0
 
 ## Current phase (0 before start, phase 1 is 1)
 var current_phase: int = 0
@@ -101,10 +103,14 @@ func _on_player_hurt_arm_area_body_entered(body: Node2D):
 			if sign_angle_toward_player == sign_rotation:
 				# Moving art toward the player character, so collision is valid
 				is_processing_player_arm_collision = true
-				# TODO make the player take damage, knockback & stagger
+
+				# make the player take damage, knockback & stagger
 				player.health.try_receive_damage(roundi(arm_hit_damage))
-				#body.stagger()
-				#screen shake
+				var push_direction := arm_direction.rotated(sign_angle_toward_player * PI / 2)
+				player.stagger(push_direction, arm_push_impact, arm_stagger_player_duration)
+
+				# TODO: screen shake
+
 				arm_stagger_timer.start()
 				if enable_arm_shake_on_hit:
 					shake_arm()

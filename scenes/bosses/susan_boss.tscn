@@ -106,8 +106,10 @@ enable_arm_shake_on_hit = true
 arm_shake_offset = 1.0
 arm_shake_freq = 10.0
 force_stop_arm = false
-max_spin = 18.8496
 arm_hit_damage = 1.0
+arm_stagger_player_duration = 1.0
+arm_push_impact = 1.0
+max_spin = 18.8496
 
 [node name="Health" parent="." index="0" node_paths=PackedStringArray("shader_parameter_controller")]
 max_health = 3
