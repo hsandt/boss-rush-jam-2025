@@ -1,11 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://dp11167bumcx2"]
+[gd_scene load_steps=7 format=3 uid="uid://dp11167bumcx2"]
 
+[ext_resource type="PackedScene" uid="uid://6lc51x6rnokn" path="res://scenes/in_game_manager.tscn" id="1_ilnlu"]
+[ext_resource type="PackedScene" uid="uid://3cc7usihdqph" path="res://scenes/hud/canvas_layer_hud.tscn" id="1_t2o0t"]
 [ext_resource type="PackedScene" uid="uid://b5xxrn8guepbq" path="res://scenes/bosses/susan_boss.tscn" id="1_x4wo3"]
 [ext_resource type="PackedScene" uid="uid://yho78jqdnxmq" path="res://scenes/player/player.tscn" id="2_tqnur"]
 [ext_resource type="PackedScene" uid="uid://dx4ur84t2f5vj" path="res://scenes/tools/ring_wall_generator.tscn" id="3_mqfqo"]
 [ext_resource type="PackedScene" uid="uid://d4fpogs8pfntc" path="res://scenes/worlds/objects/wall_segment.tscn" id="4_tm174"]
 
 [node name="BossStage1LevelTest" type="Node2D"]
+
+[node name="InGameManager" parent="." instance=ExtResource("1_ilnlu")]
+
+[node name="CanvasLayer HUD" parent="." instance=ExtResource("1_t2o0t")]
 
 [node name="SusanBoss" parent="." instance=ExtResource("1_x4wo3")]
 
