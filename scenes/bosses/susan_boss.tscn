@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b5xxrn8guepbq"]
+[gd_scene load_steps=17 format=3 uid="uid://b5xxrn8guepbq"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_hfrqx"]
 [ext_resource type="PackedScene" uid="uid://dbutr0dodgrfj" path="res://scenes/bosses/base_boss.tscn" id="1_lk3r3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" path="res://utils/shaders/custom_sprite_shader.gdshader" id="3_j1aeb"]
 [ext_resource type="PackedScene" uid="uid://buwf3d6v4gfp8" path="res://scenes/hud/boss_spin_progress.tscn" id="3_tmtn2"]
 [ext_resource type="Script" path="res://scenes/projectiles/boss_hurt_box.gd" id="5_w7vcf"]
+[ext_resource type="Texture2D" uid="uid://djbc74bmacush" path="res://graphics/placeholder/boss/boss1_weak_spot_open.png" id="7_j5cho"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iplax"]
 shader = ExtResource("3_j1aeb")
@@ -92,8 +93,9 @@ shader_parameter/brightness = 0.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_26o4r"]
 size = Vector2(128, 128)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_n2c20"]
-size = Vector2(129, 129)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a8kmi"]
+radius = 26.0
+height = 102.0
 
 [node name="SusanBoss" instance=ExtResource("1_lk3r3")]
 script = ExtResource("1_xmmb2")
@@ -150,17 +152,6 @@ texture = ExtResource("1_hfrqx")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head" index="1"]
 shape = SubResource("RectangleShape2D_26o4r")
 
-[node name="BossHurtBox" type="Area2D" parent="Head" index="2" node_paths=PackedStringArray("owning_boss")]
-collision_layer = 256
-collision_mask = 2048
-script = ExtResource("5_w7vcf")
-owning_boss = NodePath("../..")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/BossHurtBox" index="0"]
-position = Vector2(0.5, 0.5)
-shape = SubResource("RectangleShape2D_n2c20")
-debug_color = Color(0.666667, 0.498039, 0.32549, 0.419608)
-
 [node name="BossSpinProgress" parent="." index="4" instance=ExtResource("3_tmtn2")]
 offset_right = 128.0
 offset_bottom = 128.0
@@ -169,5 +160,19 @@ offset_bottom = 128.0
 
 [node name="Stagger" type="Timer" parent="Timers/Arm" index="0"]
 one_shot = true
+
+[node name="WeakSpotCharacterArea2D" type="Area2D" parent="." index="6" node_paths=PackedStringArray("owning_boss")]
+collision_layer = 256
+collision_mask = 2048
+script = ExtResource("5_w7vcf")
+owning_boss = NodePath("..")
+
+[node name="Sprite2D" type="Sprite2D" parent="WeakSpotCharacterArea2D" index="0"]
+texture = ExtResource("7_j5cho")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeakSpotCharacterArea2D" index="1"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_a8kmi")
+debug_color = Color(0.993701, 0, 0.23362, 0.42)
 
 [connection signal="body_entered" from="Arm/PlayerHurtArea" to="." method="_on_player_hurt_arm_area_body_entered"]
