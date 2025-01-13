@@ -14,3 +14,9 @@ position = Vector2(-50, 242)
 
 [node name="RingWallGenerator" parent="." instance=ExtResource("3_mqfqo")]
 wall_segment_scene = ExtResource("4_tm174")
+wall_radius = 520.0
+angle_step = 0.0872665
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 15.0
