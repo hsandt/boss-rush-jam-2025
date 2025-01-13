@@ -283,8 +283,6 @@ func set_window_scale_preset_index(new_preset_window_scale_index: int, force_upd
 
 
 func toggle_fullscreen():
-	var new_window_mode: DisplayServer.WindowMode
-
 	# For debug, borderless window is enough
 	if DisplayServer.window_get_mode() not in \
 			[DisplayServer.WINDOW_MODE_FULLSCREEN, DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN]:
