@@ -6,6 +6,9 @@ extends CharacterBody2D
 @export var acceleration := 1800.0
 @export var deceleration := 2000.0
 
+@export_group("Stagger & Pushed")
+@export var pushed_impact_to_speed_factor := 400.0
+
 @export_group("Dash")
 @export var dash_speed := 800.0 * 60.0
 @export var dash_for := 0.2
@@ -29,8 +32,11 @@ var input_dir := Vector2.ZERO
 # move direction
 var movt_dir := Vector2.RIGHT
 var moving := false
-var in_control := true
 var is_dashing := false
+
+# Stagger & push
+var pushed_direction := Vector2.ZERO
+var pushed_speed := 0.0
 
 var melee_rotation_speed := 0.0
 
@@ -42,6 +48,8 @@ var melee_rotation_speed := 0.0
 @onready var shoot_cooldown_timer: Timer = $Timers/Shoot/Cooldown
 @onready var melee_cancel_timer: Timer = $Timers/Melee/Cancel
 @onready var melee_start_friction_timer: Timer = $Timers/Melee/StartFriction
+@onready var stagger_timer: Timer = $Timers/Stagger/Stagger
+@onready var stagger_push_timer: Timer = $Timers/Stagger/StaggerPush
 
 @onready var health: Health = $Health
 
@@ -64,20 +72,21 @@ func _process(delta):
 	shoot_axis.rotation = lerp_angle(shoot_axis.rotation, direction.angle(), 16.0*delta)
 
 func _physics_process(delta):
-
-
 	#get_input()
 	move(delta)
 	move_and_slide()
 
 func move(delta):
-
-	if is_dashing:
+	if not stagger_push_timer.is_stopped():
+		velocity = pushed_speed * pushed_direction
+	elif is_dashing:
 		velocity = dash_speed * movt_dir * delta
 	elif moving:
 		velocity.x = move_toward(velocity.x, movt_dir.x*max_speed, acceleration*delta)
 		velocity.y = move_toward(velocity.y, movt_dir.y*max_speed, acceleration*delta)
 	else:
+		# friction
+		# also applied at the beginning of phase: stagger but not pushed anymore
 		velocity.x = move_toward(velocity.x, 0.0, deceleration*delta)
 		velocity.y = move_toward(velocity.y, 0.0, deceleration*delta)
 
@@ -106,6 +115,10 @@ func get_input():
 		if moving:
 			input_dir = input_dir.normalized()
 			movt_dir = input_dir
+	else:
+		# reset to allow deceleration due to friction when player cannot control move
+		# but not dashing (when staggered but not pushed anymore)
+		moving = false
 
 	if can_dash() and Input.is_action_just_pressed("dash"):
 		dash()
@@ -154,7 +167,7 @@ func update_melee_rotation(delta: float):
 	melee_axis.rotation += melee_rotation_speed * delta
 
 func can_control_move():
-	return not is_dashing
+	return not is_dashing and stagger_timer.is_stopped()
 
 func can_dash():
 	return dash_cooldown_timer.is_stopped()
@@ -168,20 +181,25 @@ func dash():
 		dash_for_timer.stop()
 
 	is_dashing = true
-	in_control = false
 	dash_for_timer.start()
 	dash_cooldown_timer.start()
 
 func be_hurt_by_projectile(damage: float):
 	health.try_receive_damage(roundi(damage))
 
-func stagger(push_direction: Vector2, push_impact: float, stagger_duration: float):
-	# TODO
-	print("stagger: ", push_direction, " ", push_impact, " ", stagger_duration)
+func stagger(push_direction: Vector2, push_impact: float, stagger_duration: float, stagger_push_duration: float):
+	if stagger_duration < stagger_push_duration:
+		push_warning("stagger_duration (%f) < stagger_and_pushed_duration (%f), character will be " % [stagger_duration, stagger_push_duration],
+			"pushed after being staggered, push will take over")
+
+	# mind push*ed* vs push
+	pushed_direction = push_direction
+	pushed_speed = push_impact * pushed_impact_to_speed_factor
+	stagger_timer.start(stagger_duration)
+	stagger_push_timer.start(stagger_push_duration)
 
 func _on_dash_for_timeout():
 	is_dashing = false
-	in_control = true
 	if velocity.length_squared() > max_speed**2:
 		velocity = velocity.normalized() * max_speed
 

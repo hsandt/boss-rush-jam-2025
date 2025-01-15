@@ -102,4 +102,14 @@ one_shot = true
 wait_time = 0.2
 one_shot = true
 
+[node name="Stagger" type="Node" parent="Timers"]
+
+[node name="Stagger" type="Timer" parent="Timers/Stagger"]
+wait_time = 0.2
+one_shot = true
+
+[node name="StaggerPush" type="Timer" parent="Timers/Stagger"]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="timeout" from="Timers/Dash/For" to="." method="_on_dash_for_timeout"]

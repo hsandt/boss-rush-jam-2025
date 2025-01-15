@@ -12,7 +12,8 @@ extends BaseBoss
 @export var force_stop_arm := false
 @export_group("Arm effect on player")
 @export var arm_hit_damage: float = 1.0
-@export var arm_stagger_player_duration: float = 1.0
+@export var arm_stagger_player_duration: float = 0.1
+@export var arm_stagger_push_player_duration: float = 0.05
 @export var arm_push_impact: float = 1.0
 @export_group("Spin")
 @export var max_spin := 3.0*TAU
@@ -107,7 +108,7 @@ func _on_player_hurt_arm_area_body_entered(body: Node2D):
 				# make the player take damage, knockback & stagger
 				player.health.try_receive_damage(roundi(arm_hit_damage))
 				var push_direction := arm_direction.rotated(sign_angle_toward_player * PI / 2)
-				player.stagger(push_direction, arm_push_impact, arm_stagger_player_duration)
+				player.stagger(push_direction, arm_push_impact, arm_stagger_player_duration, arm_stagger_push_player_duration)
 
 				# TODO: screen shake
 
