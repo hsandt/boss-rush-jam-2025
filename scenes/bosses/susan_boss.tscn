@@ -108,7 +108,7 @@ arm_shake_freq = 10.0
 force_stop_arm = false
 arm_hit_damage = 1.0
 arm_stagger_player_duration = 0.1
-arm_stagger_push_player_duration = 0.5
+arm_stagger_push_player_duration = 0.05
 arm_push_impact = 1.0
 max_spin = 18.8496
 
