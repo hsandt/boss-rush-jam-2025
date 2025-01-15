@@ -10,7 +10,7 @@ extends CharacterBody2D
 @export var pushed_impact_to_speed_factor := 400.0
 
 @export_group("Dash")
-@export var dash_speed := 800.0 * 60.0
+@export var dash_speed := 800.0
 @export var dash_for := 0.2
 @export var dash_cooldown := 0.5
 
@@ -80,7 +80,7 @@ func move(delta):
 	if not stagger_push_timer.is_stopped():
 		velocity = pushed_speed * pushed_direction
 	elif is_dashing:
-		velocity = dash_speed * movt_dir * delta
+		velocity = dash_speed * movt_dir
 	elif moving:
 		velocity.x = move_toward(velocity.x, movt_dir.x*max_speed, acceleration*delta)
 		velocity.y = move_toward(velocity.y, movt_dir.y*max_speed, acceleration*delta)

@@ -15,7 +15,7 @@
 
 [node name="SusanBoss" parent="." instance=ExtResource("1_x4wo3")]
 arm_stagger_player_duration = 0.1
-arm_stagger_push_player_duration = 0.5
+arm_stagger_push_player_duration = 0.05
 
 [node name="Player" parent="." instance=ExtResource("2_tqnur")]
 position = Vector2(-50, 242)
