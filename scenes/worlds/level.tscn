@@ -25,3 +25,5 @@ texture = SubResource("NoiseTexture2D_3luri")
 
 [node name="DestructibleProjectile" parent="." instance=ExtResource("2_fld5y")]
 position = Vector2(167, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
