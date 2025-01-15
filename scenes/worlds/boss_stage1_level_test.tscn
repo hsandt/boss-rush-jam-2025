@@ -14,9 +14,8 @@
 [node name="CanvasLayer HUD" parent="." instance=ExtResource("1_t2o0t")]
 
 [node name="SusanBoss" parent="." instance=ExtResource("1_x4wo3")]
-arm_hit_damage = 1.0
-arm_stagger_player_duration = 1.0
-arm_push_impact = 1.0
+arm_stagger_player_duration = 0.1
+arm_stagger_push_player_duration = 0.5
 
 [node name="Player" parent="." instance=ExtResource("2_tqnur")]
 position = Vector2(-50, 242)
