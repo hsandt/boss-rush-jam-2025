@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://br7nbobr4qsba"]
+[gd_scene load_steps=5 format=3 uid="uid://br7nbobr4qsba"]
 
+[ext_resource type="Script" path="res://scenes/projectiles/base_projectile.gd" id="1_8hsb5"]
 [ext_resource type="Texture2D" uid="uid://7qbsrmw3siug" path="res://graphics/placeholder/disc_50x50.png" id="1_go027"]
-[ext_resource type="Script" path="res://scenes/projectiles/destructible_projectile.gd" id="1_l6qu0"]
-[ext_resource type="Script" path="res://scenes/projectiles/projectile_hurt_box.gd" id="2_i0j8e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w4gwl"]
 radius = 13.0
@@ -10,17 +9,16 @@ radius = 13.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_c6cr5"]
 radius = 12.0416
 
-[node name="DestructibleProjectile" type="Node2D"]
-script = ExtResource("1_l6qu0")
+[node name="BaseProjectile" type="Node2D"]
+script = ExtResource("1_8hsb5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_go027")
 
 [node name="HurtBoxArea2D" type="Area2D" parent="."]
-collision_layer = 32
-collision_mask = 2048
-script = ExtResource("2_i0j8e")
+collision_layer = 0
+collision_mask = 2049
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxArea2D"]
 shape = SubResource("CircleShape2D_w4gwl")
@@ -33,3 +31,6 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxArea2D"]
 shape = SubResource("CircleShape2D_c6cr5")
 debug_color = Color(0.994093, 0, 0.227557, 0.42)
+
+[connection signal="body_entered" from="HurtBoxArea2D" to="." method="_on_hurt_box_area_2d_body_entered"]
+[connection signal="area_entered" from="HitBoxArea2D" to="." method="_on_hit_box_area_2d_area_entered"]

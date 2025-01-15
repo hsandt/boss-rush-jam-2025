@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://6lc51x6rnokn" path="res://scenes/in_game_manager.tscn" id="1_ebey2"]
 [ext_resource type="PackedScene" uid="uid://yho78jqdnxmq" path="res://scenes/player/player.tscn" id="1_xkl7d"]
-[ext_resource type="PackedScene" uid="uid://br7nbobr4qsba" path="res://scenes/projectiles/destructible_projectile.tscn" id="2_fld5y"]
+[ext_resource type="PackedScene" uid="uid://br7nbobr4qsba" path="res://scenes/projectiles/base_projectile.tscn" id="2_fld5y"]
 [ext_resource type="PackedScene" uid="uid://3cc7usihdqph" path="res://scenes/hud/canvas_layer_hud.tscn" id="3_uepqc"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_pmd4b"]
@@ -23,7 +23,7 @@ texture = SubResource("NoiseTexture2D_3luri")
 
 [node name="Player" parent="." instance=ExtResource("1_xkl7d")]
 
-[node name="DestructibleProjectile" parent="." instance=ExtResource("2_fld5y")]
+[node name="BaseProjectile" parent="." instance=ExtResource("2_fld5y")]
 position = Vector2(167, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]

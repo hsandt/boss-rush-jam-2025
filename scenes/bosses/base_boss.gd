@@ -10,6 +10,8 @@ signal despawn
 
 @export var health: Health
 
+@onready var player:Player = get_tree().get_first_node_in_group("players")
+
 
 func _ready():
 	initialize()
@@ -37,3 +39,6 @@ func _on_damage_received(will_die: bool):
 		print("Boss is dead!")
 	else:
 		print("Boss received damage!")
+
+func get_projectile(projectile):
+	$Projectiles.add_child(projectile)
