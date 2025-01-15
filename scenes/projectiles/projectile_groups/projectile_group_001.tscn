@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://drjcwy252wbx7"]
+
+[ext_resource type="PackedScene" uid="uid://br7nbobr4qsba" path="res://scenes/projectiles/base_projectile.tscn" id="1_3tv2c"]
+[ext_resource type="Script" path="res://scenes/projectiles/projectile_groups/projectile_group_001.gd" id="1_gqj7q"]
+
+[node name="ProjectileGroup001" type="Node2D"]
+script = ExtResource("1_gqj7q")
+
+[node name="BaseProjectile" parent="." instance=ExtResource("1_3tv2c")]
+position = Vector2(0, -45)
+is_destructible = true
+
+[node name="BaseProjectile2" parent="." instance=ExtResource("1_3tv2c")]
+position = Vector2(39, 22.5)
+is_destructible = true
+
+[node name="BaseProjectile3" parent="." instance=ExtResource("1_3tv2c")]
+position = Vector2(-39, 22.5)
+is_destructible = true

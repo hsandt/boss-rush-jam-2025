@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b5xxrn8guepbq"]
+[gd_scene load_steps=18 format=3 uid="uid://b5xxrn8guepbq"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_hfrqx"]
 [ext_resource type="PackedScene" uid="uid://dbutr0dodgrfj" path="res://scenes/bosses/base_boss.tscn" id="1_lk3r3"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://buwf3d6v4gfp8" path="res://scenes/hud/boss_spin_progress.tscn" id="3_tmtn2"]
 [ext_resource type="Script" path="res://scenes/projectiles/boss_hurt_box.gd" id="5_w7vcf"]
 [ext_resource type="Texture2D" uid="uid://djbc74bmacush" path="res://graphics/placeholder/boss/boss1_weak_spot_open.png" id="7_j5cho"]
+[ext_resource type="Script" path="res://scenes/bosses/susan_projectile_manager.gd" id="8_iw07t"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iplax"]
 shader = ExtResource("3_j1aeb")
@@ -179,4 +180,14 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_a8kmi")
 debug_color = Color(0.993701, 0, 0.23362, 0.42)
 
+[node name="ProjectileManager" type="Node" parent="." index="7"]
+script = ExtResource("8_iw07t")
+
+[node name="Timers" type="Node" parent="ProjectileManager" index="0"]
+
+[node name="SpawnDelay001" type="Timer" parent="ProjectileManager/Timers" index="0"]
+wait_time = 5.0
+autostart = true
+
 [connection signal="body_entered" from="Arm/PlayerHurtArea" to="." method="_on_player_hurt_arm_area_body_entered"]
+[connection signal="timeout" from="ProjectileManager/Timers/SpawnDelay001" to="ProjectileManager" method="_on_proj_delay_001_timeout"]
