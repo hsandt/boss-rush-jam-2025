@@ -204,14 +204,15 @@ func _on_dash_for_timeout():
 		velocity = velocity.normalized() * max_speed
 
 func _on_melee_hit_box_area_entered(area: Area2D):
+	var boss_hurt_box := area as BossHurtBox
+	if boss_hurt_box:
+		boss_hurt_box.be_hurt_by_melee(melee_attack_damage)
+		return
+
 	var projectile_hurt_box := area
 	if projectile_hurt_box:
 		projectile_hurt_box.get_parent().be_hurt_by_melee(melee_attack_damage)
 		return
-
-	var boss_hurt_box := area as BossHurtBox
-	if boss_hurt_box:
-		boss_hurt_box.be_hurt_by_melee(melee_attack_damage)
 
 func _on_health_damage_received(will_die: bool):
 	if will_die:
