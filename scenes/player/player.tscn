@@ -35,8 +35,8 @@ texture = ExtResource("1_181yo")
 shape = SubResource("CircleShape2D_yhcj8")
 
 [node name="HurtBoxArea2D" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 112
+collision_layer = 1024
+collision_mask = 16
 script = ExtResource("4_2s6ae")
 
 [node name="HurtBoxCollisionShape2D" type="CollisionShape2D" parent="HurtBoxArea2D"]
@@ -59,7 +59,7 @@ texture = ExtResource("3_nmxpj")
 
 [node name="HitBoxArea2D" type="Area2D" parent="MeleeAxis"]
 collision_layer = 2048
-collision_mask = 288
+collision_mask = 272
 monitorable = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MeleeAxis/HitBoxArea2D"]
