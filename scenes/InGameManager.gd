@@ -9,11 +9,16 @@ extends Node
 ##     debug_damage_boss
 
 
+@export var bgm: AudioStream
+
 @onready var player: Player = get_tree().get_first_node_in_group("players")
+@onready var bgm_player: AudioStreamPlayer = $AudioStreamPlayer
 
 
 func _ready():
-	pass
+	if bgm:
+		bgm_player.stream = bgm
+		bgm_player.play()
 
 
 func _unhandled_input(event: InputEvent):

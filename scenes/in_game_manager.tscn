@@ -4,3 +4,5 @@
 
 [node name="InGameManager" type="Node2D" groups=["in_game_manager"]]
 script = ExtResource("1_se64i")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
