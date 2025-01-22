@@ -10,9 +10,13 @@ extends CharacterBody2D
 @export var pushed_impact_to_speed_factor := 400.0
 
 @export_group("Dash")
-@export var dash_speed := 800.0
-@export var dash_for := 0.2
-@export var dash_cooldown := 0.5
+@export var dash_speed := 600.0
+@export var dash_for := 0.1
+@export var dash_cooldown := 0.4
+
+@export_group("Jump")
+@export var jump_distance := 75.0
+@export var jump_duration := 0.5
 
 @export_group("Shooting")
 @export var shoot_cooldown := 0.2
@@ -25,14 +29,15 @@ extends CharacterBody2D
 @export_range(0, 360, 0.001, "radians_as_degrees") var melee_friction_deceleration := deg_to_rad(6*360)
 @export_range(0, 360, 0.001, "radians_as_degrees") var melee_attack_initial_rotation_speed := deg_to_rad(2.5*360)
 
-# look direction
+## look direction
 var direction := Vector2.RIGHT
-# input direction
+## input direction
 var input_dir := Vector2.ZERO
-# move direction
+## move direction
 var movt_dir := Vector2.RIGHT
 var moving := false
 var is_dashing := false
+var is_jumping := false
 
 # Stagger & push
 var pushed_direction := Vector2.ZERO
@@ -119,14 +124,55 @@ func get_input():
 		# but not dashing (when staggered but not pushed anymore)
 		moving = false
 
-	if can_dash() and Input.is_action_just_pressed("dash"):
-		dash()
-
 	if can_shoot() and Input.is_action_just_pressed("shoot"):
 		shoot()
 
 	if can_melee_attack() and Input.is_action_just_pressed("melee"):
 		melee_attack()
+
+	if can_perform_movt_action():
+		if can_dash() and Input.is_action_just_pressed("dash"):
+			dash()
+
+		if can_jump() and Input.is_action_just_pressed("jump"):
+			jump()
+
+func can_perform_movt_action():
+	return not (is_jumping or is_dashing)
+
+func can_jump():
+	return not is_jumping
+
+func can_get_hit_by_arm():
+	return not (is_jumping or is_dashing)
+
+func jump():
+
+	is_jumping = true
+	# Shadow should apper below everything unless jumping
+	$Shadow.z_index = 0
+	set_boss_collision_mask(false)
+
+	var orig_shadow_scale := $Shadow.scale as Vector2
+	var shadow_scale := 0.1 + (1.0 - 0.1) * exp(0.003 * jump_distance)
+	var tween = create_tween()
+
+	tween.tween_property($Shadow, "scale", orig_shadow_scale/shadow_scale, jump_duration/2.0)\
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	for sprite in get_jump_offsetable_nodes():
+		tween.parallel().tween_property(sprite, "position:y", -jump_distance, jump_duration/2.0)\
+			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+
+	tween.tween_property($Shadow, "scale", orig_shadow_scale, jump_duration/2.0)\
+		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	for sprite in get_jump_offsetable_nodes():
+		tween.parallel().tween_property(sprite, "position:y", 0, jump_duration/2.0)\
+			.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+
+	await tween.finished
+	is_jumping = false
+	$Shadow.z_index = -1
+	set_boss_collision_mask(true)
 
 func can_shoot():
 	return shoot_cooldown_timer.is_stopped() and not is_dashing
@@ -182,6 +228,7 @@ func dash():
 	is_dashing = true
 	dash_for_timer.start()
 	dash_cooldown_timer.start()
+	set_boss_collision_mask(false)
 
 func be_hurt_by_projectile(damage: float):
 	health.try_receive_damage(roundi(damage))
@@ -199,6 +246,7 @@ func stagger(push_direction: Vector2, push_impact: float, stagger_duration: floa
 
 func _on_dash_for_timeout():
 	is_dashing = false
+	set_boss_collision_mask(true)
 	if velocity.length_squared() > max_speed**2:
 		velocity = velocity.normalized() * max_speed
 
@@ -216,3 +264,11 @@ func _on_melee_hit_box_area_entered(area: Area2D):
 func _on_health_damage_received(will_die: bool):
 	if will_die:
 		queue_free()
+
+## Returns all nodes that should be offset when jumping
+func get_jump_offsetable_nodes():
+	return [$BodySprite2DWithCustomSpriteShader, $ShootAxis, $MeleeAxis]
+
+## Enables or disables collision with the boss, DOESN'T include boss_static
+func set_boss_collision_mask(value:bool):
+	set_collision_mask_value(3, value)

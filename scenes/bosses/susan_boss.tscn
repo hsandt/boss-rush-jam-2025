@@ -121,7 +121,7 @@ shader_parameter_controller = NodePath("../ShaderParameterController")
 canvas_items = [NodePath("../Arm/ArmSprite2DWithCustomSpriteShader"), NodePath("../Head/HeadSprite2DWithCustomSpriteShader")]
 
 [node name="Arm" type="AnimatableBody2D" parent="." index="2"]
-collision_layer = 12
+collision_layer = 4
 
 [node name="ArmSprite2DWithCustomSpriteShader" type="Sprite2D" parent="Arm" index="0"]
 material = SubResource("ShaderMaterial_iplax")
