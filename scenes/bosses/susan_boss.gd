@@ -89,11 +89,13 @@ func _on_player_hurt_arm_area_body_entered(body: Node2D):
 	# Ignore collisions if not trying to move yourself
 	if current_spin_speed == 0.0 or arm_rotation_modifier == 0.0:
 		return
-
 	# safeguard to avoid processing collision multiple times until
 	# arm is properly going in the other direction
 	var player := body as Player
+	# Ignore if player is jumping
 	if player:
+		if not player.can_get_hit_by_arm():
+			return
 		if not is_processing_player_arm_collision:
 			# Check arm rotation sense vs player relative position
 			var arm_direction := Vector2.RIGHT.rotated(arm.rotation)

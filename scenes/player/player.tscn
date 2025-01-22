@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://yho78jqdnxmq"]
+[gd_scene load_steps=12 format=3 uid="uid://yho78jqdnxmq"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_181yo"]
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_uugia"]
+[ext_resource type="Texture2D" uid="uid://bt667xib53mxb" path="res://graphics/placeholder/player/shadow.png" id="2_6t21y"]
 [ext_resource type="Shader" path="res://utils/shaders/custom_sprite_shader.gdshader" id="2_i2fjc"]
 [ext_resource type="Texture2D" uid="uid://tqdrnqwsorqe" path="res://graphics/placeholder/sword_placeholder.webp" id="3_nmxpj"]
 [ext_resource type="Script" path="res://scenes/projectiles/player_hurt_box.gd" id="4_2s6ae"]
@@ -20,11 +21,18 @@ radius = 23.0217
 
 [node name="Player" type="CharacterBody2D" groups=["players"]]
 collision_layer = 2
-collision_mask = 9
+collision_mask = 13
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_uugia")
 max_speed = 200.0
+
+[node name="Shadow" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.25098)
+z_index = -1
+position = Vector2(0, 26)
+scale = Vector2(1.23077, 1.23077)
+texture = ExtResource("2_6t21y")
 
 [node name="BodySprite2DWithCustomSpriteShader" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_fgtk5")
