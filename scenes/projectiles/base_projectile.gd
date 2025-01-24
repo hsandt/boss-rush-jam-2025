@@ -18,7 +18,7 @@ func _on_hit_box_area_2d_area_entered(area: Area2D):
 		player_hurt_box.be_hurt_by_projectile(projectile_attack_damage)
 		queue_free()
 
-func _on_hit_box_area_2d_body_entered(body: Node2D):
+func _on_hit_box_area_2d_body_entered(_body: Node2D):
 	# We set up collision mask so the only physics body hit is world,
 	# so we know we are hitting a wall
 	#TODO add destruction animation
