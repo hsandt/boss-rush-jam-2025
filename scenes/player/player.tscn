@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://yho78jqdnxmq"]
+[gd_scene load_steps=13 format=3 uid="uid://yho78jqdnxmq"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_181yo"]
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_uugia"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" path="res://utils/shaders/custom_sprite_shader.gdshader" id="2_i2fjc"]
 [ext_resource type="Texture2D" uid="uid://tqdrnqwsorqe" path="res://graphics/placeholder/sword_placeholder.webp" id="3_nmxpj"]
 [ext_resource type="Script" path="res://scenes/projectiles/player_hurt_box.gd" id="4_2s6ae"]
+[ext_resource type="SpriteFrames" uid="uid://beomd1ltd6dgt" path="res://scenes/player/sprite_frames_player.tres" id="4_l1to2"]
 [ext_resource type="Script" path="res://utils/ShaderParameterController.gd" id="5_boar4"]
 [ext_resource type="Script" path="res://scenes/health.gd" id="5_v6ua0"]
 
@@ -34,10 +35,15 @@ position = Vector2(0, 26)
 scale = Vector2(1.23077, 1.23077)
 texture = ExtResource("2_6t21y")
 
-[node name="BodySprite2DWithCustomSpriteShader" type="Sprite2D" parent="."]
+[node name="BodySprite2DWithCustomSpriteShader" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_fgtk5")
 scale = Vector2(0.4, 0.4)
-texture = ExtResource("1_181yo")
+sprite_frames = ExtResource("4_l1to2")
+animation = &"ForwardAttack"
+frame = 10
+frame_progress = 1.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="MoveCollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_yhcj8")
@@ -80,7 +86,7 @@ shader_parameter_controller = NodePath("../ShaderParameterController")
 
 [node name="ShaderParameterController" type="Node" parent="." node_paths=PackedStringArray("canvas_items")]
 script = ExtResource("5_boar4")
-canvas_items = [NodePath("../BodySprite2DWithCustomSpriteShader")]
+canvas_items = [NodePath("")]
 
 [node name="Timers" type="Node" parent="."]
 
