@@ -45,6 +45,7 @@ var pushed_speed := 0.0
 
 var melee_rotation_speed := 0.0
 
+@onready var hurt_box: PlayerHurtBox = $HurtBoxArea2D
 @onready var shoot_axis: Node2D = $ShootAxis
 @onready var melee_axis: Node2D = $MeleeAxis
 @onready var melee_hit_box: Area2D = $MeleeAxis/HitBoxArea2D
@@ -151,7 +152,7 @@ func jump():
 	is_jumping = true
 	# Shadow should apper below everything unless jumping
 	$Shadow.z_index = 0
-	set_boss_collision_mask(false)
+	set_boss_collision_mask_and_hurt_box_enabled(false)
 
 	var orig_shadow_scale := $Shadow.scale as Vector2
 	var shadow_scale := 0.1 + (1.0 - 0.1) * exp(0.003 * jump_distance)
@@ -172,7 +173,7 @@ func jump():
 	await tween.finished
 	is_jumping = false
 	$Shadow.z_index = -1
-	set_boss_collision_mask(true)
+	set_boss_collision_mask_and_hurt_box_enabled(true)
 
 func can_shoot():
 	return shoot_cooldown_timer.is_stopped() and not is_dashing
@@ -228,7 +229,7 @@ func dash():
 	is_dashing = true
 	dash_for_timer.start()
 	dash_cooldown_timer.start()
-	set_boss_collision_mask(false)
+	set_boss_collision_mask_and_hurt_box_enabled(false)
 
 func be_hurt_by_projectile(damage: float):
 	health.try_receive_damage(roundi(damage))
@@ -246,7 +247,7 @@ func stagger(push_direction: Vector2, push_impact: float, stagger_duration: floa
 
 func _on_dash_for_timeout():
 	is_dashing = false
-	set_boss_collision_mask(true)
+	set_boss_collision_mask_and_hurt_box_enabled(true)
 	if velocity.length_squared() > max_speed**2:
 		velocity = velocity.normalized() * max_speed
 
@@ -269,6 +270,8 @@ func _on_health_damage_received(will_die: bool):
 func get_jump_offsetable_nodes():
 	return [$BodySprite2DWithCustomSpriteShader, $ShootAxis, $MeleeAxis]
 
-## Enables or disables collision with the boss, DOESN'T include boss_static
-func set_boss_collision_mask(value:bool):
-	set_collision_mask_value(3, value)
+## Enables or disables collision with the boss (DOESN'T include boss_static)
+## and hurt box collision (monitorable)
+func set_boss_collision_mask_and_hurt_box_enabled(value:bool):
+	set_collision_mask_value(Constants.collision_layer_boss, value)
+	hurt_box.monitorable = value
