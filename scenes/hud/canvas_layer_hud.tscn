@@ -32,14 +32,16 @@ layout_mode = 2
 
 [node name="Boss HealthBar" type="Control" parent="." node_paths=PackedStringArray("gauge_fill")]
 layout_mode = 3
-anchor_left = 0.545313
-anchor_top = 0.0111111
-anchor_right = 1.30625
-anchor_bottom = 0.15
-grow_horizontal = 0
+anchor_left = 0.204167
+anchor_top = 0.85
+anchor_right = 0.790625
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("5_o385m")
 gauge_fill = NodePath("Gauge Fill Parent/NinePatchRect Gauge Fill")
 metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect Gauge BG Fill" type="TextureRect" parent="Boss HealthBar"]
 self_modulate = Color(0.0784314, 0.0392157, 0.0745098, 1)
@@ -49,7 +51,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 70.0
 offset_top = 50.0
-offset_right = -488.0
+offset_right = -27.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -57,8 +59,8 @@ texture = ExtResource("6_ux5rx")
 
 [node name="Gauge Fill Parent" type="Control" parent="Boss HealthBar"]
 layout_mode = 1
-anchor_right = 0.441478
-anchor_bottom = 0.39
+anchor_right = 0.92984
+anchor_bottom = 0.623457
 offset_left = 70.0
 offset_top = 50.0
 offset_right = 56.0
@@ -70,8 +72,9 @@ metadata/_edit_use_anchors_ = true
 [node name="NinePatchRect Gauge Fill" type="NinePatchRect" parent="Boss HealthBar/Gauge Fill Parent"]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.204082
-anchor_bottom = 1.0
+anchor_top = 0.163043
+anchor_right = 0.96031
+anchor_bottom = 0.619565
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_2k7ho")
@@ -82,9 +85,11 @@ metadata/_edit_use_anchors_ = true
 
 [node name="NinePatchRect Frame" type="NinePatchRect" parent="Boss HealthBar"]
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.0574949
-anchor_bottom = 0.12
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1013.0
+offset_bottom = -146.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(10, 10)
