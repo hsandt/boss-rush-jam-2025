@@ -10,7 +10,8 @@ signal despawn
 
 @export var health: Health
 
-@onready var player:Player = get_tree().get_first_node_in_group("players")
+@onready var hud: HUD = get_tree().get_first_node_in_group("hud")
+@onready var player: Player = get_tree().get_first_node_in_group("players")
 
 
 func _ready():
@@ -24,6 +25,8 @@ func initialize():
 
 func setup():
 	health.setup()
+	hud.bind_and_show_boss_health_bar(self)
+
 
 func be_hurt_by_melee(damage: float):
 	print("player hit boss's body")
