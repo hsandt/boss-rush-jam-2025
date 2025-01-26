@@ -157,17 +157,21 @@ func jump():
 	var shadow_scale := 0.1 + (1.0 - 0.1) * exp(0.003 * jump_distance)
 	var tween = create_tween()
 
+	var sprite_original_y:Array[float] = []
 	tween.tween_property($Shadow, "scale", orig_shadow_scale/shadow_scale, jump_duration/2.0)\
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	for sprite in get_jump_offsetable_nodes():
-		tween.parallel().tween_property(sprite, "position:y", -jump_distance, jump_duration/2.0)\
+		sprite_original_y.append(sprite.position.y)
+		tween.parallel().tween_property(sprite, "position:y", sprite.position.y-jump_distance, jump_duration/2.0)\
 			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 
 	tween.tween_property($Shadow, "scale", orig_shadow_scale, jump_duration/2.0)\
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	var i := 0
 	for sprite in get_jump_offsetable_nodes():
-		tween.parallel().tween_property(sprite, "position:y", 0, jump_duration/2.0)\
+		tween.parallel().tween_property(sprite, "position:y", sprite_original_y[i], jump_duration/2.0)\
 			.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+		i += 1
 
 	await tween.finished
 	is_jumping = false
