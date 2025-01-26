@@ -100,7 +100,6 @@ material = SubResource("ShaderMaterial_fgtk5")
 position = Vector2(17, -31)
 scale = Vector2(0.06, 0.06)
 sprite_frames = ExtResource("4_l1to2")
-animation = &"ForwardAttack"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
