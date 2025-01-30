@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfjj44f1wfnw1"]
+
+[ext_resource type="Script" path="res://utils/audio/OneShotAudioStreamPlayer.gd" id="1_bcbkh"]
+
+[node name="OneShotASFXudioStreamPlayer" type="AudioStreamPlayer"]
+bus = &"SFX"
+script = ExtResource("1_bcbkh")

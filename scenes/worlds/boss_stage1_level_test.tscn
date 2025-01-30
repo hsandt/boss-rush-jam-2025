@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://yho78jqdnxmq" path="res://scenes/player/player.tscn" id="2_tqnur"]
 [ext_resource type="AudioStream" uid="uid://cqg0mqcprl45e" path="res://audio/bgm/bgm_boss_intro_2.987.ogg" id="3_fe5x7"]
 [ext_resource type="PackedScene" uid="uid://dx4ur84t2f5vj" path="res://scenes/tools/ring_wall_generator.tscn" id="3_mqfqo"]
-[ext_resource type="PackedScene" uid="uid://c53r530402eli" path="res://utils/audio/SFXManager.tscn" id="4_8ii4x"]
+[ext_resource type="PackedScene" uid="uid://6psb0ebpd4qa" path="res://utils/audio/SFXManager.tscn" id="4_8ii4x"]
 [ext_resource type="PackedScene" uid="uid://d4fpogs8pfntc" path="res://scenes/worlds/objects/wall_segment.tscn" id="4_tm174"]
 [ext_resource type="Script" path="res://utils/FXManager.gd" id="7_y0lpd"]
 
