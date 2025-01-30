@@ -36,6 +36,8 @@ enabled=PackedStringArray("res://addons/AS2P/plugin.cfg", "res://addons/debug_me
 players="Player characters"
 bosses="Bosses"
 in_game_manager=""
+fx_manager=""
+level=""
 
 [input]
 

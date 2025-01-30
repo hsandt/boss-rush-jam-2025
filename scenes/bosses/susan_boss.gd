@@ -17,6 +17,8 @@ extends BaseBoss
 @export var arm_push_impact: float = 1.0
 @export_group("Spin")
 @export var max_spin := 3.0*TAU
+@export_group("Death")
+@export var death_explosion_prefab: PackedScene
 
 ## Current phase (0 before start, phase 1 is 1)
 var current_phase: int = 0
@@ -29,11 +31,13 @@ var is_processing_player_arm_collision: bool = false
 @onready var arm: Node2D = $Arm
 @onready var arm_animation_player: AnimationPlayer = $Arm/AnimationPlayer
 @onready var boss_spin_progress = $BossSpinProgress
+@onready var fx_manager: FXManager = get_tree().get_first_node_in_group(&"fx_manager")
 
 func initialize():
 	super.initialize()
 
 	arm_stagger_timer.wait_time = arm_stagger_time
+	DebugUtils.assert_member_is_set(self, death_explosion_prefab, "death_explosion_prefab")
 
 func setup():
 	super.setup()
@@ -91,15 +95,15 @@ func _on_player_hurt_arm_area_body_entered(body: Node2D):
 		return
 	# safeguard to avoid processing collision multiple times until
 	# arm is properly going in the other direction
-	var player := body as Player
+	var entering_player := body as Player
 	# Ignore if player is jumping
-	if player:
-		if not player.can_get_hit_by_arm():
+	if entering_player:
+		if not entering_player.can_get_hit_by_arm():
 			return
 		if not is_processing_player_arm_collision:
 			# Check arm rotation sense vs player relative position
 			var arm_direction := Vector2.RIGHT.rotated(arm.rotation)
-			var to_player := player.position - position
+			var to_player := entering_player.position - position
 			var sign_angle_toward_player := signf(arm_direction.angle_to(to_player))
 			var sign_rotation := signf(arm_rotation_modifier)
 
@@ -108,9 +112,9 @@ func _on_player_hurt_arm_area_body_entered(body: Node2D):
 				is_processing_player_arm_collision = true
 
 				# make the player take damage, knockback & stagger
-				player.health.try_receive_damage(roundi(arm_hit_damage))
+				entering_player.health.try_receive_damage(roundi(arm_hit_damage))
 				var push_direction := arm_direction.rotated(sign_angle_toward_player * PI / 2)
-				player.stagger(push_direction, arm_push_impact, arm_stagger_player_duration, arm_stagger_push_player_duration)
+				entering_player.stagger(push_direction, arm_push_impact, arm_stagger_player_duration, arm_stagger_push_player_duration)
 
 				# TODO: screen shake
 
@@ -131,3 +135,7 @@ func sigmoid(value:float) -> float:
 		return -1.0
 	else:
 		return 0.0
+
+# override
+func play_boss_death_animation():
+	fx_manager.spawn_fx(death_explosion_prefab, position)
