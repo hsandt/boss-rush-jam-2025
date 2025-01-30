@@ -38,6 +38,7 @@ bosses="Bosses"
 in_game_manager=""
 fx_manager=""
 level=""
+sfx_manager=""
 
 [input]
 

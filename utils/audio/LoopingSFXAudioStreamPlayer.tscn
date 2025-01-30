@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvnjk65rsny1h"]
+
+[ext_resource type="Script" path="res://utils/audio/LoopingAudioStreamPlayer.gd" id="1_beoiu"]
+
+[node name="LoopingSFXAudioStreamPlayer" type="AudioStreamPlayer"]
+bus = &"SFX"
+script = ExtResource("1_beoiu")

@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://6psb0ebpd4qa"]
+
+[ext_resource type="Script" path="res://utils/audio/SFXManager.gd" id="1_hhs12"]
+[ext_resource type="PackedScene" uid="uid://bfjj44f1wfnw1" path="res://utils/audio/OneShotSFXAudioStreamPlayer.tscn" id="2_f2oh5"]
+[ext_resource type="PackedScene" uid="uid://cvnjk65rsny1h" path="res://utils/audio/LoopingSFXAudioStreamPlayer.tscn" id="3_ay062"]
+
+[node name="SFXManager" type="Node" node_paths=PackedStringArray("sfx_parent") groups=["sfx_manager"]]
+script = ExtResource("1_hhs12")
+one_shot_audio_stream_player_prefab = ExtResource("2_f2oh5")
+looping_audio_stream_player_prefab = ExtResource("3_ay062")
+sfx_parent = NodePath("SFXParent")
+
+[node name="SFXParent" type="Node2D" parent="."]

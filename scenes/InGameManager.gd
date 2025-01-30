@@ -12,7 +12,7 @@ extends Node
 @export var bgm: AudioStream
 
 @onready var player: Player = get_tree().get_first_node_in_group("players")
-@onready var bgm_player: AudioStreamPlayer = $AudioStreamPlayer
+@onready var bgm_player: AudioStreamPlayer = $BGMAudioStreamPlayer
 
 
 func _ready():
