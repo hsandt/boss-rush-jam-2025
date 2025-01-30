@@ -40,8 +40,13 @@ func be_hurt_by_projectile(damage: float):
 func _on_damage_received(will_die: bool):
 	if will_die:
 		print("Boss is dead!")
+		play_boss_death_animation()
 	else:
 		print("Boss received damage!")
 
 func get_projectile(projectile):
 	$Projectiles.add_child(projectile)
+
+# virtual
+func play_boss_death_animation():
+	push_error("[BaseBoss] play_boss_death_animation: not implemented")
