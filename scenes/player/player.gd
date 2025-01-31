@@ -28,6 +28,7 @@ extends CharacterBody2D
 @export var melee_start_friction_time := 0.1
 @export_range(0, 360, 0.001, "radians_as_degrees") var melee_friction_deceleration := deg_to_rad(6*360)
 @export_range(0, 360, 0.001, "radians_as_degrees") var melee_attack_initial_rotation_speed := deg_to_rad(2.5*360)
+@export var melee_attack_sfx: AudioStream
 
 ## look direction
 var direction := Vector2.RIGHT
@@ -58,6 +59,8 @@ var melee_rotation_speed := 0.0
 @onready var stagger_push_timer: Timer = $Timers/Stagger/StaggerPush
 
 @onready var health: Health = $Health
+
+@onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
 
 func _ready():
 	dash_for_timer.wait_time = dash_for
@@ -204,6 +207,9 @@ func melee_attack():
 
 	melee_start_friction_timer.start()
 	melee_cancel_timer.start()
+
+	if melee_attack_sfx:
+		sfx_manager.spawn_sfx(melee_attack_sfx)
 
 func update_melee_rotation(delta: float):
 	if melee_rotation_speed != 0.0 and melee_start_friction_timer.is_stopped():
