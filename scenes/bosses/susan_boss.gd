@@ -19,6 +19,7 @@ extends BaseBoss
 @export var max_spin := 3.0*TAU
 @export_group("Death")
 @export var death_explosion_prefab: PackedScene
+@export var death_scream_sfx: AudioStream
 
 ## Current phase (0 before start, phase 1 is 1)
 var current_phase: int = 0
@@ -32,6 +33,7 @@ var is_processing_player_arm_collision: bool = false
 @onready var arm_animation_player: AnimationPlayer = $Arm/AnimationPlayer
 @onready var boss_spin_progress = $BossSpinProgress
 @onready var fx_manager: FXManager = get_tree().get_first_node_in_group(&"fx_manager")
+@onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
 
 func initialize():
 	super.initialize()
@@ -139,3 +141,5 @@ func sigmoid(value:float) -> float:
 # override
 func play_boss_death_animation():
 	fx_manager.spawn_fx(death_explosion_prefab, position)
+	if death_scream_sfx:
+		sfx_manager.spawn_sfx(death_scream_sfx)

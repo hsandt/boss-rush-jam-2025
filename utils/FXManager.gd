@@ -3,7 +3,7 @@ extends Node
 
 
 @onready var level: Level = get_tree().get_first_node_in_group(&"level")
-@onready var sfx_manager: FXManager = get_tree().get_first_node_in_group(&"sfx_manager")
+@onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
 
 
 ## Spawn one-shot FX

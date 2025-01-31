@@ -21,7 +21,6 @@ bgm = ExtResource("3_fe5x7")
 script = ExtResource("7_y0lpd")
 
 [node name="SFXManager" parent="." instance=ExtResource("4_8ii4x")]
-script = null
 
 [node name="CanvasLayer HUD" parent="." instance=ExtResource("1_t2o0t")]
 

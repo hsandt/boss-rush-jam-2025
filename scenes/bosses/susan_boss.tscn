@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b5xxrn8guepbq"]
+[gd_scene load_steps=20 format=3 uid="uid://b5xxrn8guepbq"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_hfrqx"]
 [ext_resource type="PackedScene" uid="uid://dbutr0dodgrfj" path="res://scenes/bosses/base_boss.tscn" id="1_lk3r3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" path="res://utils/shaders/custom_sprite_shader.gdshader" id="3_j1aeb"]
 [ext_resource type="PackedScene" uid="uid://c8spp1sb5b11j" path="res://scenes/fx/fx_boss_death_explosion.tscn" id="3_ou53o"]
 [ext_resource type="PackedScene" uid="uid://buwf3d6v4gfp8" path="res://scenes/hud/boss_spin_progress.tscn" id="3_tmtn2"]
+[ext_resource type="AudioStream" uid="uid://btuo0ffjg6l5m" path="res://audio/sfx/Scream.mp3" id="4_qa7bl"]
 [ext_resource type="Script" path="res://scenes/projectiles/boss_hurt_box.gd" id="5_w7vcf"]
 [ext_resource type="Texture2D" uid="uid://djbc74bmacush" path="res://graphics/placeholder/boss/boss1_weak_spot_open.png" id="7_j5cho"]
 [ext_resource type="Script" path="res://scenes/bosses/susan_projectile_manager.gd" id="8_iw07t"]
@@ -114,6 +115,7 @@ arm_stagger_push_player_duration = 0.05
 arm_push_impact = 1.0
 max_spin = 18.8496
 death_explosion_prefab = ExtResource("3_ou53o")
+death_scream_sfx = ExtResource("4_qa7bl")
 
 [node name="Health" parent="." index="0" node_paths=PackedStringArray("shader_parameter_controller")]
 max_health = 3
