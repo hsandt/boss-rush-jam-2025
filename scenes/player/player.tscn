@@ -10,7 +10,7 @@
 [ext_resource type="SpriteFrames" uid="uid://beomd1ltd6dgt" path="res://scenes/player/sprite_frames_player.tres" id="4_l1to2"]
 [ext_resource type="Script" path="res://utils/ShaderParameterController.gd" id="5_boar4"]
 [ext_resource type="Script" path="res://scenes/health.gd" id="5_v6ua0"]
-[ext_resource type="Texture2D" uid="uid://d3dd4etidh3l3" path="res://graphics/player/Sword_right_small.png" id="7_v5cba"]
+[ext_resource type="Texture2D" uid="uid://dhe6qmncoq5v5" path="res://graphics/player/Arm Sword Right.png" id="9_jh4l7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fgtk5"]
 shader = ExtResource("2_i2fjc")
@@ -106,8 +106,8 @@ texture = ExtResource("2_6t21y")
 
 [node name="BodySprite2DWithCustomSpriteShader" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_fgtk5")
-position = Vector2(17, -31)
-scale = Vector2(0.06, 0.06)
+position = Vector2(-1.47541, -0.75)
+scale = Vector2(0.581967, 0.581967)
 sprite_frames = ExtResource("4_l1to2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -150,8 +150,10 @@ texture = ExtResource("1_181yo")
 [node name="MeleeAxis" type="Node2D" parent="."]
 
 [node name="SwordSprite2D" type="Sprite2D" parent="MeleeAxis"]
-position = Vector2(50, 0)
-texture = ExtResource("7_v5cba")
+z_index = -1
+position = Vector2(78, 0)
+scale = Vector2(0.0645161, 0.0645161)
+texture = ExtResource("9_jh4l7")
 
 [node name="HitBoxArea2D" type="Area2D" parent="MeleeAxis"]
 collision_layer = 2048
@@ -159,7 +161,7 @@ collision_mask = 272
 monitorable = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MeleeAxis/HitBoxArea2D"]
-polygon = PackedVector2Array(0, 0, 85, -26, 85, 26)
+polygon = PackedVector2Array(0, 0, 122, -25, 122, 25)
 
 [node name="Health" type="Node" parent="." node_paths=PackedStringArray("shader_parameter_controller") groups=["players"]]
 script = ExtResource("5_v6ua0")

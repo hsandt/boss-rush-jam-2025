@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n2c12o0kg5a8"
-path="res://.godot/imported/Armature_animtion0_03.png-328007176f9f44c65e44e0c4ee43d721.ctex"
+uid="uid://cbp36cmbgb8xe"
+path="res://.godot/imported/spritesheet Look Left Walk Swordless.png-f20b0db9a69252d828d2a59388d9fca6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/player/ForwardAttack/Armature_animtion0_03.png"
-dest_files=["res://.godot/imported/Armature_animtion0_03.png-328007176f9f44c65e44e0c4ee43d721.ctex"]
+source_file="res://graphics/player/Chara Walk/Top Sequence/Looking to the Left/spritesheet Look Left Walk Swordless.png"
+dest_files=["res://.godot/imported/spritesheet Look Left Walk Swordless.png-f20b0db9a69252d828d2a59388d9fca6.ctex"]
 
 [params]
 

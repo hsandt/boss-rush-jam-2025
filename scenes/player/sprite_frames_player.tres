@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=12 format=3 uid="uid://beomd1ltd6dgt"]
+[gd_resource type="SpriteFrames" load_steps=13 format=3 uid="uid://beomd1ltd6dgt"]
 
 [ext_resource type="Texture2D" uid="uid://lrpi82fpnnua" path="res://graphics/player/ForwardAttack/Armature_animtion0_00.png" id="1_tpdi8"]
 [ext_resource type="Texture2D" uid="uid://b8ocol6rpmr3q" path="res://graphics/player/ForwardAttack/Armature_animtion0_01.png" id="2_hkt0l"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://jsrummcegati" path="res://graphics/player/ForwardAttack/Armature_animtion0_08.png" id="9_1lp12"]
 [ext_resource type="Texture2D" uid="uid://dl7pwf68oe614" path="res://graphics/player/ForwardAttack/Armature_animtion0_09.png" id="10_fw4gs"]
 [ext_resource type="Texture2D" uid="uid://iikxqo0kc876" path="res://graphics/player/ForwardAttack/Armature_animtion0_10.png" id="11_wsoxk"]
+[ext_resource type="Texture2D" uid="uid://byv3xrhrwo5b6" path="res://graphics/player/Static/BR chara Heroes Top 120x61.png" id="12_2k41q"]
 
 [resource]
 animations = [{
@@ -54,7 +55,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_tpdi8")
+"texture": ExtResource("12_2k41q")
 }],
 "loop": false,
 "name": &"default",

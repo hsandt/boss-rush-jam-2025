@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://v5mjjnd3yktg"
-path="res://.godot/imported/Armature_animtion0_06.png-1cf11dc97dc99605b1aa2520ff4f96e2.ctex"
+uid="uid://dhe6qmncoq5v5"
+path="res://.godot/imported/Arm Sword Right.png-5aa2205c6d6680addead94c7fd5afdc5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/player/ForwardAttack/Armature_animtion0_06.png"
-dest_files=["res://.godot/imported/Armature_animtion0_06.png-1cf11dc97dc99605b1aa2520ff4f96e2.ctex"]
+source_file="res://graphics/player/Arm Sword Right.png"
+dest_files=["res://.godot/imported/Arm Sword Right.png-5aa2205c6d6680addead94c7fd5afdc5.ctex"]
 
 [params]
 
