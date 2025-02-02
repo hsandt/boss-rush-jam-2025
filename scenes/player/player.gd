@@ -33,6 +33,8 @@ extends CharacterBody2D
 @export_group("SFX")
 @export var melee_attack_sfx: AudioStream
 @export var jump_sfx: AudioStream
+@export var get_hit_sfx: AudioStream
+@export var get_hit2_sfx: AudioStream
 
 ## look direction
 var direction := Vector2.RIGHT
@@ -50,6 +52,8 @@ var pushed_speed := 0.0
 
 var melee_rotation_speed := 0.0
 var melee_attack_looping_sfx_player: LoopingAudioStreamPlayer
+
+var damage_sfx_played := false
 
 @onready var hurt_box: PlayerHurtBox = $HurtBoxArea2D
 @onready var shoot_axis: Node2D = $ShootAxis
@@ -275,6 +279,9 @@ func dash():
 		#sfx_manager.spawn_sfx(jump_sfx)
 
 func be_hurt_by_projectile(damage: float):
+	if get_hit_sfx:
+		sfx_manager.spawn_sfx(get_hit_sfx)
+		damage_sfx_played = true
 	health.try_receive_damage(roundi(damage))
 
 func stagger(push_direction: Vector2, push_impact: float, stagger_duration: float, stagger_push_duration: float):
@@ -306,6 +313,10 @@ func _on_melee_hit_box_area_entered(area: Area2D):
 		return
 
 func _on_health_damage_received(will_die: bool):
+	if not damage_sfx_played:
+		if get_hit2_sfx:
+			sfx_manager.spawn_sfx(get_hit2_sfx)
+	damage_sfx_played = false
 	if will_die:
 		queue_free()
 

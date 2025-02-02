@@ -12,13 +12,13 @@ height = 24.0
 script = ExtResource("1_8hsb5")
 
 [node name="Hitable" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(-19, 0)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_rrlxv")
 flip_h = true
 
 [node name="NonHitable" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(-19, 0)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("2_6o4q4")
