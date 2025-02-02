@@ -3,10 +3,7 @@ class_name BossHealthBar
 extends Control
 
 
-## Gauge fill, resize its anchors as a percentage of health
-## It should be parented to a fixed Gauge Fill Parent that always covers the full gauge
-## so the gauge fill automatically adjust relatively to full size to match health value
-@export var gauge_fill: Control
+@export var gauge_fill: TextureProgressBar
 
 
 ## Bound boss
@@ -41,7 +38,7 @@ func _refresh_view():
 	var health_ratio := boss.health.get_health_ratio()
 	if health_ratio > 0:
 		gauge_fill.visible = true
-		gauge_fill.anchor_right = health_ratio
+		gauge_fill.value = health_ratio * 100.0
 	else:
 		gauge_fill.visible = false
 

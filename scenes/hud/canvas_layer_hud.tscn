@@ -6,8 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bmgu84vd1tgp1" path="res://scenes/hud/health_cell_first.tscn" id="4_er0tf"]
 [ext_resource type="Script" path="res://scenes/hud/BossHealthBar.gd" id="5_o385m"]
 [ext_resource type="Texture2D" uid="uid://crnvi4ul2w31d" path="res://graphics/placeholder/white_square_1x1.png" id="6_ux5rx"]
-[ext_resource type="Texture2D" uid="uid://drjryrg4mfii3" path="res://graphics/placeholder/hud/hud_boss_health_gauge_fill_9-slice.png" id="7_2k7ho"]
-[ext_resource type="Texture2D" uid="uid://b8rpfwg1ga7a" path="res://graphics/placeholder/hud/hud_boss_health_gauge_small_frame_9-slice.png" id="8_jrygr"]
+[ext_resource type="Texture2D" uid="uid://b645omscg5lf5" path="res://graphics/UIX/Boss Health/Health Bar Boss Full Health.png" id="7_mq2y3"]
+[ext_resource type="Texture2D" uid="uid://bufx616mc3c1g" path="res://graphics/UIX/Boss Health/Health Bar Boss 9 hits.png" id="8_r2ie3"]
 
 [node name="CanvasLayer HUD" type="CanvasLayer" node_paths=PackedStringArray("boss_health_bar") groups=["hud"]]
 script = ExtResource("1_t23hs")
@@ -39,11 +39,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_o385m")
-gauge_fill = NodePath("Gauge Fill Parent/NinePatchRect Gauge Fill")
+gauge_fill = NodePath("Gauge Fill Parent/TextureProgressBar")
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect Gauge BG Fill" type="TextureRect" parent="Boss HealthBar"]
+visible = false
 self_modulate = Color(0.0784314, 0.0392157, 0.0745098, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -59,41 +60,65 @@ texture = ExtResource("6_ux5rx")
 
 [node name="Gauge Fill Parent" type="Control" parent="Boss HealthBar"]
 layout_mode = 1
-anchor_right = 0.92984
-anchor_bottom = 0.623457
-offset_left = 70.0
-offset_top = 50.0
-offset_right = 56.0
-offset_bottom = 41.0
+anchor_left = 0.062167
+anchor_top = 0.308642
+anchor_right = 0.979574
+anchor_bottom = 0.876543
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="NinePatchRect Gauge Fill" type="NinePatchRect" parent="Boss HealthBar/Gauge Fill Parent"]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Boss HealthBar/Gauge Fill Parent"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.163043
-anchor_right = 0.96031
-anchor_bottom = 0.619565
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("7_2k7ho")
-patch_margin_top = 2
-patch_margin_right = 1
-axis_stretch_horizontal = 1
+anchor_left = 0.0648591
+anchor_top = -0.195652
+anchor_right = 0.892546
+anchor_bottom = 1.09239
+offset_right = -285.0
+offset_bottom = -39.5
+scale = Vector2(1.5, 1.5)
+value = 50.0
+texture_under = ExtResource("8_r2ie3")
+texture_progress = ExtResource("7_mq2y3")
 metadata/_edit_use_anchors_ = true
 
-[node name="NinePatchRect Frame" type="NinePatchRect" parent="Boss HealthBar"]
+[node name="Gauge Fill" type="TextureRect" parent="Boss HealthBar/Gauge Fill Parent"]
+visible = false
+layout_mode = 0
+anchor_left = 0.0648591
+anchor_top = -0.195652
+anchor_right = 0.889054
+anchor_bottom = 1.08696
+offset_right = -281.393
+offset_bottom = -39.0
+scale = Vector2(1.49367, 1.49367)
+texture = ExtResource("7_mq2y3")
+metadata/_edit_use_anchors_ = true
+
+[node name="Gauge Fill2" type="TextureRect" parent="Boss HealthBar/Gauge Fill Parent"]
+visible = false
+layout_mode = 0
+anchor_left = 0.0648591
+anchor_top = -0.195652
+anchor_right = 0.889054
+anchor_bottom = 1.08696
+offset_right = -281.393
+offset_bottom = -39.0
+scale = Vector2(1.49367, 1.49367)
+texture = ExtResource("7_mq2y3")
+metadata/_edit_use_anchors_ = true
+
+[node name="Frame" type="TextureRect" parent="Boss HealthBar"]
+visible = false
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1013.0
-offset_bottom = -146.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(10, 10)
-texture = ExtResource("8_jrygr")
-patch_margin_left = 13
-patch_margin_right = 12
-axis_stretch_horizontal = 1
+anchors_preset = -1
+anchor_left = 0.121669
+anchor_top = 0.197531
+anchor_right = 0.877791
+anchor_bottom = 0.925926
+offset_right = -281.393
+offset_bottom = -39.0
+scale = Vector2(1.49367, 1.49367)
+texture = ExtResource("8_r2ie3")
+metadata/_edit_use_anchors_ = true
