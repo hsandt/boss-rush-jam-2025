@@ -32,10 +32,7 @@ extends CharacterBody2D
 @export_range(0, 360, 0.001, "radians_as_degrees") var melee_max_rotation_speed := deg_to_rad(3*360)
 @export_group("SFX")
 @export var melee_attack_sfx: AudioStream
-@export var melee_attack_looping_sfx_player: LoopingAudioStreamPlayer
 @export var jump_sfx: AudioStream
-#@export var melee_attack_sfx: AudioStream
-#@export var melee_attack_sfx: AudioStream
 
 ## look direction
 var direction := Vector2.RIGHT
@@ -52,6 +49,7 @@ var pushed_direction := Vector2.ZERO
 var pushed_speed := 0.0
 
 var melee_rotation_speed := 0.0
+var melee_attack_looping_sfx_player: LoopingAudioStreamPlayer
 
 @onready var hurt_box: PlayerHurtBox = $HurtBoxArea2D
 @onready var shoot_axis: Node2D = $ShootAxis
