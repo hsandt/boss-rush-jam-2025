@@ -132,6 +132,10 @@ func _ready():
 
 
 func _unhandled_input(event: InputEvent):
+
+	if not OS.has_feature("debug"):
+		return
+
 	# let user toggle hi-dpi resolution freely
 	# (hi-dpi is hard to detect and resize is hard to force on start)
 	if _is_exact_action_pressed_in_event_safe(event, &"app_prev_resolution"):
