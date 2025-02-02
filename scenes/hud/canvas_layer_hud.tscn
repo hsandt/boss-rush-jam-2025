@@ -1,0 +1,99 @@
+[gd_scene load_steps=9 format=3 uid="uid://3cc7usihdqph"]
+
+[ext_resource type="Script" path="res://scenes/hud/HUD.gd" id="1_t23hs"]
+[ext_resource type="Script" path="res://scenes/hud/PlayerCharacterHealthBar.gd" id="2_ohg5a"]
+[ext_resource type="PackedScene" uid="uid://bg6t7bx01u8nl" path="res://scenes/hud/health_cell_next.tscn" id="3_7476c"]
+[ext_resource type="PackedScene" uid="uid://bmgu84vd1tgp1" path="res://scenes/hud/health_cell_first.tscn" id="4_er0tf"]
+[ext_resource type="Script" path="res://scenes/hud/BossHealthBar.gd" id="5_o385m"]
+[ext_resource type="Texture2D" uid="uid://crnvi4ul2w31d" path="res://graphics/placeholder/white_square_1x1.png" id="6_ux5rx"]
+[ext_resource type="Texture2D" uid="uid://drjryrg4mfii3" path="res://graphics/placeholder/hud/hud_boss_health_gauge_fill_9-slice.png" id="7_2k7ho"]
+[ext_resource type="Texture2D" uid="uid://b8rpfwg1ga7a" path="res://graphics/placeholder/hud/hud_boss_health_gauge_small_frame_9-slice.png" id="8_jrygr"]
+
+[node name="CanvasLayer HUD" type="CanvasLayer" node_paths=PackedStringArray("boss_health_bar") groups=["hud"]]
+script = ExtResource("1_t23hs")
+boss_health_bar = NodePath("Boss HealthBar")
+
+[node name="HBoxContainer PlayerCharacter HealthBar" type="HBoxContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.038961
+anchor_top = 0.0465116
+anchor_right = 0.305195
+anchor_bottom = 0.116279
+theme_override_constants/separation = 50
+script = ExtResource("2_ohg5a")
+health_cell_next_prefab = ExtResource("3_7476c")
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthCellFirst" parent="HBoxContainer PlayerCharacter HealthBar" instance=ExtResource("4_er0tf")]
+layout_mode = 2
+
+[node name="HealthCellNext" parent="HBoxContainer PlayerCharacter HealthBar" instance=ExtResource("3_7476c")]
+layout_mode = 2
+
+[node name="Boss HealthBar" type="Control" parent="." node_paths=PackedStringArray("gauge_fill")]
+layout_mode = 3
+anchor_left = 0.204167
+anchor_top = 0.85
+anchor_right = 0.790625
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_o385m")
+gauge_fill = NodePath("Gauge Fill Parent/NinePatchRect Gauge Fill")
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect Gauge BG Fill" type="TextureRect" parent="Boss HealthBar"]
+self_modulate = Color(0.0784314, 0.0392157, 0.0745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 70.0
+offset_top = 50.0
+offset_right = -27.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_ux5rx")
+
+[node name="Gauge Fill Parent" type="Control" parent="Boss HealthBar"]
+layout_mode = 1
+anchor_right = 0.92984
+anchor_bottom = 0.623457
+offset_left = 70.0
+offset_top = 50.0
+offset_right = 56.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="NinePatchRect Gauge Fill" type="NinePatchRect" parent="Boss HealthBar/Gauge Fill Parent"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.163043
+anchor_right = 0.96031
+anchor_bottom = 0.619565
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_2k7ho")
+patch_margin_top = 2
+patch_margin_right = 1
+axis_stretch_horizontal = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="NinePatchRect Frame" type="NinePatchRect" parent="Boss HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1013.0
+offset_bottom = -146.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(10, 10)
+texture = ExtResource("8_jrygr")
+patch_margin_left = 13
+patch_margin_right = 12
+axis_stretch_horizontal = 1

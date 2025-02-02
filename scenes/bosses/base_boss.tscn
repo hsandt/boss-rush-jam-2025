@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbutr0dodgrfj"]
+
+[ext_resource type="Script" path="res://scenes/bosses/base_boss.gd" id="1_rs2yl"]
+[ext_resource type="Script" path="res://scenes/health.gd" id="2_2fj6t"]
+[ext_resource type="Script" path="res://utils/ShaderParameterController.gd" id="3_eunwl"]
+
+[node name="BaseBoss" type="Node2D" node_paths=PackedStringArray("health")]
+script = ExtResource("1_rs2yl")
+health = NodePath("Health")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_2fj6t")
+
+[node name="ShaderParameterController" type="Node" parent="."]
+script = ExtResource("3_eunwl")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="Projectiles" type="Node2D" parent="."]

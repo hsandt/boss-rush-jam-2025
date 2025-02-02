@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7pahf14wg8wr"]
+
+[ext_resource type="Script" path="res://globals/AppManager.gd" id="1_aa80b"]
+
+[node name="AppManager" type="Node"]
+script = ExtResource("1_aa80b")
+set_window_scale_on_start = true
+window_scale_presets = Array[float]([0.5, 0.75, 1.0, 1.25])
+initial_window_scale_preset_index = 2

@@ -1,0 +1,197 @@
+[gd_scene load_steps=20 format=3 uid="uid://b5xxrn8guepbq"]
+
+[ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_hfrqx"]
+[ext_resource type="PackedScene" uid="uid://dbutr0dodgrfj" path="res://scenes/bosses/base_boss.tscn" id="1_lk3r3"]
+[ext_resource type="Script" path="res://scenes/bosses/susan_boss.gd" id="1_xmmb2"]
+[ext_resource type="Shader" path="res://utils/shaders/custom_sprite_shader.gdshader" id="3_j1aeb"]
+[ext_resource type="PackedScene" uid="uid://c8spp1sb5b11j" path="res://scenes/fx/fx_boss_death_explosion.tscn" id="3_ou53o"]
+[ext_resource type="PackedScene" uid="uid://buwf3d6v4gfp8" path="res://scenes/hud/boss_spin_progress.tscn" id="3_tmtn2"]
+[ext_resource type="AudioStream" uid="uid://btuo0ffjg6l5m" path="res://audio/sfx/Scream.mp3" id="4_qa7bl"]
+[ext_resource type="Script" path="res://scenes/projectiles/boss_hurt_box.gd" id="5_w7vcf"]
+[ext_resource type="Texture2D" uid="uid://djbc74bmacush" path="res://graphics/placeholder/boss/boss1_weak_spot_open.png" id="7_j5cho"]
+[ext_resource type="Script" path="res://scenes/bosses/susan_projectile_manager.gd" id="8_iw07t"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iplax"]
+shader = ExtResource("3_j1aeb")
+shader_parameter/brightness = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bjcof"]
+size = Vector2(698, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6qy3s"]
+size = Vector2(700, 32)
+
+[sub_resource type="Animation" id="Animation_gtlra"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:force_stop_arm")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"reset_arm_modifier"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_mvfjs"]
+resource_name = "reverse_direction"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:force_stop_arm")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [2.5],
+"method": &"set_arm_modifier"
+}, {
+"args": [],
+"method": &"reset_arm_modifier"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cl2hy"]
+_data = {
+"RESET": SubResource("Animation_gtlra"),
+"reverse_direction": SubResource("Animation_mvfjs")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j2dcf"]
+shader = ExtResource("3_j1aeb")
+shader_parameter/brightness = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_26o4r"]
+size = Vector2(128, 128)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a8kmi"]
+radius = 26.0
+height = 102.0
+
+[node name="SusanBoss" instance=ExtResource("1_lk3r3")]
+script = ExtResource("1_xmmb2")
+arm_speed_phase1 = 1.309
+arm_rotation_modifier = 1.0
+arm_stagger_time = 1.0
+enable_arm_shake_on_hit = true
+arm_shake_offset = 1.0
+arm_shake_freq = 10.0
+force_stop_arm = false
+arm_hit_damage = 1.0
+arm_stagger_player_duration = 0.1
+arm_stagger_push_player_duration = 0.05
+arm_push_impact = 1.0
+max_spin = 18.8496
+death_explosion_prefab = ExtResource("3_ou53o")
+death_scream_sfx = ExtResource("4_qa7bl")
+
+[node name="Health" parent="." index="0" node_paths=PackedStringArray("shader_parameter_controller")]
+max_health = 3
+shader_parameter_controller = NodePath("../ShaderParameterController")
+
+[node name="ShaderParameterController" parent="." index="1" node_paths=PackedStringArray("canvas_items")]
+canvas_items = [NodePath("../Arm/ArmSprite2DWithCustomSpriteShader"), NodePath("../Head/HeadSprite2DWithCustomSpriteShader")]
+
+[node name="Arm" type="AnimatableBody2D" parent="." index="2"]
+collision_layer = 4
+
+[node name="ArmSprite2DWithCustomSpriteShader" type="Sprite2D" parent="Arm" index="0"]
+material = SubResource("ShaderMaterial_iplax")
+position = Vector2(358, 0)
+scale = Vector2(5.46094, 0.234375)
+texture = ExtResource("1_hfrqx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arm" index="1"]
+position = Vector2(358, 0)
+shape = SubResource("RectangleShape2D_bjcof")
+
+[node name="PlayerHurtArea" type="Area2D" parent="Arm" index="2"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arm/PlayerHurtArea" index="0"]
+position = Vector2(358, 0)
+shape = SubResource("RectangleShape2D_6qy3s")
+debug_color = Color(0.667676, 0.497508, 0.324431, 0.42)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Arm" index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_cl2hy")
+}
+
+[node name="Head" type="StaticBody2D" parent="." index="3"]
+collision_layer = 12
+
+[node name="HeadSprite2DWithCustomSpriteShader" type="Sprite2D" parent="Head" index="0"]
+material = SubResource("ShaderMaterial_j2dcf")
+texture = ExtResource("1_hfrqx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head" index="1"]
+shape = SubResource("RectangleShape2D_26o4r")
+
+[node name="BossSpinProgress" parent="." index="4" instance=ExtResource("3_tmtn2")]
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="Arm" type="Node" parent="Timers" index="0"]
+
+[node name="Stagger" type="Timer" parent="Timers/Arm" index="0"]
+one_shot = true
+
+[node name="WeakSpotCharacterArea2D" type="Area2D" parent="." index="6" node_paths=PackedStringArray("owning_boss")]
+collision_layer = 256
+collision_mask = 2048
+script = ExtResource("5_w7vcf")
+owning_boss = NodePath("..")
+
+[node name="Sprite2D" type="Sprite2D" parent="WeakSpotCharacterArea2D" index="0"]
+texture = ExtResource("7_j5cho")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeakSpotCharacterArea2D" index="1"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_a8kmi")
+debug_color = Color(0.993701, 0, 0.23362, 0.42)
+
+[node name="ProjectileManager" type="Node" parent="." index="7"]
+script = ExtResource("8_iw07t")
+
+[node name="Timers" type="Node" parent="ProjectileManager" index="0"]
+
+[node name="SpawnDelay001" type="Timer" parent="ProjectileManager/Timers" index="0"]
+wait_time = 5.0
+autostart = true
+
+[connection signal="body_entered" from="Arm/PlayerHurtArea" to="." method="_on_player_hurt_arm_area_body_entered"]
+[connection signal="timeout" from="ProjectileManager/Timers/SpawnDelay001" to="ProjectileManager" method="_on_proj_delay_001_timeout"]

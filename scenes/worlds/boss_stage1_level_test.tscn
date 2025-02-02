@@ -1,0 +1,45 @@
+[gd_scene load_steps=11 format=3 uid="uid://dp11167bumcx2"]
+
+[ext_resource type="PackedScene" uid="uid://6lc51x6rnokn" path="res://scenes/in_game_manager.tscn" id="1_ilnlu"]
+[ext_resource type="Script" path="res://scenes/Level.gd" id="1_oogtp"]
+[ext_resource type="PackedScene" uid="uid://3cc7usihdqph" path="res://scenes/hud/canvas_layer_hud.tscn" id="1_t2o0t"]
+[ext_resource type="PackedScene" uid="uid://b5xxrn8guepbq" path="res://scenes/bosses/susan_boss.tscn" id="1_x4wo3"]
+[ext_resource type="PackedScene" uid="uid://yho78jqdnxmq" path="res://scenes/player/player.tscn" id="2_tqnur"]
+[ext_resource type="AudioStream" uid="uid://cqg0mqcprl45e" path="res://audio/bgm/bgm_boss_intro_2.987.ogg" id="3_fe5x7"]
+[ext_resource type="PackedScene" uid="uid://dx4ur84t2f5vj" path="res://scenes/tools/ring_wall_generator.tscn" id="3_mqfqo"]
+[ext_resource type="PackedScene" uid="uid://6psb0ebpd4qa" path="res://utils/audio/SFXManager.tscn" id="4_8ii4x"]
+[ext_resource type="PackedScene" uid="uid://d4fpogs8pfntc" path="res://scenes/worlds/objects/wall_segment.tscn" id="4_tm174"]
+[ext_resource type="Script" path="res://utils/FXManager.gd" id="7_y0lpd"]
+
+[node name="BossStage1LevelTest" type="Node2D" groups=["level"]]
+script = ExtResource("1_oogtp")
+
+[node name="InGameManager" parent="." instance=ExtResource("1_ilnlu")]
+bgm = ExtResource("3_fe5x7")
+
+[node name="FXManager" type="Node" parent="." groups=["fx_manager"]]
+script = ExtResource("7_y0lpd")
+
+[node name="SFXManager" parent="." instance=ExtResource("4_8ii4x")]
+
+[node name="CanvasLayer HUD" parent="." instance=ExtResource("1_t2o0t")]
+
+[node name="SusanBoss" parent="." instance=ExtResource("1_x4wo3")]
+
+[node name="Player" parent="." instance=ExtResource("2_tqnur")]
+position = Vector2(-50, 242)
+
+[node name="RingWallGenerator" parent="." instance=ExtResource("3_mqfqo")]
+wall_segment_scene = ExtResource("4_tm174")
+wall_radius = 520.0
+angle_step = 0.0872665
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 15.0
+
+[node name="ProjectilesParent" type="Node2D" parent="."]
+
+[node name="AOEsParent" type="Node2D" parent="."]
+
+[node name="FXsParent" type="Node2D" parent="."]
