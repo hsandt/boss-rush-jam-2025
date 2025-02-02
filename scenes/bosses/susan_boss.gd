@@ -19,6 +19,7 @@ extends BaseBoss
 @export var max_spin := 3.0*TAU
 @export_group("Death")
 @export var death_explosion_prefab: PackedScene
+@export_group("SFX")
 @export var death_scream_sfx: AudioStream
 
 ## Current phase (0 before start, phase 1 is 1)

@@ -28,7 +28,11 @@ extends CharacterBody2D
 @export var melee_start_friction_time := 0.1
 @export_range(0, 360, 0.001, "radians_as_degrees") var melee_friction_deceleration := deg_to_rad(6*360)
 @export_range(0, 360, 0.001, "radians_as_degrees") var melee_attack_initial_rotation_speed := deg_to_rad(2.5*360)
+@export_group("SFX")
 @export var melee_attack_sfx: AudioStream
+@export var jump_sfx: AudioStream
+#@export var melee_attack_sfx: AudioStream
+#@export var melee_attack_sfx: AudioStream
 
 ## look direction
 var direction := Vector2.RIGHT
@@ -152,6 +156,10 @@ func can_get_hit_by_arm():
 func jump():
 
 	is_jumping = true
+
+	if jump_sfx:
+		sfx_manager.spawn_sfx(jump_sfx)
+
 	# Shadow should apper below everything unless jumping
 	$Shadow.z_index = 0
 	set_boss_collision_mask_and_hurt_box_enabled(false)
@@ -239,6 +247,9 @@ func dash():
 	dash_for_timer.start()
 	dash_cooldown_timer.start()
 	set_boss_collision_mask_and_hurt_box_enabled(false)
+
+	#if jump_sfx:
+		#sfx_manager.spawn_sfx(jump_sfx)
 
 func be_hurt_by_projectile(damage: float):
 	health.try_receive_damage(roundi(damage))

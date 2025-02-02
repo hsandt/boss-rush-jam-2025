@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://digqu37hn5i5j"]
+[gd_scene load_steps=14 format=3 uid="uid://digqu37hn5i5j"]
 
 [ext_resource type="PackedScene" path="res://scenes/in_game_manager.tscn" id="1_ilnlu"]
 [ext_resource type="Script" path="res://scenes/Level.gd" id="1_oogtp"]
 [ext_resource type="PackedScene" uid="uid://3cc7usihdqph" path="res://scenes/hud/canvas_layer_hud.tscn" id="1_t2o0t"]
 [ext_resource type="PackedScene" uid="uid://b5xxrn8guepbq" path="res://scenes/bosses/susan_boss.tscn" id="1_x4wo3"]
+[ext_resource type="AudioStream" uid="uid://dl7g1rp6w02m8" path="res://audio/sfx/UI/UI_menu_start_Game.ogg" id="2_iiafk"]
 [ext_resource type="Texture2D" uid="uid://fjbu3dgsvhaf" path="res://graphics/arena/Decors Boss 1080px.png" id="2_thxka"]
 [ext_resource type="PackedScene" uid="uid://yho78jqdnxmq" path="res://scenes/player/player.tscn" id="2_tqnur"]
 [ext_resource type="AudioStream" uid="uid://cqg0mqcprl45e" path="res://audio/bgm/bgm_boss_intro_2.987.ogg" id="3_fe5x7"]
@@ -15,6 +16,7 @@
 
 [node name="BossStage1LevelTest" type="Node2D" groups=["level"]]
 script = ExtResource("1_oogtp")
+start_sfx = ExtResource("2_iiafk")
 
 [node name="Background" type="Node2D" parent="."]
 

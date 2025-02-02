@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://yho78jqdnxmq"]
+[gd_scene load_steps=19 format=3 uid="uid://yho78jqdnxmq"]
 
 [ext_resource type="Texture2D" uid="uid://d11qe1qlxyofx" path="res://icon.svg" id="1_181yo"]
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_uugia"]
 [ext_resource type="Texture2D" uid="uid://bt667xib53mxb" path="res://graphics/placeholder/player/shadow.png" id="2_6t21y"]
 [ext_resource type="AudioStream" uid="uid://vhihu50w5cs7" path="res://audio/sfx/Swing.mp3" id="2_grvjm"]
 [ext_resource type="Shader" path="res://utils/shaders/custom_sprite_shader.gdshader" id="2_i2fjc"]
+[ext_resource type="AudioStream" uid="uid://cgkji56gjh56w" path="res://audio/sfx/Jump.ogg" id="3_7wim3"]
 [ext_resource type="Script" path="res://scenes/projectiles/player_hurt_box.gd" id="4_2s6ae"]
 [ext_resource type="SpriteFrames" path="res://scenes/player/sprite_frames_player.tres" id="4_l1to2"]
 [ext_resource type="Script" path="res://utils/ShaderParameterController.gd" id="5_boar4"]
@@ -94,6 +95,7 @@ wall_min_slide_angle = 0.0
 script = ExtResource("1_uugia")
 max_speed = 200.0
 melee_attack_sfx = ExtResource("2_grvjm")
+jump_sfx = ExtResource("3_7wim3")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.25098)

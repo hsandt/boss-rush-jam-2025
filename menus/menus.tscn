@@ -1,10 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://ootvl3x2d1g7"]
+[gd_scene load_steps=13 format=3 uid="uid://ootvl3x2d1g7"]
 
 [ext_resource type="PackedScene" uid="uid://dvdg6di8bnpau" path="res://menus/slider_unit.tscn" id="1_5ppxq"]
 [ext_resource type="Script" path="res://menus/menu_manager.gd" id="1_dvo0t"]
 [ext_resource type="Script" path="res://menus/main_menu.gd" id="2_1dvo2"]
+[ext_resource type="Texture2D" uid="uid://fjbu3dgsvhaf" path="res://graphics/arena/Decors Boss 1080px.png" id="2_07aj1"]
 [ext_resource type="Script" path="res://menus/settings_menu.gd" id="3_7eymb"]
+[ext_resource type="Script" path="res://menus/UIButton.gd" id="3_sbu18"]
 [ext_resource type="Script" path="res://menus/pause_menu.gd" id="3_t7jk8"]
+[ext_resource type="PackedScene" uid="uid://6psb0ebpd4qa" path="res://utils/audio/SFXManager.tscn" id="6_wn5n2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ydg11"]
 
@@ -23,8 +26,39 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dvo0t")
 
+[node name="Background" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.489292, 0.0590136, 0.0918434, 1)
+
+[node name="CoverArt" type="TextureRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -558.5
+offset_top = -540.0
+offset_right = 558.5
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_07aj1")
+
 [node name="MainMenu" type="MarginContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,7 +82,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 75
-text = "Boss Rush Jam 2025"
+text = "Spin Knight"
 fit_content = true
 autowrap_mode = 0
 
@@ -66,6 +100,7 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
 text = "Start Game"
+script = ExtResource("3_sbu18")
 
 [node name="SettingsButton" type="Button" parent="MainMenu/VBoxContainer"]
 layout_mode = 2
@@ -81,6 +116,7 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
 text = "Settings"
+script = ExtResource("3_sbu18")
 
 [node name="QuitButton" type="Button" parent="MainMenu/VBoxContainer"]
 layout_mode = 2
@@ -96,6 +132,7 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
 text = "Quit"
+script = ExtResource("3_sbu18")
 
 [node name="PauseMenu" type="MarginContainer" parent="."]
 visible = false
@@ -216,6 +253,9 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
 text = "Back"
+script = ExtResource("3_sbu18")
+
+[node name="SFXManager" parent="." instance=ExtResource("6_wn5n2")]
 
 [connection signal="pressed" from="MainMenu/VBoxContainer/StartButton" to="MainMenu" method="_on_start_button_pressed"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/SettingsButton" to="MainMenu" method="_on_settings_button_pressed"]

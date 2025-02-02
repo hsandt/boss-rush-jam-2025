@@ -171,6 +171,7 @@ texture = ExtResource("7_xfpdx")
 shape = SubResource("CapsuleShape2D_cu5dr")
 
 [node name="BossSpinProgress" parent="." index="3" instance=ExtResource("3_tmtn2")]
+visible = false
 offset_right = 128.0
 offset_bottom = 128.0
 
