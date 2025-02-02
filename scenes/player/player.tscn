@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://vhihu50w5cs7" path="res://audio/sfx/Swing.mp3" id="2_grvjm"]
 [ext_resource type="Shader" path="res://utils/shaders/custom_sprite_shader.gdshader" id="2_i2fjc"]
 [ext_resource type="Script" path="res://scenes/projectiles/player_hurt_box.gd" id="4_2s6ae"]
-[ext_resource type="SpriteFrames" uid="uid://beomd1ltd6dgt" path="res://scenes/player/sprite_frames_player.tres" id="4_l1to2"]
+[ext_resource type="SpriteFrames" path="res://scenes/player/sprite_frames_player.tres" id="4_l1to2"]
 [ext_resource type="Script" path="res://utils/ShaderParameterController.gd" id="5_boar4"]
 [ext_resource type="Script" path="res://scenes/health.gd" id="5_v6ua0"]
 [ext_resource type="Texture2D" uid="uid://d3dd4etidh3l3" path="res://graphics/player/Sword_right_small.png" id="7_v5cba"]

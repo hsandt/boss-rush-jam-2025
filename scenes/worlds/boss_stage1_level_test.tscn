@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dp11167bumcx2"]
+[gd_scene load_steps=12 format=3 uid="uid://digqu37hn5i5j"]
 
-[ext_resource type="PackedScene" uid="uid://6lc51x6rnokn" path="res://scenes/in_game_manager.tscn" id="1_ilnlu"]
+[ext_resource type="PackedScene" path="res://scenes/in_game_manager.tscn" id="1_ilnlu"]
 [ext_resource type="Script" path="res://scenes/Level.gd" id="1_oogtp"]
 [ext_resource type="PackedScene" uid="uid://3cc7usihdqph" path="res://scenes/hud/canvas_layer_hud.tscn" id="1_t2o0t"]
 [ext_resource type="PackedScene" uid="uid://b5xxrn8guepbq" path="res://scenes/bosses/susan_boss.tscn" id="1_x4wo3"]
+[ext_resource type="Texture2D" uid="uid://fjbu3dgsvhaf" path="res://graphics/arena/Decors Boss 1080px.png" id="2_thxka"]
 [ext_resource type="PackedScene" uid="uid://yho78jqdnxmq" path="res://scenes/player/player.tscn" id="2_tqnur"]
 [ext_resource type="AudioStream" uid="uid://cqg0mqcprl45e" path="res://audio/bgm/bgm_boss_intro_2.987.ogg" id="3_fe5x7"]
 [ext_resource type="PackedScene" uid="uid://dx4ur84t2f5vj" path="res://scenes/tools/ring_wall_generator.tscn" id="3_mqfqo"]
@@ -13,6 +14,11 @@
 
 [node name="BossStage1LevelTest" type="Node2D" groups=["level"]]
 script = ExtResource("1_oogtp")
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Map" type="Sprite2D" parent="Background"]
+texture = ExtResource("2_thxka")
 
 [node name="InGameManager" parent="." instance=ExtResource("1_ilnlu")]
 bgm = ExtResource("3_fe5x7")
