@@ -81,7 +81,6 @@ func _process(delta):
 	shoot_axis.rotation = lerp_angle(shoot_axis.rotation, direction.angle(), 16.0*delta)
 
 func _physics_process(delta):
-
 	#get_input()
 	move(delta)
 	move_and_slide()
