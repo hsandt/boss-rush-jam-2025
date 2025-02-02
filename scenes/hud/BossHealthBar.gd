@@ -31,16 +31,8 @@ func unbind():
 
 
 func _refresh_view():
-	# TextureRect has a limitation where it refuses a size.x = 0 and will clamp
-	# to size.x = 1 with an offset of -0.5 when the anchor_right reaches anchor_left's value
-	# This would cause the gauge fill to slightly pop off the frame on the left
-	# To avoid this, when health reaches 0, hide the gauge fill completely
 	var health_ratio := boss.health.get_health_ratio()
-	if health_ratio > 0:
-		gauge_fill.visible = true
-		gauge_fill.value = health_ratio * 100.0
-	else:
-		gauge_fill.visible = false
+	gauge_fill.value = health_ratio * 100.0
 
 
 func _on_boss_health_value_changed(_new_value: int):
