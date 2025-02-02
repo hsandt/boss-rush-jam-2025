@@ -28,8 +28,11 @@ extends CharacterBody2D
 @export var melee_start_friction_time := 0.1
 @export_range(0, 360, 0.001, "radians_as_degrees") var melee_friction_deceleration := deg_to_rad(6*360)
 @export_range(0, 360, 0.001, "radians_as_degrees") var melee_attack_initial_rotation_speed := deg_to_rad(2.5*360)
+@export_range(0, 360, 0.001, "radians_as_degrees") var melee_active_acceleration := deg_to_rad(6*360)
+@export_range(0, 360, 0.001, "radians_as_degrees") var melee_max_rotation_speed := deg_to_rad(3*360)
 @export_group("SFX")
 @export var melee_attack_sfx: AudioStream
+@export var melee_attack_looping_sfx_player: LoopingAudioStreamPlayer
 @export var jump_sfx: AudioStream
 #@export var melee_attack_sfx: AudioStream
 #@export var melee_attack_sfx: AudioStream
@@ -134,8 +137,8 @@ func get_input():
 	if can_shoot() and Input.is_action_just_pressed("shoot"):
 		shoot()
 
-	if can_melee_attack() and Input.is_action_just_pressed("melee"):
-		melee_attack()
+	#if can_melee_attack() and Input.is_action_just_pressed("melee"):
+		#melee_attack()
 
 	if can_perform_movt_action():
 		if can_dash() and Input.is_action_just_pressed("dash"):
@@ -220,12 +223,34 @@ func melee_attack():
 		sfx_manager.spawn_sfx(melee_attack_sfx)
 
 func update_melee_rotation(delta: float):
-	if melee_rotation_speed != 0.0 and melee_start_friction_timer.is_stopped():
-		# apply friction
+	var melee_rotation_accel := 0.0
+
+	if can_melee_attack() and Input.is_action_pressed("melee_accelerate_counterclockwise"):
+		# Accel
+		melee_rotation_speed += melee_active_acceleration * delta
+		melee_rotation_speed = min(melee_rotation_speed, melee_max_rotation_speed)
+	else:
+		# Friction
 		melee_rotation_speed = move_toward(melee_rotation_speed, 0.0, melee_friction_deceleration * delta)
-		if melee_rotation_speed == 0.0:
-			# End of rotation, disable melee hitbox
-			melee_hit_box.monitoring = false
+
+	if melee_rotation_speed == 0.0:
+		# No rotation, disable melee hitbox
+		melee_hit_box.monitoring = false
+		if melee_attack_looping_sfx_player:
+			melee_attack_looping_sfx_player.stop_and_free()
+			melee_attack_looping_sfx_player = null
+	else:
+		# Enable melee hitbox
+		melee_hit_box.monitoring = true
+		if melee_attack_sfx and not melee_attack_looping_sfx_player:
+			melee_attack_looping_sfx_player = sfx_manager.spawn_looping_sfx(melee_attack_sfx)
+
+	#if melee_rotation_speed != 0.0 and melee_start_friction_timer.is_stopped():
+		## apply friction
+		#melee_rotation_speed = move_toward(melee_rotation_speed, 0.0, melee_friction_deceleration * delta)
+		#if melee_rotation_speed == 0.0:
+			## End of rotation, disable melee hitbox
+			#melee_hit_box.monitoring = false
 
 	melee_axis.rotation += melee_rotation_speed * delta
 
