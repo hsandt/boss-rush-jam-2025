@@ -1,24 +1,37 @@
-[gd_scene load_steps=4 format=3 uid="uid://br7nbobr4qsba"]
+[gd_scene load_steps=5 format=3 uid="uid://br7nbobr4qsba"]
 
 [ext_resource type="Script" path="res://scenes/projectiles/base_projectile.gd" id="1_8hsb5"]
-[ext_resource type="Texture2D" uid="uid://7qbsrmw3siug" path="res://graphics/placeholder/disc_50x50.png" id="1_go027"]
+[ext_resource type="Texture2D" uid="uid://bt71pl248hc3f" path="res://graphics/Bulletsred.png" id="2_6o4q4"]
+[ext_resource type="Texture2D" uid="uid://cjhwibly0wfwv" path="res://graphics/Bulletsblue.png" id="3_rrlxv"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_w4gwl"]
-radius = 12.0416
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rghdy"]
+radius = 8.0
+height = 24.0
 
 [node name="BaseProjectile" type="Node2D"]
 script = ExtResource("1_8hsb5")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_go027")
+[node name="Hitable" type="Sprite2D" parent="."]
+position = Vector2(-19, 0)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_rrlxv")
+flip_h = true
+
+[node name="NonHitable" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-19, 0)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_6o4q4")
+flip_h = true
 
 [node name="HitBoxArea2D" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 3073
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxArea2D"]
-shape = SubResource("CircleShape2D_w4gwl")
+position = Vector2(-5, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_rghdy")
 debug_color = Color(0.941399, 0.243145, 0, 0.42)
 
 [connection signal="area_entered" from="HitBoxArea2D" to="." method="_on_hit_box_area_2d_area_entered"]

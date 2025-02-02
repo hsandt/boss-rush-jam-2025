@@ -11,11 +11,14 @@ can_expand = true
 
 [node name="BaseProjectile1" parent="." instance=ExtResource("1_3tv2c")]
 position = Vector2(0, -45)
+can_be_hit_by_melee_attack = true
 
 [node name="BaseProjectile2" parent="." instance=ExtResource("1_3tv2c")]
 position = Vector2(-38.9711, 22.5)
 rotation = -2.0944
+can_be_hit_by_melee_attack = true
 
 [node name="BaseProjectile3" parent="." instance=ExtResource("1_3tv2c")]
 position = Vector2(38.9711, 22.5)
 rotation = 2.0944
+can_be_hit_by_melee_attack = true

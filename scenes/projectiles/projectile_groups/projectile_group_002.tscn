@@ -10,59 +10,47 @@ can_expand = true
 
 [node name="BaseProjectile1" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(25, 0)
-is_destructible = true
 
 [node name="BaseProjectile2" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(21.6506, 12.5)
 rotation = 0.523599
-is_destructible = true
 
 [node name="BaseProjectile3" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(12.5, 21.6506)
 rotation = 1.0472
-is_destructible = true
 
 [node name="BaseProjectile4" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(-1.09278e-06, 25)
 rotation = 1.5708
-is_destructible = true
 
 [node name="BaseProjectile5" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(-12.5, 21.6506)
 rotation = 2.0944
-is_destructible = true
 
 [node name="BaseProjectile6" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(-21.6506, 12.5)
 rotation = 2.61799
-is_destructible = true
 
 [node name="BaseProjectile7" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(-25, -2.18557e-06)
 rotation = -3.14159
-is_destructible = true
 
 [node name="BaseProjectile8" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(-21.6506, -12.5)
 rotation = -2.61799
-is_destructible = true
 
 [node name="BaseProjectile9" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(-12.5, -21.6506)
 rotation = -2.09439
-is_destructible = true
 
 [node name="BaseProjectile10" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(2.98122e-07, -25)
 rotation = -1.5708
-is_destructible = true
 
 [node name="BaseProjectile11" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(12.5, -21.6506)
 rotation = -1.0472
-is_destructible = true
 
 [node name="BaseProjectile12" parent="." instance=ExtResource("2_f18f5")]
 position = Vector2(21.6506, -12.5)
 rotation = -0.523599
-is_destructible = true
