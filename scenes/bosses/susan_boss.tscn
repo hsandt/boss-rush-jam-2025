@@ -69,7 +69,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0.3, 1),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
-"args": [2.5],
+"args": [2.0],
 "method": &"set_arm_modifier"
 }, {
 "args": [],
@@ -97,7 +97,7 @@ height = 146.0
 
 [node name="SusanBoss" instance=ExtResource("1_lk3r3")]
 script = ExtResource("1_xmmb2")
-arm_speed_phase1 = 1.309
+arm_speed_phase1 = 1.74533
 arm_rotation_modifier = 1.0
 arm_stagger_time = 1.0
 enable_arm_shake_on_hit = true

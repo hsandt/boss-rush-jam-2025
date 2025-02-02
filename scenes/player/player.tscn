@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://drmmsnebejfvj" path="res://audio/sfx/Swing loop medium.ogg" id="2_leh66"]
 [ext_resource type="AudioStream" uid="uid://cgkji56gjh56w" path="res://audio/sfx/Jump.ogg" id="3_7wim3"]
 [ext_resource type="Script" path="res://scenes/projectiles/player_hurt_box.gd" id="4_2s6ae"]
-[ext_resource type="SpriteFrames" uid="uid://c822igq8ycioe" path="res://scenes/player/sprite_frames_player.tres" id="4_l1to2"]
+[ext_resource type="SpriteFrames" uid="uid://beomd1ltd6dgt" path="res://scenes/player/sprite_frames_player.tres" id="4_l1to2"]
 [ext_resource type="AudioStream" uid="uid://fip2bk1lq1em" path="res://audio/sfx/Hit_player.ogg" id="4_wj5qv"]
 [ext_resource type="Script" path="res://utils/ShaderParameterController.gd" id="5_boar4"]
 [ext_resource type="AudioStream" uid="uid://dliao12fbgu1w" path="res://audio/sfx/Hit_boss.ogg" id="5_p0a5h"]
