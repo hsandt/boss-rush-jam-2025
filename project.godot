@@ -162,6 +162,7 @@ pause={
 2d_physics/layer_9="boss_hurtbox"
 2d_physics/layer_11="player_hurtbox"
 2d_physics/layer_12="player_melee_hitbox"
+2d_physics/layer_15="player_dodge_arm"
 
 [rendering]
 

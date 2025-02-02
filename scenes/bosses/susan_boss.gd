@@ -28,6 +28,8 @@ var current_spin_speed: float = 0.0
 var spin_progress := 0.0
 var is_processing_player_arm_collision: bool = false
 
+var player_dodged_arm := false
+
 @onready var arm_stagger_timer:Timer = $Timers/Arm/Stagger
 @onready var arm: Node2D = $Arm
 @onready var arm_animation_player: AnimationPlayer = $Arm/AnimationPlayer
@@ -47,6 +49,17 @@ func setup():
 
 func _process(_delta):
 	update_boss_spin_ui()
+
+	# check if player dodged over the arm
+	if player_dodged_arm and not (player.is_dashing or player.is_jumping):
+		player_dodged_arm = false
+		# Only reverse arm if player lands on the other side
+		var to_player := player.position - position
+		var arm_direction := Vector2.RIGHT.rotated(arm.rotation)
+		var sign_angle_toward_player := signf(arm_direction.angle_to(to_player))
+		var sign_rotation := signf(arm_rotation_modifier)
+		if sign_angle_toward_player != sign_rotation:
+			provoke_arm_rotation_direction_reversal()
 
 func update_boss_spin_ui():
 	boss_spin_progress.material.set_shader_parameter("progress", spin_progress/max_spin)
@@ -107,9 +120,10 @@ func _on_player_hurt_arm_area_body_entered(body: Node2D):
 			var arm_direction := Vector2.RIGHT.rotated(arm.rotation)
 			var to_player := entering_player.position - position
 			var sign_angle_toward_player := signf(arm_direction.angle_to(to_player))
-			var sign_rotation := signf(arm_rotation_modifier)
+			#var sign_rotation := signf(arm_rotation_modifier)
 
-			if sign_angle_toward_player == sign_rotation:
+			#if sign_angle_toward_player == sign_rotation:
+			if true:
 				# Moving art toward the player character, so collision is valid
 				is_processing_player_arm_collision = true
 
@@ -126,7 +140,7 @@ func _on_player_hurt_arm_area_body_entered(body: Node2D):
 				arm_animation_player.play("RESET")
 
 				await arm_stagger_timer.timeout
-				provoke_arm_rotation_direction_reversal()
+				#provoke_arm_rotation_direction_reversal()
 				is_processing_player_arm_collision = false
 
 ## sigmoid math function
@@ -143,3 +157,7 @@ func play_boss_death_animation():
 	fx_manager.spawn_fx(death_explosion_prefab, position)
 	if death_scream_sfx:
 		sfx_manager.spawn_sfx(death_scream_sfx)
+
+func _on_plyaer_dodge_check_area_entered(_area):
+	if player.is_dashing or player.is_jumping:
+		player_dodged_arm = true

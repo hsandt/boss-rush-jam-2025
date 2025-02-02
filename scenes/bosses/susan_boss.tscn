@@ -92,8 +92,8 @@ radius = 45.0
 height = 138.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a8kmi"]
-radius = 47.0
-height = 144.0
+radius = 50.0
+height = 146.0
 
 [node name="SusanBoss" instance=ExtResource("1_lk3r3")]
 script = ExtResource("1_xmmb2")
@@ -113,7 +113,7 @@ death_explosion_prefab = ExtResource("3_ou53o")
 death_scream_sfx = ExtResource("4_qa7bl")
 
 [node name="Health" parent="." index="0" node_paths=PackedStringArray("shader_parameter_controller")]
-max_health = 3
+max_health = 30
 shader_parameter_controller = NodePath("../ShaderParameterController")
 
 [node name="ShaderParameterController" parent="." index="1" node_paths=PackedStringArray("canvas_items")]
@@ -121,6 +121,7 @@ canvas_items = [NodePath("../Arm/ArmSprite2DWithCustomSpriteShader"), NodePath("
 
 [node name="Arm" type="AnimatableBody2D" parent="." index="2"]
 collision_layer = 4
+collision_mask = 0
 
 [node name="ArmSprite2DWithCustomSpriteShader" type="Sprite2D" parent="Arm" index="0"]
 material = SubResource("ShaderMaterial_iplax")
@@ -134,7 +135,16 @@ position = Vector2(-39, 1)
 scale = Vector2(1.11663, 1.11663)
 polygon = PackedVector2Array(0, -22, 94, -29, 221, 2, 339, -18, 484, 8, 442, 25, 352, 11, 225, 29, 94, 14, 0, 25)
 
-[node name="PlayerHurtArea" type="Area2D" parent="Arm" index="2"]
+[node name="PlyaerDodgeCheck" type="Area2D" parent="Arm" index="2"]
+collision_layer = 0
+collision_mask = 16384
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Arm/PlyaerDodgeCheck" index="0"]
+position = Vector2(-39, 1)
+scale = Vector2(1.11663, 1.11663)
+polygon = PackedVector2Array(0, -22, 94, -29, 221, 2, 339, -18, 484, 8, 442, 25, 352, 11, 225, 29, 94, 14, 0, 25)
+
+[node name="PlayerHurtArea" type="Area2D" parent="Arm" index="3"]
 collision_layer = 0
 collision_mask = 2
 
@@ -143,12 +153,12 @@ position = Vector2(-37, -3)
 scale = Vector2(1.117, 1.185)
 polygon = PackedVector2Array(0, -22, 94, -29, 221, 2, 339, -18, 484, 8, 442, 25, 352, 11, 225, 29, 94, 14, 0, 25)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Arm" index="3"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Arm" index="4"]
 libraries = {
 "": SubResource("AnimationLibrary_cl2hy")
 }
 
-[node name="Head" type="StaticBody2D" parent="Arm" index="4"]
+[node name="Head" type="StaticBody2D" parent="Arm" index="5"]
 collision_layer = 12
 
 [node name="HeadSprite2DWithCustomSpriteShader" type="Sprite2D" parent="Arm/Head" index="0"]
@@ -190,5 +200,6 @@ script = ExtResource("8_iw07t")
 wait_time = 5.0
 autostart = true
 
+[connection signal="area_entered" from="Arm/PlyaerDodgeCheck" to="." method="_on_plyaer_dodge_check_area_entered"]
 [connection signal="body_entered" from="Arm/PlayerHurtArea" to="." method="_on_player_hurt_arm_area_body_entered"]
 [connection signal="timeout" from="ProjectileManager/Timers/SpawnDelay001" to="ProjectileManager" method="_on_proj_delay_001_timeout"]
