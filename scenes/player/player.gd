@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 @export_group("Movement")
 @export var max_speed := 300.0
+@export var spin_extra_speed_factor := 10.0
 @export var acceleration := 1800.0
 @export var deceleration := 2000.0
 
@@ -100,8 +101,9 @@ func move(delta):
 	elif is_dashing:
 		velocity = dash_speed * movt_dir
 	elif moving:
-		velocity.x = move_toward(velocity.x, movt_dir.x*max_speed, acceleration*delta)
-		velocity.y = move_toward(velocity.y, movt_dir.y*max_speed, acceleration*delta)
+		var max_speed_with_spin = max_speed + spin_extra_speed_factor * melee_rotation_speed
+		velocity.x = move_toward(velocity.x, movt_dir.x*max_speed_with_spin, acceleration*delta)
+		velocity.y = move_toward(velocity.y, movt_dir.y*max_speed_with_spin, acceleration*delta)
 	else:
 		# friction
 		# also applied at the beginning of phase: stagger but not pushed anymore
