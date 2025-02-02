@@ -284,3 +284,8 @@ func get_jump_offsetable_nodes():
 func set_boss_collision_mask_and_hurt_box_enabled(value:bool):
 	set_collision_mask_value(Constants.collision_layer_boss, value)
 	hurt_box.monitorable = value
+
+func on_death():
+	var tween = get_tree().create_tween()
+	tween.tween_property(get_parent().death_screen, "modulate:a", 1.0, 1.0)
+	get_parent().back_to_menu_timer.start()

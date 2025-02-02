@@ -9,8 +9,14 @@ extends Node2D
 
 @onready var fxs_parent: Node2D = $FXsParent
 
+@onready var back_to_menu_timer = $Timers/BackToMenuTimer
+@onready var death_screen = $DeathScreen
+
 func clear_all_projectiles():
 	NodeUtils.queue_free_children(projectiles_parent)
 
 func clear_all_aoes():
 	NodeUtils.queue_free_children(aoes_parent)
+
+func _on_back_to_menu_timer_timeout():
+	get_tree().change_scene_to_file("res://menus/menus.tscn")

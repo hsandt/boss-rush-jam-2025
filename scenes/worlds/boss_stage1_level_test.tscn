@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://digqu37hn5i5j"]
+[gd_scene load_steps=13 format=3 uid="uid://digqu37hn5i5j"]
 
 [ext_resource type="PackedScene" path="res://scenes/in_game_manager.tscn" id="1_ilnlu"]
 [ext_resource type="Script" path="res://scenes/Level.gd" id="1_oogtp"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://6psb0ebpd4qa" path="res://utils/audio/SFXManager.tscn" id="4_8ii4x"]
 [ext_resource type="PackedScene" uid="uid://d4fpogs8pfntc" path="res://scenes/worlds/objects/wall_segment.tscn" id="4_tm174"]
 [ext_resource type="Script" path="res://utils/FXManager.gd" id="7_y0lpd"]
+[ext_resource type="Texture2D" uid="uid://bwxov3klnu10q" path="res://graphics/UIX/Death Screen/Death.png" id="12_l8vl6"]
 
 [node name="BossStage1LevelTest" type="Node2D" groups=["level"]]
 script = ExtResource("1_oogtp")
@@ -49,3 +50,15 @@ position_smoothing_speed = 15.0
 [node name="AOEsParent" type="Node2D" parent="."]
 
 [node name="FXsParent" type="Node2D" parent="."]
+
+[node name="DeathScreen" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("12_l8vl6")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="BackToMenuTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="Timers/BackToMenuTimer" to="." method="_on_back_to_menu_timer_timeout"]

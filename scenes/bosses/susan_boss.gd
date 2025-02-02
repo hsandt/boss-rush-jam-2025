@@ -161,3 +161,9 @@ func play_boss_death_animation():
 func _on_plyaer_dodge_check_area_entered(_area):
 	if player.is_dashing or player.is_jumping:
 		player_dodged_arm = true
+
+func on_death():
+	arm_rotation_modifier = 0
+	for timer in $ProjectileManager/Timers.get_children():
+		timer.stop()
+	get_parent().back_to_menu_timer.start()
