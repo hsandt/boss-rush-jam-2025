@@ -103,6 +103,7 @@ text = "Start Game"
 script = ExtResource("3_sbu18")
 
 [node name="SettingsButton" type="Button" parent="MainMenu/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
