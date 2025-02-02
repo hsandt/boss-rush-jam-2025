@@ -113,7 +113,7 @@ death_explosion_prefab = ExtResource("3_ou53o")
 death_scream_sfx = ExtResource("4_qa7bl")
 
 [node name="Health" parent="." index="0" node_paths=PackedStringArray("shader_parameter_controller")]
-max_health = 30
+max_health = 20
 shader_parameter_controller = NodePath("../ShaderParameterController")
 
 [node name="ShaderParameterController" parent="." index="1" node_paths=PackedStringArray("canvas_items")]
