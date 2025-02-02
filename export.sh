@@ -78,7 +78,7 @@ export_platform_release() {
       target="${game_title_case}.exe"
       ;;
     linux )
-      preset="Linux/X11"
+      preset="Linux"
       platform_zip_name="Linux"
       target="${game_title_case}.x86_64"
       ;;
