@@ -2,15 +2,16 @@ extends Node
 
 func _process(_delta):
 
-	if OS.has_feature("debug"):
-		if Input.is_action_just_pressed(&"exit_game"):
-			get_tree().quit()
-			return
+	if Input.is_action_just_pressed(&"exit_game", true):
+		get_tree().quit()
+		return
 
-		if Input.is_action_just_pressed(&"restart_game"):
-			get_tree().reload_current_scene()
+	if OS.has_feature("debug") and Input.is_action_just_pressed(&"debug_restart_game", true) or \
+			Input.is_action_just_pressed(&"restart_game", true):
+		get_tree().reload_current_scene()
+		return
 
-	if Input.is_action_just_pressed(&"toggle_fullscreen"):
+	if Input.is_action_just_pressed(&"toggle_fullscreen", true):
 		toggle_fullscreen()
 
 

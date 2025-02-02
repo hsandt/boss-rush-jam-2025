@@ -133,9 +133,6 @@ func _ready():
 
 func _unhandled_input(event: InputEvent):
 
-	if not OS.has_feature("debug"):
-		return
-
 	# let user toggle hi-dpi resolution freely
 	# (hi-dpi is hard to detect and resize is hard to force on start)
 	if _is_exact_action_pressed_in_event_safe(event, &"app_prev_resolution"):
@@ -149,9 +146,10 @@ func _unhandled_input(event: InputEvent):
 		toggle_fullscreen()
 		get_viewport().set_input_as_handled()
 
-	if _is_exact_action_pressed_in_event_safe(event, &"app_toggle_debug_overlay") and debug_overlay:
-		toggle_debug_overlay()
-		get_viewport().set_input_as_handled()
+	if OS.has_feature("debug"):
+		if _is_exact_action_pressed_in_event_safe(event, &"app_toggle_debug_overlay") and debug_overlay:
+			toggle_debug_overlay()
+			get_viewport().set_input_as_handled()
 
 	if _is_exact_action_pressed_in_event_safe(event, &"app_take_screenshot_native"):
 		take_screenshot(false)
