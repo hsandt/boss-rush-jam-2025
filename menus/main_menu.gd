@@ -1,6 +1,11 @@
 extends MarginContainer
 
 @onready var menu_manager = $".."
+@onready var start_button = $VBoxContainer/StartButton
+
+func _ready():
+	# doesnt work
+	start_button.grab_focus()
 
 func _on_settings_button_pressed():
 	self.hide()
