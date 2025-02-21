@@ -45,7 +45,20 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.309804, 0.415686, 0.505882, 1)
 
-[node name="CoverArt" type="TextureRect" parent="Background"]
+[node name="MainMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(960, 540)
+theme = ExtResource("3_rw3ym")
+script = ExtResource("2_1dvo2")
+menu_intro_shake_duration = 0.16
+metadata/_edit_lock_ = true
+
+[node name="CoverArt" type="TextureRect" parent="MainMenu"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0338542
@@ -57,18 +70,7 @@ grow_vertical = 2
 texture = ExtResource("2_fwssc")
 metadata/_edit_use_anchors_ = true
 
-[node name="MainMenu" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("3_rw3ym")
-script = ExtResource("2_1dvo2")
-metadata/_edit_lock_ = true
-
-[node name="TextureRect" type="TextureRect" parent="MainMenu"]
+[node name="TitleLogo" type="TextureRect" parent="MainMenu"]
 layout_mode = 2
 anchor_left = 0.372917
 anchor_top = 0.108333
