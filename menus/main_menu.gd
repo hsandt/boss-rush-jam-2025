@@ -1,4 +1,4 @@
-extends MarginContainer
+extends Control
 
 @onready var menu_manager = $".."
 @onready var start_button = $VBoxContainer/StartButton
