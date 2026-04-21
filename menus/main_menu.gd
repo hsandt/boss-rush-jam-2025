@@ -11,9 +11,8 @@ extends Control
 
 func _ready():
 	play_main_menu_intro()
-
-	# doesnt work
-	start_button.grab_focus()
+	
+	start_button.grab_focus.call_deferred()
 
 func play_main_menu_intro():
 	# Vintage rotating/scaled down newspaper appear effect
