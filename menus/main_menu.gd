@@ -8,12 +8,22 @@ extends Control
 @export_range(0.0, 0.25, 0.01, "or_greater") var menu_intro_shake_duration := 0.25
 @onready var menu_manager = $".."
 @onready var start_button = $VBoxContainer/StartButton
+@onready var settings_button = $VBoxContainer/SettingsButton
+@onready var quit_button = $VBoxContainer/QuitButton
 
 func _ready():
-	play_main_menu_intro()
+	start_button.disabled = true
+	settings_button.disabled = true
+	quit_button.disabled = true
 	
+	await play_main_menu_intro()
+	
+	start_button.disabled = false
+	settings_button.disabled = false
+	quit_button.disabled = false
 	start_button.grab_focus.call_deferred()
-
+	
+	
 func play_main_menu_intro():
 	# Vintage rotating/scaled down newspaper appear effect
 	var tween_appear = create_tween()
@@ -45,7 +55,8 @@ func play_main_menu_intro():
 	tween_shake_x.stop()
 	tween_shake_y.stop()
 	position = Vector2.ZERO
-
+	
+	
 func _on_settings_button_pressed():
 	self.hide()
 	menu_manager.show_settings_menu()
