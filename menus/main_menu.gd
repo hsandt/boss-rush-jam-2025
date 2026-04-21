@@ -11,6 +11,7 @@ extends Control
 @export_range(0.0, 0.25, 0.01, "or_greater") var menu_intro_shake_duration := 0.25
 
 @onready var menu_manager = $".."
+@onready var label_version: Label = $TitleLogo/LabelVersion
 @onready var start_button = $VBoxContainer/StartButton
 @onready var settings_button = $VBoxContainer/SettingsButton
 @onready var quit_button = $VBoxContainer/QuitButton
@@ -19,6 +20,8 @@ extends Control
 func _ready():
 	assert(sfx_main_menu_spin_whoosh)
 	assert(sfx_main_menu_punch)
+	
+	label_version.text = "v%s" % ProjectSettings.get_setting("application/config/version", "")
 	
 	start_button.disabled = true
 	settings_button.disabled = true
