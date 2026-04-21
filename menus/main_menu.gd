@@ -1,17 +1,25 @@
 extends Control
 
+@export var sfx_main_menu_spin_whoosh: AudioStream
+@export var sfx_main_menu_punch: AudioStream
+
 @export_range(0.0, 5*360, 0.01, "radians_as_degrees") var menu_intro_start_rotation := deg_to_rad(2.5*360)
 @export_range(0.0, 5.0, 0.01, "or_greater") var menu_intro_start_scale := 2.5
 @export_range(0.0, 5.0, 0.01, "or_greater") var menu_intro_duration := 1.0
 @export_range(0.0, 50.0, 0.01, "or_greater") var menu_intro_shake_amplitude := 50.0
 @export_range(0.0, 0.1, 0.01, "or_greater") var menu_intro_shake_period := 0.05
 @export_range(0.0, 0.25, 0.01, "or_greater") var menu_intro_shake_duration := 0.25
+
 @onready var menu_manager = $".."
 @onready var start_button = $VBoxContainer/StartButton
 @onready var settings_button = $VBoxContainer/SettingsButton
 @onready var quit_button = $VBoxContainer/QuitButton
+@onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
 
 func _ready():
+	assert(sfx_main_menu_spin_whoosh)
+	assert(sfx_main_menu_punch)
+	
 	start_button.disabled = true
 	settings_button.disabled = true
 	quit_button.disabled = true
@@ -22,9 +30,20 @@ func _ready():
 	settings_button.disabled = false
 	quit_button.disabled = false
 	start_button.grab_focus.call_deferred()
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	# DEBUG: press R to restart
+	if Engine.is_editor_hint():
+		var key_event := event as InputEventKey
+		if key_event.keycode == KEY_R:
+			get_tree().reload_current_scene()
 	
 	
 func play_main_menu_intro():
+	# Spinning SFX
+	var looping_spin_whoosh_sfx_player := sfx_manager.spawn_looping_sfx(sfx_main_menu_spin_whoosh)
+		
 	# Vintage rotating/scaled down newspaper appear effect
 	var tween_appear = create_tween()
 	tween_appear.parallel().tween_property(self, ^"rotation", 0.0, menu_intro_duration) \
@@ -32,8 +51,16 @@ func play_main_menu_intro():
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	tween_appear.parallel().tween_property(self, ^"scale", Vector2.ONE, menu_intro_duration) \
 		.from(menu_intro_start_scale * Vector2.ONE)
+	# Accelerate spinning SFX using pitch scale
+	# Since rotation angle follows power of 3, SFX speed should match rotation speed, so power of 2
+	tween_appear.parallel().tween_property(looping_spin_whoosh_sfx_player, ^"pitch_scale", 1.5, menu_intro_duration) \
+		.from(0.25) \
+		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 
 	await tween_appear.finished
+
+	looping_spin_whoosh_sfx_player.stop_and_free()
+	sfx_manager.spawn_sfx(sfx_main_menu_punch)
 
 	# Shake effect, unsyncing X and Y via randomness
 

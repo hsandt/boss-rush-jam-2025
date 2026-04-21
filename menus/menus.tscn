@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ootvl3x2d1g7"]
+[gd_scene load_steps=17 format=3 uid="uid://ootvl3x2d1g7"]
 
 [ext_resource type="PackedScene" uid="uid://dvdg6di8bnpau" path="res://menus/slider_unit.tscn" id="1_5ppxq"]
 [ext_resource type="Script" path="res://menus/menu_manager.gd" id="1_dvo0t"]
@@ -8,7 +8,9 @@
 [ext_resource type="Theme" uid="uid://qqurqdj6dti4" path="res://ui/theme_main_menu.tres" id="3_rw3ym"]
 [ext_resource type="Script" path="res://menus/UIButton.gd" id="3_sbu18"]
 [ext_resource type="Script" path="res://menus/pause_menu.gd" id="3_t7jk8"]
+[ext_resource type="AudioStream" uid="uid://c6t1iu2k22q34" path="res://audio/sfx/UI/SFX_MainMenu_Intro_SpinWhoosh.ogg" id="4_5loew"]
 [ext_resource type="Texture2D" uid="uid://brucx3yf6pbs1" path="res://graphics/menu/title_logo_1055x243.webp" id="4_77p2s"]
+[ext_resource type="AudioStream" uid="uid://d1ag2sd2nywu8" path="res://audio/sfx/UI/SFX_MainMenu_Intro_Punch.ogg" id="5_nljee"]
 [ext_resource type="PackedScene" uid="uid://6psb0ebpd4qa" path="res://utils/audio/SFXManager.tscn" id="6_wn5n2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ydg11"]
@@ -55,6 +57,8 @@ grow_vertical = 2
 pivot_offset = Vector2(960, 540)
 theme = ExtResource("3_rw3ym")
 script = ExtResource("2_1dvo2")
+sfx_main_menu_spin_whoosh = ExtResource("4_5loew")
+sfx_main_menu_punch = ExtResource("5_nljee")
 menu_intro_shake_duration = 0.16
 metadata/_edit_lock_ = true
 
