@@ -120,14 +120,16 @@ func get_input():
 
 	if can_control_move():
 		input_dir = Vector2.ZERO
-		if Input.is_action_pressed("left"):
-			input_dir.x -= 1
-		if Input.is_action_pressed("right"):
-			input_dir.x += 1
-		if Input.is_action_pressed("up"):
-			input_dir.y -= 1
-		if Input.is_action_pressed("down"):
-			input_dir.y += 1
+		
+		# Apply ternary snapping (-1, 0, +1) for arcade controls even with analog stick
+		var input_dir_x := Input.get_axis("left", "right")
+		var input_dir_y := Input.get_axis("up", "down")
+		
+		input_dir = Vector2(input_dir_x, input_dir_y)
+		if input_dir.is_zero_approx():
+			input_dir = Vector2.ZERO
+		else:
+			input_dir = input_dir.normalized()
 
 		moving = not input_dir.is_zero_approx()
 		if moving:
