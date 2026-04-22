@@ -17,6 +17,8 @@ extends Control
 @onready var quit_button = $VBoxContainer/QuitButton
 @onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
 
+const BOSS_STAGE_1_LEVEL = preload("res://scenes/worlds/boss_stage1_level.tscn")
+
 func _ready():
 	assert(sfx_main_menu_spin_whoosh)
 	assert(sfx_main_menu_punch)
@@ -104,4 +106,4 @@ func _on_quit_button_pressed():
 
 func _on_start_button_pressed():
 	self.hide()
-	get_tree().change_scene_to_file("res://scenes/worlds/boss_stage1_level_test.tscn")
+	get_tree().change_scene_to_packed(BOSS_STAGE_1_LEVEL)

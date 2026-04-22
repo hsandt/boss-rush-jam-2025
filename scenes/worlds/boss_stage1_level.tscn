@@ -1,0 +1,66 @@
+[gd_scene load_steps=14 format=3 uid="uid://digqu37hn5i5j"]
+
+[ext_resource type="Script" path="res://scenes/Level.gd" id="1_saa8o"]
+[ext_resource type="AudioStream" uid="uid://dl7g1rp6w02m8" path="res://audio/sfx/UI/UI_menu_start_Game.ogg" id="2_wjegx"]
+[ext_resource type="Texture2D" uid="uid://fjbu3dgsvhaf" path="res://graphics/arena/Decors Boss 1080px.png" id="3_2ckla"]
+[ext_resource type="PackedScene" uid="uid://6lc51x6rnokn" path="res://scenes/in_game_manager.tscn" id="4_v0622"]
+[ext_resource type="AudioStream" uid="uid://cqg0mqcprl45e" path="res://audio/bgm/bgm_boss_intro_2.987.ogg" id="5_vy7s1"]
+[ext_resource type="Script" path="res://utils/FXManager.gd" id="6_x411b"]
+[ext_resource type="PackedScene" uid="uid://6psb0ebpd4qa" path="res://utils/audio/SFXManager.tscn" id="7_omfe4"]
+[ext_resource type="PackedScene" uid="uid://3cc7usihdqph" path="res://scenes/hud/canvas_layer_hud.tscn" id="8_0ms8w"]
+[ext_resource type="PackedScene" uid="uid://b5xxrn8guepbq" path="res://scenes/bosses/susan_boss.tscn" id="9_pifwd"]
+[ext_resource type="PackedScene" uid="uid://yho78jqdnxmq" path="res://scenes/player/player.tscn" id="10_xrnmb"]
+[ext_resource type="PackedScene" uid="uid://dx4ur84t2f5vj" path="res://scenes/tools/ring_wall_generator.tscn" id="11_87bfy"]
+[ext_resource type="PackedScene" uid="uid://d4fpogs8pfntc" path="res://scenes/worlds/objects/wall_segment.tscn" id="12_l38fw"]
+[ext_resource type="Texture2D" uid="uid://bwxov3klnu10q" path="res://graphics/UIX/Death Screen/Death.png" id="13_bq7xp"]
+
+[node name="BossStage1Level" type="Node2D" groups=["level"]]
+script = ExtResource("1_saa8o")
+start_sfx = ExtResource("2_wjegx")
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Map" type="Sprite2D" parent="Background"]
+texture = ExtResource("3_2ckla")
+
+[node name="InGameManager" parent="." instance=ExtResource("4_v0622")]
+bgm = ExtResource("5_vy7s1")
+
+[node name="FXManager" type="Node" parent="." groups=["fx_manager"]]
+script = ExtResource("6_x411b")
+
+[node name="SFXManager" parent="." instance=ExtResource("7_omfe4")]
+
+[node name="CanvasLayer HUD" parent="." instance=ExtResource("8_0ms8w")]
+
+[node name="SusanBoss" parent="." instance=ExtResource("9_pifwd")]
+
+[node name="Player" parent="." instance=ExtResource("10_xrnmb")]
+position = Vector2(-50, 242)
+
+[node name="RingWallGenerator" parent="." instance=ExtResource("11_87bfy")]
+wall_segment_scene = ExtResource("12_l38fw")
+wall_radius = 520.0
+angle_step = 0.0872665
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 15.0
+
+[node name="ProjectilesParent" type="Node2D" parent="."]
+
+[node name="AOEsParent" type="Node2D" parent="."]
+
+[node name="FXsParent" type="Node2D" parent="."]
+
+[node name="DeathScreen" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("13_bq7xp")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="BackToMenuTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="Timers/BackToMenuTimer" to="." method="_on_back_to_menu_timer_timeout"]
