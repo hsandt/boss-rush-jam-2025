@@ -47,14 +47,6 @@ func _ready():
 	start_button.grab_focus.call_deferred()
 
 
-func _unhandled_key_input(event: InputEvent) -> void:
-	# DEBUG: press R to restart
-	if Engine.is_editor_hint():
-		var key_event := event as InputEventKey
-		if key_event.keycode == KEY_R:
-			get_tree().reload_current_scene()
-	
-	
 func play_main_menu_intro():
 	# Spinning SFX
 	var looping_spin_whoosh_sfx_player := sfx_manager.spawn_looping_sfx(sfx_main_menu_spin_whoosh)
