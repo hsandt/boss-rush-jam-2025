@@ -71,6 +71,7 @@ var damage_sfx_played := false
 @onready var health: Health = $Health
 
 @onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
+@onready var level: Level = get_parent()
 
 func _ready():
 	dash_for_timer.wait_time = dash_for
@@ -335,6 +336,5 @@ func set_boss_collision_mask_and_hurt_box_enabled(value:bool):
 	hurt_box.monitorable = value
 
 func on_death():
-	var tween = get_tree().create_tween()
-	tween.tween_property(get_parent().death_screen, "modulate:a", 1.0, 1.0)
-	get_parent().back_to_menu_timer.start()
+	level.fade_in_death_screen()
+	level.back_to_menu_timer.start()
