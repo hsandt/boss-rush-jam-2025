@@ -64,7 +64,7 @@ export_release() {
   # Remove any existing folder to avoid leftover files if game_title_case changed since
   rm -rf "$folder/"
   mkdir -p "$folder"
-  "$godot_bin" --no-window --export-release --quiet "$preset" "$target_path"
+  "$godot_bin" --headless --export-release --quiet "$preset" "$target_path"
 }
 
 export_platform_release() {

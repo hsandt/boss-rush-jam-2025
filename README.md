@@ -16,4 +16,5 @@ TBD
 
 ## Fonts
 
-TBD
+[Chomsky](https://github.com/ctrlcctrlv/chomsky) by Fredrick R. Brennan under SIL OPEN FONT LICENSE Version 1.1
+

@@ -11,38 +11,42 @@ extends Control
 @export_range(0.0, 0.25, 0.01, "or_greater") var menu_intro_shake_duration := 0.25
 
 @onready var menu_manager = $".."
+@onready var fade_screen: TextureRect = $"../FadeScreen"
 @onready var label_version: Label = $TitleLogo/LabelVersion
-@onready var start_button = $VBoxContainer/StartButton
-@onready var settings_button = $VBoxContainer/SettingsButton
-@onready var quit_button = $VBoxContainer/QuitButton
+@onready var start_button: Button = $VBoxContainer/StartButton
+@onready var settings_button: Button = $VBoxContainer/SettingsButton
+@onready var quit_button: Button = $VBoxContainer/QuitButton
 @onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
+
+const BOSS_STAGE_1_LEVEL = preload("res://scenes/worlds/boss_stage1_level.tscn")
 
 func _ready():
 	assert(sfx_main_menu_spin_whoosh)
 	assert(sfx_main_menu_punch)
 	
+	fade_screen.hide()
+	
 	label_version.text = "v%s" % ProjectSettings.get_setting("application/config/version", "")
 	
 	start_button.disabled = true
 	settings_button.disabled = true
-	quit_button.disabled = true
+	
+	if not OS.has_feature("web"):
+		quit_button.disabled = true
+	else:
+		quit_button.visible = false
 	
 	await play_main_menu_intro()
 	
 	start_button.disabled = false
 	settings_button.disabled = false
-	quit_button.disabled = false
+	
+	if not OS.has_feature("web"):
+		quit_button.disabled = false
+		
 	start_button.grab_focus.call_deferred()
 
 
-func _unhandled_key_input(event: InputEvent) -> void:
-	# DEBUG: press R to restart
-	if Engine.is_editor_hint():
-		var key_event := event as InputEventKey
-		if key_event.keycode == KEY_R:
-			get_tree().reload_current_scene()
-	
-	
 func play_main_menu_intro():
 	# Spinning SFX
 	var looping_spin_whoosh_sfx_player := sfx_manager.spawn_looping_sfx(sfx_main_menu_spin_whoosh)
@@ -96,5 +100,13 @@ func _on_quit_button_pressed():
 	return
 
 func _on_start_button_pressed():
-	self.hide()
-	get_tree().change_scene_to_file("res://scenes/worlds/boss_stage1_level_test.tscn")
+	start_button.disabled = true
+	settings_button.disabled = true
+	quit_button.disabled = true
+	
+	fade_screen.show()
+	var tween = get_tree().create_tween()
+	tween.tween_property(fade_screen, "modulate:a", 1.0, 0.75).from(0.0)
+	
+	await get_tree().create_timer(0.75).timeout
+	get_tree().change_scene_to_packed(BOSS_STAGE_1_LEVEL)

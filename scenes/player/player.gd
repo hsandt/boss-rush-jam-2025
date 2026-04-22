@@ -71,6 +71,7 @@ var damage_sfx_played := false
 @onready var health: Health = $Health
 
 @onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
+@onready var level: Level = get_parent()
 
 func _ready():
 	dash_for_timer.wait_time = dash_for
@@ -120,14 +121,16 @@ func get_input():
 
 	if can_control_move():
 		input_dir = Vector2.ZERO
-		if Input.is_action_pressed("left"):
-			input_dir.x -= 1
-		if Input.is_action_pressed("right"):
-			input_dir.x += 1
-		if Input.is_action_pressed("up"):
-			input_dir.y -= 1
-		if Input.is_action_pressed("down"):
-			input_dir.y += 1
+		
+		# Apply ternary snapping (-1, 0, +1) for arcade controls even with analog stick
+		var input_dir_x := Input.get_axis("left", "right")
+		var input_dir_y := Input.get_axis("up", "down")
+		
+		input_dir = Vector2(input_dir_x, input_dir_y)
+		if input_dir.is_zero_approx():
+			input_dir = Vector2.ZERO
+		else:
+			input_dir = input_dir.normalized()
 
 		moving = not input_dir.is_zero_approx()
 		if moving:
@@ -227,8 +230,6 @@ func melee_attack():
 		sfx_manager.spawn_sfx(melee_attack_sfx)
 
 func update_melee_rotation(delta: float):
-	var melee_rotation_accel := 0.0
-
 	if can_melee_attack() and Input.is_action_pressed("melee_accelerate_counterclockwise"):
 		# Accel
 		melee_rotation_speed += melee_active_acceleration * delta
@@ -333,6 +334,5 @@ func set_boss_collision_mask_and_hurt_box_enabled(value:bool):
 	hurt_box.monitorable = value
 
 func on_death():
-	var tween = get_tree().create_tween()
-	tween.tween_property(get_parent().death_screen, "modulate:a", 1.0, 1.0)
-	get_parent().back_to_menu_timer.start()
+	level.fade_in_death_screen()
+	level.back_to_menu_timer.start()

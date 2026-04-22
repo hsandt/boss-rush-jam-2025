@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ootvl3x2d1g7"]
+[gd_scene load_steps=18 format=3 uid="uid://ootvl3x2d1g7"]
 
 [ext_resource type="PackedScene" uid="uid://dvdg6di8bnpau" path="res://menus/slider_unit.tscn" id="1_5ppxq"]
 [ext_resource type="Script" path="res://menus/menu_manager.gd" id="1_dvo0t"]
@@ -7,7 +7,6 @@
 [ext_resource type="Script" path="res://menus/settings_menu.gd" id="3_7eymb"]
 [ext_resource type="Theme" uid="uid://qqurqdj6dti4" path="res://ui/theme_main_menu.tres" id="3_rw3ym"]
 [ext_resource type="Script" path="res://menus/UIButton.gd" id="3_sbu18"]
-[ext_resource type="Script" path="res://menus/pause_menu.gd" id="3_t7jk8"]
 [ext_resource type="AudioStream" uid="uid://c6t1iu2k22q34" path="res://audio/sfx/UI/SFX_MainMenu_Intro_SpinWhoosh.ogg" id="4_5loew"]
 [ext_resource type="Texture2D" uid="uid://brucx3yf6pbs1" path="res://graphics/menu/title_logo_1055x243.webp" id="4_77p2s"]
 [ext_resource type="AudioStream" uid="uid://d1ag2sd2nywu8" path="res://audio/sfx/UI/SFX_MainMenu_Intro_Punch.ogg" id="5_nljee"]
@@ -20,6 +19,13 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dio5r"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dx72a"]
+
+[sub_resource type="Gradient" id="Gradient_6f60h"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4adrg"]
+gradient = SubResource("Gradient_6f60h")
 
 [node name="Menus" type="Control"]
 layout_mode = 3
@@ -163,80 +169,6 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
 text = "Quit"
 script = ExtResource("3_sbu18")
 
-[node name="PauseMenu" type="MarginContainer" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("3_t7jk8")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_constants/separation = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="PauseMenu/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_bottom = 45
-
-[node name="RichTextLabel" type="RichTextLabel" parent="PauseMenu/VBoxContainer/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_font_sizes/normal_font_size = 75
-text = "Paused"
-fit_content = true
-autowrap_mode = 0
-
-[node name="ResumeButton" type="Button" parent="PauseMenu/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-focus_mode = 0
-theme_override_colors/font_hover_color = Color(0.780694, 1.9493e-06, 3.85046e-07, 1)
-theme_override_colors/font_pressed_color = Color(0.559523, 1.73271e-06, 0, 1)
-theme_override_colors/font_color = Color(0.961518, 4.45209e-06, 9.62615e-07, 1)
-theme_override_font_sizes/font_size = 50
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ydg11")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
-text = "Resume"
-
-[node name="SettingsButton" type="Button" parent="PauseMenu/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-focus_mode = 0
-theme_override_colors/font_hover_color = Color(0.780694, 1.9493e-06, 3.85046e-07, 1)
-theme_override_colors/font_pressed_color = Color(0.559523, 1.73271e-06, 0, 1)
-theme_override_colors/font_color = Color(0.961518, 4.45209e-06, 9.62615e-07, 1)
-theme_override_font_sizes/font_size = 50
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ydg11")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
-text = "Settings"
-
-[node name="QuitButton" type="Button" parent="PauseMenu/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-focus_mode = 0
-theme_override_colors/font_hover_color = Color(0.780694, 1.9493e-06, 3.85046e-07, 1)
-theme_override_colors/font_pressed_color = Color(0.559523, 1.73271e-06, 0, 1)
-theme_override_colors/font_color = Color(0.961518, 4.45209e-06, 9.62615e-07, 1)
-theme_override_font_sizes/font_size = 50
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ydg11")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
-text = "Quit"
-
 [node name="SettingsMenu" type="MarginContainer" parent="."]
 visible = false
 layout_mode = 1
@@ -286,9 +218,17 @@ script = ExtResource("3_sbu18")
 
 [node name="SFXManager" parent="." instance=ExtResource("6_wn5n2")]
 
+[node name="FadeScreen" type="TextureRect" parent="."]
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_4adrg")
+
 [connection signal="pressed" from="MainMenu/VBoxContainer/StartButton" to="MainMenu" method="_on_start_button_pressed"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/SettingsButton" to="MainMenu" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/QuitButton" to="MainMenu" method="_on_quit_button_pressed"]
-[connection signal="pressed" from="PauseMenu/VBoxContainer/ResumeButton" to="PauseMenu" method="_on_resume_button_pressed"]
-[connection signal="pressed" from="PauseMenu/VBoxContainer/QuitButton" to="PauseMenu" method="_on_quit_button_pressed"]
 [connection signal="pressed" from="SettingsMenu/VBoxContainer/BackButton" to="SettingsMenu" method="_on_back_button_pressed"]
