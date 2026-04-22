@@ -13,9 +13,9 @@ extends Control
 @onready var menu_manager = $".."
 @onready var fade_screen: TextureRect = $"../FadeScreen"
 @onready var label_version: Label = $TitleLogo/LabelVersion
-@onready var start_button = $VBoxContainer/StartButton
-@onready var settings_button = $VBoxContainer/SettingsButton
-@onready var quit_button = $VBoxContainer/QuitButton
+@onready var start_button: Button = $VBoxContainer/StartButton
+@onready var settings_button: Button = $VBoxContainer/SettingsButton
+@onready var quit_button: Button = $VBoxContainer/QuitButton
 @onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
 
 const BOSS_STAGE_1_LEVEL = preload("res://scenes/worlds/boss_stage1_level.tscn")

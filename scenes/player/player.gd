@@ -230,8 +230,6 @@ func melee_attack():
 		sfx_manager.spawn_sfx(melee_attack_sfx)
 
 func update_melee_rotation(delta: float):
-	var melee_rotation_accel := 0.0
-
 	if can_melee_attack() and Input.is_action_pressed("melee_accelerate_counterclockwise"):
 		# Accel
 		melee_rotation_speed += melee_active_acceleration * delta

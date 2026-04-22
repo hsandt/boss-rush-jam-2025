@@ -14,9 +14,10 @@ extends Node2D
 @onready var back_to_menu_timer = $Timers/BackToMenuTimer
 @onready var death_screen = $DeathScreenCanvasLayer
 @onready var death_screen_canvas_modulate = $DeathScreenCanvasLayer/CanvasModulate
+@onready var in_game_manager: InGameManager = get_tree().get_first_node_in_group("in_game_manager")
 #@onready var fx_manager: FXManager = get_tree().get_first_node_in_group(&"fx_manager")
-#@onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
-#
+@onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
+
 func _ready():
 	death_screen.hide()
 	
@@ -38,4 +39,4 @@ func fade_in_death_screen() -> Tween:
 	return tween
 
 func _on_back_to_menu_timer_timeout():
-	get_tree().change_scene_to_file("res://menus/menus.tscn")
+	in_game_manager.go_back_to_menu()

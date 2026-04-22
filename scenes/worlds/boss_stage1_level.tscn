@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://digqu37hn5i5j"]
+[gd_scene load_steps=17 format=3 uid="uid://digqu37hn5i5j"]
 
 [ext_resource type="Script" path="res://scenes/Level.gd" id="1_saa8o"]
 [ext_resource type="AudioStream" uid="uid://dl7g1rp6w02m8" path="res://audio/sfx/UI/UI_menu_start_Game.ogg" id="2_wjegx"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dx4ur84t2f5vj" path="res://scenes/tools/ring_wall_generator.tscn" id="11_87bfy"]
 [ext_resource type="PackedScene" uid="uid://d4fpogs8pfntc" path="res://scenes/worlds/objects/wall_segment.tscn" id="12_l38fw"]
 [ext_resource type="FontFile" uid="uid://d0n7usfesf3dx" path="res://fonts/Chomsky.otf" id="13_aio65"]
+[ext_resource type="PackedScene" uid="uid://bh8vdvspqseds" path="res://menus/pause_menu.tscn" id="13_j8eg2"]
 
 [sub_resource type="Gradient" id="Gradient_27s7w"]
 colors = PackedColorArray(0.21, 0.1092, 0.11256, 0.482353, 0.211765, 0.109804, 0.113725, 1)
@@ -29,8 +30,10 @@ start_sfx = ExtResource("2_wjegx")
 [node name="Map" type="Sprite2D" parent="Background"]
 texture = ExtResource("3_2ckla")
 
-[node name="InGameManager" parent="." instance=ExtResource("4_v0622")]
+[node name="InGameManager" parent="." node_paths=PackedStringArray("pause_menu_canvas_layer") instance=ExtResource("4_v0622")]
+process_mode = 3
 bgm = ExtResource("5_vy7s1")
+pause_menu_canvas_layer = NodePath("../PauseMenuCanvasLayer")
 
 [node name="FXManager" type="Node" parent="." groups=["fx_manager"]]
 script = ExtResource("6_x411b")
@@ -60,6 +63,7 @@ position_smoothing_speed = 15.0
 [node name="FXsParent" type="Node2D" parent="."]
 
 [node name="DeathScreenCanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="CanvasModulate" type="CanvasModulate" parent="DeathScreenCanvasLayer"]
 
@@ -88,6 +92,13 @@ theme_override_font_sizes/font_size = 150
 text = "DEATH"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="PauseMenuCanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="CanvasModulate" type="CanvasModulate" parent="PauseMenuCanvasLayer"]
+
+[node name="PauseMenu" parent="PauseMenuCanvasLayer" instance=ExtResource("13_j8eg2")]
 
 [node name="Timers" type="Node" parent="."]
 

@@ -37,6 +37,7 @@ var player_dodged_arm := false
 @onready var boss_spin_progress = $BossSpinProgress
 @onready var fx_manager: FXManager = get_tree().get_first_node_in_group(&"fx_manager")
 @onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
+@onready var level: Level = get_parent()
 
 func initialize():
 	super.initialize()
@@ -167,4 +168,4 @@ func on_death():
 	arm_rotation_modifier = 0
 	for timer in $ProjectileManager/Timers.get_children():
 		timer.stop()
-	get_parent().back_to_menu_timer.start()
+	level.back_to_menu_timer.start()
