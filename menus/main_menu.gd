@@ -25,13 +25,20 @@ func _ready():
 	
 	start_button.disabled = true
 	settings_button.disabled = true
-	quit_button.disabled = true
+	
+	if not OS.has_feature("web"):
+		quit_button.disabled = true
+	else:
+		quit_button.visible = false
 	
 	await play_main_menu_intro()
 	
 	start_button.disabled = false
 	settings_button.disabled = false
-	quit_button.disabled = false
+	
+	if not OS.has_feature("web"):
+		quit_button.disabled = false
+		
 	start_button.grab_focus.call_deferred()
 
 
