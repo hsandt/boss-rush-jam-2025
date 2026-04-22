@@ -51,7 +51,6 @@ text = "Paused"
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-focus_mode = 0
 theme_override_font_sizes/font_size = 50
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ydg11")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
@@ -79,13 +78,13 @@ text = "Settings"
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-focus_mode = 0
 theme_override_font_sizes/font_size = 50
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ydg11")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
-text = "Quit"
+text = "Back to main menu"
 
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="pressed" from="VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
