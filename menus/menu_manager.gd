@@ -2,10 +2,10 @@ extends Control
 
 @onready var main_menu = $MainMenu
 @onready var settings_menu = $SettingsMenu
+@onready var cover_art = $Background
 
 func _ready():
-	for child in get_children():
-		child.hide()
+	cover_art.show()
 	main_menu.show()
 
 func show_main_menu():

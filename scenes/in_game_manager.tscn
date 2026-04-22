@@ -6,4 +6,5 @@
 script = ExtResource("1_se64i")
 
 [node name="BGMAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 bus = &"BGM"

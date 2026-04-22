@@ -1,0 +1,26 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://qqurqdj6dti4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jtswi"]
+
+[resource]
+default_font_size = 50
+Button/colors/font_color = Color(0.843137, 0.521569, 0.129412, 1)
+Button/colors/font_disabled_color = Color(0.75, 0.75, 0.75, 0.5)
+Button/colors/font_focus_color = Color(0.959469, 0.828044, 0.437513, 1)
+Button/colors/font_hover_color = Color(0.979602, 0.682415, 0.379185, 1)
+Button/colors/font_hover_pressed_color = Color(0.995614, 0.853588, 0.722297, 1)
+Button/colors/font_outline_color = Color(0.254902, 0.211765, 0.12549, 1)
+Button/colors/font_pressed_color = Color(0.994162, 0.814251, 0.645687, 1)
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0.4)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/constants/outline_size = 14
+Button/font_sizes/font_size = 74
+Button/styles/disabled = SubResource("StyleBoxEmpty_jtswi")
+Label/colors/font_color = Color(0.987611, 0.728255, 0.473948, 1)
+Label/colors/font_outline_color = Color(0.339314, 0.284926, 0.176257, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0)
+Label/constants/outline_size = 14

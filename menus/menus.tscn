@@ -1,9 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://ootvl3x2d1g7"]
+[gd_scene load_steps=18 format=3 uid="uid://ootvl3x2d1g7"]
 
 [ext_resource type="PackedScene" uid="uid://dvdg6di8bnpau" path="res://menus/slider_unit.tscn" id="1_5ppxq"]
 [ext_resource type="Script" path="res://menus/menu_manager.gd" id="1_dvo0t"]
 [ext_resource type="Script" path="res://menus/main_menu.gd" id="2_1dvo2"]
+[ext_resource type="Texture2D" uid="uid://lqvfnv1lcl1t" path="res://graphics/menu/main_menu_knight_artwork.webp" id="2_fwssc"]
 [ext_resource type="Script" path="res://menus/settings_menu.gd" id="3_7eymb"]
+[ext_resource type="Theme" uid="uid://qqurqdj6dti4" path="res://ui/theme_main_menu.tres" id="3_rw3ym"]
+[ext_resource type="Script" path="res://menus/UIButton.gd" id="3_sbu18"]
+[ext_resource type="AudioStream" uid="uid://c6t1iu2k22q34" path="res://audio/sfx/UI/SFX_MainMenu_Intro_SpinWhoosh.ogg" id="4_5loew"]
+[ext_resource type="Texture2D" uid="uid://brucx3yf6pbs1" path="res://graphics/menu/title_logo_1055x243.webp" id="4_77p2s"]
+[ext_resource type="AudioStream" uid="uid://d1ag2sd2nywu8" path="res://audio/sfx/UI/SFX_MainMenu_Intro_Punch.ogg" id="5_nljee"]
+[ext_resource type="PackedScene" uid="uid://6psb0ebpd4qa" path="res://utils/audio/SFXManager.tscn" id="6_wn5n2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ydg11"]
 
@@ -12,6 +19,13 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dio5r"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dx72a"]
+
+[sub_resource type="Gradient" id="Gradient_6f60h"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4adrg"]
+gradient = SubResource("Gradient_6f60h")
 
 [node name="Menus" type="Control"]
 layout_mode = 3
@@ -22,23 +36,93 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dvo0t")
 
-[node name="MainMenu" type="MarginContainer" parent="."]
-visible = false
+[node name="Background" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.309804, 0.415686, 0.505882, 1)
+
+[node name="MainMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(960, 540)
+theme = ExtResource("3_rw3ym")
 script = ExtResource("2_1dvo2")
+sfx_main_menu_spin_whoosh = ExtResource("4_5loew")
+sfx_main_menu_punch = ExtResource("5_nljee")
+menu_intro_shake_duration = 0.16
+metadata/_edit_lock_ = true
+
+[node name="CoverArt" type="TextureRect" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0338542
+anchor_top = 0.257407
+anchor_right = 0.644271
+anchor_bottom = 1.13704
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_fwssc")
+metadata/_edit_use_anchors_ = true
+
+[node name="TitleLogo" type="TextureRect" parent="MainMenu"]
+layout_mode = 2
+anchor_left = 0.372917
+anchor_top = 0.108333
+anchor_right = 0.922396
+anchor_bottom = 0.333333
+texture = ExtResource("4_77p2s")
+metadata/_edit_use_anchors_ = true
+
+[node name="LabelVersion" type="Label" parent="MainMenu/TitleLogo"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -132.001
+offset_top = 3.00037
+offset_right = 0.99939
+offset_bottom = 72.0004
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.948099, 0.859005, 0.745162, 1)
+theme_override_colors/font_outline_color = Color(0.254902, 0.211765, 0.121569, 1)
+theme_override_constants/outline_size = 15
+text = "vx.y.z"
+horizontal_alignment = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
 layout_mode = 2
+anchor_left = 0.653125
+anchor_top = 0.548148
+anchor_right = 0.943229
+anchor_bottom = 0.911111
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="MainMenu/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_bottom = 45
 
@@ -47,7 +131,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 75
-text = "Boss Rush Jam 2025"
+text = "Spin Knight"
 fit_content = true
 autowrap_mode = 0
 
@@ -55,46 +139,35 @@ autowrap_mode = 0
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-focus_mode = 0
-theme_override_colors/font_hover_color = Color(0.780694, 1.9493e-06, 3.85046e-07, 1)
-theme_override_colors/font_pressed_color = Color(0.559523, 1.73271e-06, 0, 1)
-theme_override_colors/font_color = Color(0.961518, 4.45209e-06, 9.62615e-07, 1)
-theme_override_font_sizes/font_size = 50
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ydg11")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
 text = "Start Game"
+script = ExtResource("3_sbu18")
 
 [node name="SettingsButton" type="Button" parent="MainMenu/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-focus_mode = 0
-theme_override_colors/font_hover_color = Color(0.780694, 1.9493e-06, 3.85046e-07, 1)
-theme_override_colors/font_pressed_color = Color(0.559523, 1.73271e-06, 0, 1)
-theme_override_colors/font_color = Color(0.961518, 4.45209e-06, 9.62615e-07, 1)
-theme_override_font_sizes/font_size = 50
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ydg11")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
 text = "Settings"
+script = ExtResource("3_sbu18")
 
 [node name="QuitButton" type="Button" parent="MainMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-focus_mode = 0
-theme_override_colors/font_hover_color = Color(0.780694, 1.9493e-06, 3.85046e-07, 1)
-theme_override_colors/font_pressed_color = Color(0.559523, 1.73271e-06, 0, 1)
-theme_override_colors/font_color = Color(0.961518, 4.45209e-06, 9.62615e-07, 1)
-theme_override_font_sizes/font_size = 50
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ydg11")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
 text = "Quit"
+script = ExtResource("3_sbu18")
 
 [node name="SettingsMenu" type="MarginContainer" parent="."]
 visible = false
@@ -141,7 +214,21 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_x688u")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_dio5r")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dx72a")
 text = "Back"
+script = ExtResource("3_sbu18")
 
+[node name="SFXManager" parent="." instance=ExtResource("6_wn5n2")]
+
+[node name="FadeScreen" type="TextureRect" parent="."]
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_4adrg")
+
+[connection signal="pressed" from="MainMenu/VBoxContainer/StartButton" to="MainMenu" method="_on_start_button_pressed"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/SettingsButton" to="MainMenu" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/QuitButton" to="MainMenu" method="_on_quit_button_pressed"]
 [connection signal="pressed" from="SettingsMenu/VBoxContainer/BackButton" to="SettingsMenu" method="_on_back_button_pressed"]

@@ -5,10 +5,16 @@ extends Node
 @export var projectile_attack_damage := 1.0
 
 func _ready():
-	pass
+	if can_be_hit_by_melee_attack:
+		$Hitable.hide()
+		$NonHitable.show()
+	else:
+		$Hitable.show()
+		$NonHitable.hide()
 
 func be_hurt_by_melee(_damage: float):
-	queue_free()
+	if can_be_hit_by_melee_attack:
+		queue_free()
 
 func _on_hit_box_area_2d_area_entered(area: Area2D):
 	# We set up collision mask so the only areas hit are player hurt box and player melee hitbox

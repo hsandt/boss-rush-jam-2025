@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 @export_group("Movement")
 @export var max_speed := 300.0
+@export var spin_extra_speed_factor := 10.0
 @export var acceleration := 1800.0
 @export var deceleration := 2000.0
 
@@ -28,7 +29,13 @@ extends CharacterBody2D
 @export var melee_start_friction_time := 0.1
 @export_range(0, 360, 0.001, "radians_as_degrees") var melee_friction_deceleration := deg_to_rad(6*360)
 @export_range(0, 360, 0.001, "radians_as_degrees") var melee_attack_initial_rotation_speed := deg_to_rad(2.5*360)
+@export_range(0, 360, 0.001, "radians_as_degrees") var melee_active_acceleration := deg_to_rad(6*360)
+@export_range(0, 360, 0.001, "radians_as_degrees") var melee_max_rotation_speed := deg_to_rad(3*360)
+@export_group("SFX")
 @export var melee_attack_sfx: AudioStream
+@export var jump_sfx: AudioStream
+@export var get_hit_sfx: AudioStream
+@export var get_hit2_sfx: AudioStream
 
 ## look direction
 var direction := Vector2.RIGHT
@@ -45,6 +52,9 @@ var pushed_direction := Vector2.ZERO
 var pushed_speed := 0.0
 
 var melee_rotation_speed := 0.0
+var melee_attack_looping_sfx_player: LoopingAudioStreamPlayer
+
+var damage_sfx_played := false
 
 @onready var hurt_box: PlayerHurtBox = $HurtBoxArea2D
 @onready var shoot_axis: Node2D = $ShootAxis
@@ -61,6 +71,7 @@ var melee_rotation_speed := 0.0
 @onready var health: Health = $Health
 
 @onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
+@onready var level: Level = get_parent()
 
 func _ready():
 	dash_for_timer.wait_time = dash_for
@@ -91,8 +102,9 @@ func move(delta):
 	elif is_dashing:
 		velocity = dash_speed * movt_dir
 	elif moving:
-		velocity.x = move_toward(velocity.x, movt_dir.x*max_speed, acceleration*delta)
-		velocity.y = move_toward(velocity.y, movt_dir.y*max_speed, acceleration*delta)
+		var max_speed_with_spin = max_speed + spin_extra_speed_factor * melee_rotation_speed
+		velocity.x = move_toward(velocity.x, movt_dir.x*max_speed_with_spin, acceleration*delta)
+		velocity.y = move_toward(velocity.y, movt_dir.y*max_speed_with_spin, acceleration*delta)
 	else:
 		# friction
 		# also applied at the beginning of phase: stagger but not pushed anymore
@@ -109,14 +121,16 @@ func get_input():
 
 	if can_control_move():
 		input_dir = Vector2.ZERO
-		if Input.is_action_pressed("left"):
-			input_dir.x -= 1
-		if Input.is_action_pressed("right"):
-			input_dir.x += 1
-		if Input.is_action_pressed("up"):
-			input_dir.y -= 1
-		if Input.is_action_pressed("down"):
-			input_dir.y += 1
+		
+		# Apply ternary snapping (-1, 0, +1) for arcade controls even with analog stick
+		var input_dir_x := Input.get_axis("left", "right")
+		var input_dir_y := Input.get_axis("up", "down")
+		
+		input_dir = Vector2(input_dir_x, input_dir_y)
+		if input_dir.is_zero_approx():
+			input_dir = Vector2.ZERO
+		else:
+			input_dir = input_dir.normalized()
 
 		moving = not input_dir.is_zero_approx()
 		if moving:
@@ -130,8 +144,8 @@ func get_input():
 	if can_shoot() and Input.is_action_just_pressed("shoot"):
 		shoot()
 
-	if can_melee_attack() and Input.is_action_just_pressed("melee"):
-		melee_attack()
+	#if can_melee_attack() and Input.is_action_just_pressed("melee"):
+		#melee_attack()
 
 	if can_perform_movt_action():
 		if can_dash() and Input.is_action_just_pressed("dash"):
@@ -152,6 +166,10 @@ func can_get_hit_by_arm():
 func jump():
 
 	is_jumping = true
+
+	if jump_sfx:
+		sfx_manager.spawn_sfx(jump_sfx)
+
 	# Shadow should apper below everything unless jumping
 	$Shadow.z_index = 0
 	set_boss_collision_mask_and_hurt_box_enabled(false)
@@ -212,12 +230,32 @@ func melee_attack():
 		sfx_manager.spawn_sfx(melee_attack_sfx)
 
 func update_melee_rotation(delta: float):
-	if melee_rotation_speed != 0.0 and melee_start_friction_timer.is_stopped():
-		# apply friction
+	if can_melee_attack() and Input.is_action_pressed("melee_accelerate_counterclockwise"):
+		# Accel
+		melee_rotation_speed += melee_active_acceleration * delta
+		melee_rotation_speed = min(melee_rotation_speed, melee_max_rotation_speed)
+	else:
+		# Friction
 		melee_rotation_speed = move_toward(melee_rotation_speed, 0.0, melee_friction_deceleration * delta)
-		if melee_rotation_speed == 0.0:
-			# End of rotation, disable melee hitbox
-			melee_hit_box.monitoring = false
+
+	if melee_rotation_speed == 0.0:
+		# No rotation, disable melee hitbox
+		melee_hit_box.monitoring = false
+		if melee_attack_looping_sfx_player:
+			melee_attack_looping_sfx_player.stop_and_free()
+			melee_attack_looping_sfx_player = null
+	else:
+		# Enable melee hitbox
+		melee_hit_box.monitoring = true
+		if melee_attack_sfx and not melee_attack_looping_sfx_player:
+			melee_attack_looping_sfx_player = sfx_manager.spawn_looping_sfx(melee_attack_sfx)
+
+	#if melee_rotation_speed != 0.0 and melee_start_friction_timer.is_stopped():
+		## apply friction
+		#melee_rotation_speed = move_toward(melee_rotation_speed, 0.0, melee_friction_deceleration * delta)
+		#if melee_rotation_speed == 0.0:
+			## End of rotation, disable melee hitbox
+			#melee_hit_box.monitoring = false
 
 	melee_axis.rotation += melee_rotation_speed * delta
 
@@ -240,7 +278,13 @@ func dash():
 	dash_cooldown_timer.start()
 	set_boss_collision_mask_and_hurt_box_enabled(false)
 
+	#if jump_sfx:
+		#sfx_manager.spawn_sfx(jump_sfx)
+
 func be_hurt_by_projectile(damage: float):
+	if get_hit_sfx:
+		sfx_manager.spawn_sfx(get_hit_sfx)
+		damage_sfx_played = true
 	health.try_receive_damage(roundi(damage))
 
 func stagger(push_direction: Vector2, push_impact: float, stagger_duration: float, stagger_push_duration: float):
@@ -272,6 +316,10 @@ func _on_melee_hit_box_area_entered(area: Area2D):
 		return
 
 func _on_health_damage_received(will_die: bool):
+	if not damage_sfx_played:
+		if get_hit2_sfx:
+			sfx_manager.spawn_sfx(get_hit2_sfx)
+	damage_sfx_played = false
 	if will_die:
 		queue_free()
 
@@ -284,3 +332,7 @@ func get_jump_offsetable_nodes():
 func set_boss_collision_mask_and_hurt_box_enabled(value:bool):
 	set_collision_mask_value(Constants.collision_layer_boss, value)
 	hurt_box.monitorable = value
+
+func on_death():
+	level.fade_in_death_screen()
+	level.back_to_menu_timer.start()

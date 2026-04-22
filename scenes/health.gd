@@ -111,6 +111,8 @@ func _receive_damage(damage: int):
 
 	if current_health == 0:
 		damage_received.emit(true)
+		if character.has_method("on_death"):
+			character.on_death()
 	else:
 		# will be cleared by Hurt animation end
 		is_hurting = true
