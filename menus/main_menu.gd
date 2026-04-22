@@ -11,6 +11,7 @@ extends Control
 @export_range(0.0, 0.25, 0.01, "or_greater") var menu_intro_shake_duration := 0.25
 
 @onready var menu_manager = $".."
+@onready var fade_screen: TextureRect = $"../FadeScreen"
 @onready var label_version: Label = $TitleLogo/LabelVersion
 @onready var start_button = $VBoxContainer/StartButton
 @onready var settings_button = $VBoxContainer/SettingsButton
@@ -22,6 +23,8 @@ const BOSS_STAGE_1_LEVEL = preload("res://scenes/worlds/boss_stage1_level.tscn")
 func _ready():
 	assert(sfx_main_menu_spin_whoosh)
 	assert(sfx_main_menu_punch)
+	
+	fade_screen.hide()
 	
 	label_version.text = "v%s" % ProjectSettings.get_setting("application/config/version", "")
 	
@@ -105,5 +108,9 @@ func _on_quit_button_pressed():
 	return
 
 func _on_start_button_pressed():
-	self.hide()
+	fade_screen.show()
+	var tween = get_tree().create_tween()
+	tween.tween_property(fade_screen, "modulate:a", 1.0, 0.75).from(0.0)
+	
+	await get_tree().create_timer(0.75).timeout
 	get_tree().change_scene_to_packed(BOSS_STAGE_1_LEVEL)
