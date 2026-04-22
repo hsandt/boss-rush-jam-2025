@@ -108,6 +108,10 @@ func _on_quit_button_pressed():
 	return
 
 func _on_start_button_pressed():
+	start_button.disabled = true
+	settings_button.disabled = true
+	quit_button.disabled = true
+	
 	fade_screen.show()
 	var tween = get_tree().create_tween()
 	tween.tween_property(fade_screen, "modulate:a", 1.0, 0.75).from(0.0)
