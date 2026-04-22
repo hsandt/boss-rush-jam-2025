@@ -12,7 +12,8 @@ extends Node2D
 @onready var fxs_parent: Node2D = $FXsParent
 
 @onready var back_to_menu_timer = $Timers/BackToMenuTimer
-@onready var death_screen = $DeathScreen
+@onready var death_screen = $DeathScreenCanvasLayer
+@onready var death_screen_canvas_modulate = $DeathScreenCanvasLayer/CanvasModulate
 #@onready var fx_manager: FXManager = get_tree().get_first_node_in_group(&"fx_manager")
 #@onready var sfx_manager: SFXManager = get_tree().get_first_node_in_group(&"sfx_manager")
 #
@@ -33,7 +34,7 @@ func clear_all_aoes():
 func fade_in_death_screen() -> Tween:
 	death_screen.show()
 	var tween = get_tree().create_tween()
-	tween.tween_property(death_screen, "modulate:a", 1.0, 1.0).from(0.0)
+	tween.tween_property(death_screen_canvas_modulate, "color:a", 1.0, 1.0).from(0.0)
 	return tween
 
 func _on_back_to_menu_timer_timeout():

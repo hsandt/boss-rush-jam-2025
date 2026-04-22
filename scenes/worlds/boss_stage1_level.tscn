@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://digqu37hn5i5j"]
+[gd_scene load_steps=16 format=3 uid="uid://digqu37hn5i5j"]
 
 [ext_resource type="Script" path="res://scenes/Level.gd" id="1_saa8o"]
 [ext_resource type="AudioStream" uid="uid://dl7g1rp6w02m8" path="res://audio/sfx/UI/UI_menu_start_Game.ogg" id="2_wjegx"]
@@ -12,7 +12,13 @@
 [ext_resource type="PackedScene" uid="uid://yho78jqdnxmq" path="res://scenes/player/player.tscn" id="10_xrnmb"]
 [ext_resource type="PackedScene" uid="uid://dx4ur84t2f5vj" path="res://scenes/tools/ring_wall_generator.tscn" id="11_87bfy"]
 [ext_resource type="PackedScene" uid="uid://d4fpogs8pfntc" path="res://scenes/worlds/objects/wall_segment.tscn" id="12_l38fw"]
-[ext_resource type="Texture2D" uid="uid://bwxov3klnu10q" path="res://graphics/UIX/Death Screen/Death.png" id="13_bq7xp"]
+[ext_resource type="FontFile" uid="uid://d0n7usfesf3dx" path="res://fonts/Chomsky.otf" id="13_aio65"]
+
+[sub_resource type="Gradient" id="Gradient_27s7w"]
+colors = PackedColorArray(0.21, 0.1092, 0.11256, 0.482353, 0.211765, 0.109804, 0.113725, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_q2buo"]
+gradient = SubResource("Gradient_27s7w")
 
 [node name="BossStage1Level" type="Node2D" groups=["level"]]
 script = ExtResource("1_saa8o")
@@ -53,9 +59,35 @@ position_smoothing_speed = 15.0
 
 [node name="FXsParent" type="Node2D" parent="."]
 
-[node name="DeathScreen" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0)
-texture = ExtResource("13_bq7xp")
+[node name="DeathScreenCanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="DeathScreenCanvasLayer"]
+
+[node name="TextureRect" type="TextureRect" parent="DeathScreenCanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_q2buo")
+
+[node name="Label" type="Label" parent="DeathScreenCanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.372135
+anchor_top = 0.405093
+anchor_right = 0.627865
+anchor_bottom = 0.594907
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.69, 1, 0.9225, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("13_aio65")
+theme_override_font_sizes/font_size = 150
+text = "DEATH"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="Timers" type="Node" parent="."]
 
